@@ -4,6 +4,8 @@
     Author     : Mathias
 --%>
 
-    </div> <!-- /container -->  
-  </body>
-</html>
+<div class="footer">
+    <div class="container">
+        <p class="text-muted">Mathias Dolt & Thibaud Duchoud & Jérôme Moret</p>
+    </div>
+</div>
