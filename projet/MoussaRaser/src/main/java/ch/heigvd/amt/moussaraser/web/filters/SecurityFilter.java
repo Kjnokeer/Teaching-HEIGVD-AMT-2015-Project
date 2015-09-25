@@ -35,6 +35,10 @@ public class SecurityFilter implements Filter {
      */
     boolean isTargetUrlProtected = true;
 
+    if("/registrationPage".equals(path)) {
+        request.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(request, response);
+    }
+    
     /*
      * If the target URL is static content or if it is the authentication servlet, then we grant access event
      * if the user has not been authenticated.
@@ -66,7 +70,7 @@ public class SecurityFilter implements Filter {
        * The user has not been authenticated and tries to access a protected resource,
        * we display the login page (and interrupt the request processing pipeline).
        */
-      request.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(request, response);
+      request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
     } else {
       /*
        * We authorize the access, so we can tell the request processing pipeline to

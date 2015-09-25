@@ -29,7 +29,7 @@
                         </div>
 
                         <button type="submit" value="login" class="btn btn-primary" name="action">Login</button>
-                        <a href="registration"><button type="button" class="btn btn-primary" style="margin-left: 20px">Create account</button></a>
+                        <a href="${pageContext.request.contextPath}/registrationPage"><button type="button" class="btn btn-primary" style="margin-left: 20px">Create account</button></a>
                     </form>
                     
 
