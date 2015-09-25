@@ -4,12 +4,33 @@
     Author     : Mathias
 --%>
 
-<%@include file="includes/header.jsp" %>
+<html>
+    <head>
+        <%@include file="includes/header.jsp" %>
+    </head>
 
-<h2>Welcome to the demo app!</h2>
 
-<div class="alert alert-info" role="alert">
-  You are logged in as ${principal}.
-</div>
 
-<%@include file="includes/footer.jsp" %>
+    <body>
+        <div class="container">
+            <%@include file="includes/navbar.jsp" %>
+            
+            
+            <h2>Welcome to the demo app!</h2>
+
+            
+            <div class="alert alert-info" role="alert">
+                You are logged in as ${principal}.
+            </div>
+
+            
+        </div>
+
+
+        <%@include file="includes/footer.jsp" %>
+    </body>
+</html>
+
+
+
+
