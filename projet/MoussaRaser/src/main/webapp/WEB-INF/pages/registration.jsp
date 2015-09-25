@@ -15,9 +15,10 @@
     <body>
         <div class="container-fluid">
             <section class="container">
-                <div class="container-page">				
+                <div class="container-page">	
+                    <form method="POST" action="reg">
                         <h1>Registration</h1>
-                        
+
                         <div class="form-group col-lg-12">
                             <label>Email Address</label>
                             <input type="" name="" class="form-control" id="" value="">
@@ -27,7 +28,7 @@
                             <label>First name</label>
                             <input type="" name="" class="form-control" id="" value="">
                         </div>
-                        
+
                         <div class="form-group col-lg-12">
                             <label>Last name</label>
                             <input type="" name="" class="form-control" id="" value="">
@@ -43,8 +44,9 @@
                             <input type="password" name="" class="form-control" id="" value="">
                         </div>
 
-                    <button type="button" class="btn btn-default">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Register</button>
+                        <button type="button" class="btn btn-default">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </form>
                     
                 </div>
             </section>
