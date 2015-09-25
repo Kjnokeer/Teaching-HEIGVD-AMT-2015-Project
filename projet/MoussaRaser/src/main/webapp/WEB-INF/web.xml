@@ -12,9 +12,17 @@
         <servlet-name>MyController</servlet-name>
         <servlet-class>ch.heigvd.amt.moussaraser.web.controllers.MyController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AuthentificationServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.moussaraser.web.controllers.AuthentificationServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MyController</servlet-name>
         <url-pattern>/pages</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AuthentificationServlet</servlet-name>
+        <url-pattern>/auth</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
