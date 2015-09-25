@@ -21,27 +21,27 @@
 
                         <div class="form-group col-lg-12">
                             <label>Email Address</label>
-                            <input type="" name="" class="form-control" id="" value="">
+                            <input type="email" name="email" class="form-control" id="" value="">
                         </div>
 
                         <div class="form-group col-lg-12">
                             <label>First name</label>
-                            <input type="" name="" class="form-control" id="" value="">
+                            <input type="text" name="fname" class="form-control" id="" value="">
                         </div>
 
                         <div class="form-group col-lg-12">
                             <label>Last name</label>
-                            <input type="" name="" class="form-control" id="" value="">
+                            <input type="text" name="lname" class="form-control" id="" value="">
                         </div>
 
                         <div class="form-group col-lg-6">
                             <label>Password</label>
-                            <input type="password" name="" class="form-control" id="" value="">
+                            <input type="password" name="password" class="form-control" id="" value="">
                         </div>
 
                         <div class="form-group col-lg-6">
                             <label>Repeat Password</label>
-                            <input type="password" name="" class="form-control" id="" value="">
+                            <input type="password" name="rpassword" class="form-control" id="" value="">
                         </div>
 
                         <button type="button" class="btn btn-default">Cancel</button>

@@ -43,6 +43,8 @@ public class SecurityFilter implements Filter {
       isTargetUrlProtected = false;
     } else if ("/auth".equals(path)) {
       isTargetUrlProtected = false;
+    } else if ("/reg".equals(path)) {
+      isTargetUrlProtected = false;
     } else {
       /*
        * Let's imagine that the user has sent a request to /MVCDemo/pages/beers before logging into the
@@ -64,7 +66,7 @@ public class SecurityFilter implements Filter {
        * The user has not been authenticated and tries to access a protected resource,
        * we display the login page (and interrupt the request processing pipeline).
        */
-      request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+      request.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(request, response);
     } else {
       /*
        * We authorize the access, so we can tell the request processing pipeline to
