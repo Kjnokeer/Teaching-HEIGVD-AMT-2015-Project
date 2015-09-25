@@ -44,7 +44,7 @@
                             <input type="password" name="rpassword" class="form-control" id="" value="">
                         </div>
 
-                        <button type="button" class="btn btn-default">Cancel</button>
+                        <a href="${pageContext.request.contextPath}"><button type="button" class="btn btn-default">Cancel</button></a>
                         <button type="submit" class="btn btn-primary">Register</button>
                     </form>
                     
