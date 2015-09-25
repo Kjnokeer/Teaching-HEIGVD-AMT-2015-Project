@@ -2,6 +2,12 @@
 
 Welcome to the home of the AMT Project. This is where you will find information about the project (specifications, evaluation, etc.).
 
+## Members
+- Dolt Mathias
+- Duchoud Thibaut
+- Ferreira Mario
+- Moret Jérôme
+
 ## How to use this repo
 
 ### What should we do with this repo?
