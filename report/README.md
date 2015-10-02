@@ -5,12 +5,10 @@
 
 ### Team
 
-Last name, first name | Github id | Main role in the project
-------|
-xxx | xxx | xxx
-xxx | xxx | xxx
-xxx | xxx | xxx
-xxx | xxx | xxx
+- Dolt Mathias | Kjnokeer
+- Duchoud Thibaud | Manamiz
+- Ferreira Mario | UnsafeDriving
+- Moret Jérôme | jermoret
 
 ### Tasks realized by the different team members
 
