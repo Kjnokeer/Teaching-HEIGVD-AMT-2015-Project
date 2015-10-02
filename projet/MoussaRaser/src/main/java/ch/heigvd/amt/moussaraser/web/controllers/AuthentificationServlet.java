@@ -6,7 +6,6 @@
 package ch.heigvd.amt.moussaraser.web.controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +33,6 @@ public class AuthentificationServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
        
-        
         
         
     }
