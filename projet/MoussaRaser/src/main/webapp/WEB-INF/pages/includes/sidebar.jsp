@@ -8,13 +8,13 @@
 <div id="sidebar-wrapper">
    <ul class="sidebar-nav">
       <li class="sidebar-brand">
-         <a href="#">Start Bootstrap</a>
+         <a href="${pageContext.request.contextPath}/home">Start Bootstrap</a>
       </li>
-      <li>
-         <a href="#"><span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span> My apps</a>
+      <li id="my-apps">
+         <a href="${pageContext.request.contextPath}/home"><span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span> My apps</a>
       </li>
-      <li>
-         <a href="#"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> My account</a>
+      <li id="my-account">
+         <a href="${pageContext.request.contextPath}/editProfile"><span class="glyphicon glyphicon-cog" aria-hidden="true" ></span> My account</a>
       </li>
    </ul>
 </div>

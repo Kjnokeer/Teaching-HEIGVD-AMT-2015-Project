@@ -38,6 +38,12 @@ public class SecurityFilter implements Filter {
     if("/registrationPage".equals(path)) {
         request.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(request, response);
     }
+    if("/home".equals(path)) {
+        request.getRequestDispatcher("/WEB-INF/pages/home.jsp").forward(request, response);
+    }
+    if("/editProfile".equals(path)) {
+         request.getRequestDispatcher("/WEB-INF/pages/editProfile.jsp").forward(request, response);
+    }
     
     /*
      * If the target URL is static content or if it is the authentication servlet, then we grant access event

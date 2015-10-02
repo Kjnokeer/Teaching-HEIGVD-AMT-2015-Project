@@ -34,7 +34,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="./auth?action=logout">Logout</a></li>
+                <li><a href="${pageContext.request.contextPath}">Logout</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div><!--/.container-fluid -->
