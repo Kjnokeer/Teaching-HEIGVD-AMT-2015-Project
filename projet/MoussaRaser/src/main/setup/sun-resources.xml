@@ -10,7 +10,7 @@
     <property name="Password" value="pass"/>
 	<property name="serverName" value="localhost"/>
 	<property name="portNumber" value="3306"/>
-	<property name="databaseName" value="MVCDemo"/>
+	<property name="databaseName" value="moussaraser"/>
 	<property name="driverClass" value="com.mysql.jdbc.Driver"/>
   </jdbc-connection-pool>
 </resources>
