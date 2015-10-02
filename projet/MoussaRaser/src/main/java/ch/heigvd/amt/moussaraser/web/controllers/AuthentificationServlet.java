@@ -33,21 +33,10 @@ public class AuthentificationServlet extends HttpServlet {
         String action = request.getParameter("action");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+       
         
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>" + email + "</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AuthentificationServlet at " + request.getContextPath() + "</h1>");
-            out.println("<h1>Action : " + action + ", EMail : " + email + ", Password : " + password + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
