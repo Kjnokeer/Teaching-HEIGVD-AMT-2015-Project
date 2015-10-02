@@ -14,6 +14,8 @@
 
 <link href="static/css/bootstrap.min.css" rel="stylesheet">
 <link href="static/css/sticky-footer.css" rel="stylesheet">
+<link href="static/css/bootstrap-toggle.css" rel="stylesheet">
 <link href="static/css/custom.css" rel="stylesheet">
 <script src="static/js/jquery-2.1.4.min.js"></script>
 <script src="static/js/bootstrap.min.js"></script>
+<script src="static/js/bootstrap-toggle.js"></script>

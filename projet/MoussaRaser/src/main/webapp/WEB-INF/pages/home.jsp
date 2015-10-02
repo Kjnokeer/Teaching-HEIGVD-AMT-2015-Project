@@ -47,24 +47,26 @@
                         <td>xxxxxxxxxxxxxxxxxxxxxxxxxx</td>
                         <td><a href="#">120</a></td>
                         <td>
-                            <button type="button" class="btn btn-default">edit</button>
-                            <button type="button" class="btn btn-success">enabled</button>
+                            <a  href="${pageContext.request.contextPath}/editApp"><button type="button" class="btn btn-default">edit</button></a>
+                            <input data-toggle="toggle" data-on="Enabled" data-off="Disabled" type="checkbox">
                         </td>
                     </tr>
+
                     <tr>
                         <td>test app</td>
                         <td>another test</td>
                         <td>yyyyyyyyyyyyyyyyyyyyyyyyyy</td>
                         <td>No Users</td>
                         <td>
-                            <button type="button" class="btn btn-default">edit</button>
-                            <button type="button" class="btn btn-danger">disabled</button>
+
+                            <button type="button" class="btn btn-default" href="${pageContext.request.contextPath}/editApp">edit</button>
+                            <input data-toggle="toggle" data-on="Enabled" data-off="Disabled" type="checkbox">
                         </td>
                     </tr>
                 </tbody>
 
             </table>
-             <button type="button" class="btn btn-default">Register new app</button>
+            <a  href="${pageContext.request.contextPath}/addApp"><button type="button" class="btn btn-default">Register new app</button></a>
 
         </div>
 

@@ -35,6 +35,9 @@ public class SecurityFilter implements Filter {
      */
     boolean isTargetUrlProtected = true;
 
+    /*
+       UTILISE POUR DES TESTS
+    */
     if("/registrationPage".equals(path)) {
         request.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(request, response);
     }
@@ -44,6 +47,15 @@ public class SecurityFilter implements Filter {
     if("/editProfile".equals(path)) {
          request.getRequestDispatcher("/WEB-INF/pages/editProfile.jsp").forward(request, response);
     }
+    if("/editApp".equals(path)) {
+         request.getRequestDispatcher("/WEB-INF/pages/editApp.jsp").forward(request, response);
+    }
+    if("/addApp".equals(path)) {
+         request.getRequestDispatcher("/WEB-INF/pages/addApp.jsp").forward(request, response);
+    }
+    /*
+       FIN TESTS
+    */
     
     /*
      * If the target URL is static content or if it is the authentication servlet, then we grant access event
