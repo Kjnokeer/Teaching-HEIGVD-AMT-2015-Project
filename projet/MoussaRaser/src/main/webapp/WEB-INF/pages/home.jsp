@@ -45,7 +45,7 @@
                         <td>demo1</td>
                         <td>Just a test</td>
                         <td>xxxxxxxxxxxxxxxxxxxxxxxxxx</td>
-                        <td><a href="#">120</a></td>
+                        <td><a href="${pageContext.request.contextPath}/listUsers">120</a></td>
                         <td>
                             <a  href="${pageContext.request.contextPath}/editApp"><button type="button" class="btn btn-default">edit</button></a>
                             <input data-toggle="toggle" data-on="Enabled" data-off="Disabled" type="checkbox">

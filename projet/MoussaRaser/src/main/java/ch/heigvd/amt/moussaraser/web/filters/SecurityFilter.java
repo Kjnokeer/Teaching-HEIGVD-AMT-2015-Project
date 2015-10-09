@@ -53,6 +53,9 @@ public class SecurityFilter implements Filter {
     if("/addApp".equals(path)) {
          request.getRequestDispatcher("/WEB-INF/pages/addApp.jsp").forward(request, response);
     }
+    if("/listUsers".equals(path)) {
+         request.getRequestDispatcher("/WEB-INF/pages/listUsers.jsp").forward(request, response);
+    }
     /*
        FIN TESTS
     */
