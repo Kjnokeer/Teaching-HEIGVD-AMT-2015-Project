@@ -5,7 +5,13 @@
  */
 package ch.heigvd.amt.moussaraser.web.controllers;
 
+import ch.heigvd.amt.moussaraser.model.entities.User;
+import ch.heigvd.amt.moussaraser.services.dao.UsersDAO;
+import ch.heigvd.amt.moussaraser.services.dao.UsersDAOLocal;
 import java.io.IOException;
+import java.io.PrintWriter;
+import javax.ejb.EJB;
+import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +22,9 @@ import javax.servlet.http.HttpServletResponse;
  * @author jermoret
  */
 public class RegistrationServlet extends HttpServlet {
+   
+   @EJB
+   UsersDAOLocal usersDAO;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,7 +44,15 @@ public class RegistrationServlet extends HttpServlet {
         String password = request.getParameter("password");
         String rpassword = request.getParameter("rpassword");
 
-        
+        if(password.equals(rpassword)) {
+           User u = new User();
+           u.setEmail(email);
+           u.setFirstName(firstName);
+           u.setLastName(lastName);
+           u.setPassword(password);
+           
+           usersDAO.create(u);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

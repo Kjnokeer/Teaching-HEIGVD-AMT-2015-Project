@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 
 @Entity
 @NamedQueries({
-  @NamedQuery(name = "Users.findByNameAndPassword", query = "SELECT u FROM Users u WHERE u.firstName = :fname AND u.password = :pass"),
+  @NamedQuery(name = "User.findByNameAndPassword", query = "SELECT u FROM User u WHERE u.firstName = :fname AND u.password = :pass"),
 })
 
 public class User extends AbstractDomainModelEntity<Long> {
