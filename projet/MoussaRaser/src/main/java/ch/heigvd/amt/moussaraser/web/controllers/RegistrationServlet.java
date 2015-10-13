@@ -8,6 +8,7 @@ package ch.heigvd.amt.moussaraser.web.controllers;
 import ch.heigvd.amt.moussaraser.model.entities.User;
 import ch.heigvd.amt.moussaraser.services.dao.UsersDAO;
 import ch.heigvd.amt.moussaraser.services.dao.UsersDAOLocal;
+import ch.heigvd.amt.moussaraser.web.utils.EncryptionManager;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.ejb.EJB;
@@ -49,7 +50,7 @@ public class RegistrationServlet extends HttpServlet {
            u.setEmail(email);
            u.setFirstName(firstName);
            u.setLastName(lastName);
-           u.setPassword(password);
+           u.setPassword(EncryptionManager.getHash(password));
            
            usersDAO.create(u);
         }
