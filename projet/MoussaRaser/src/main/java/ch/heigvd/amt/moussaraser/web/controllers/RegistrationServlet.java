@@ -53,6 +53,8 @@ public class RegistrationServlet extends HttpServlet {
            u.setPassword(EncryptionManager.getHash(password));
            
            usersDAO.create(u);
+           
+           response.sendRedirect(request.getContextPath());
         }
     }
 
