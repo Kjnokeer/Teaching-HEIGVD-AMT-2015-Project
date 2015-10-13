@@ -15,6 +15,11 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class UsersDAO extends GenericDAO<User, Long> implements UsersDAOLocal {
+   
+   @Override
+   public User login(String email, String password) {
+      return (User) em.createNamedQuery("User.findByEmailAndPassword").setParameter("email", email).setParameter("pass", password).getSingleResult();
+   }
 
 
 }
