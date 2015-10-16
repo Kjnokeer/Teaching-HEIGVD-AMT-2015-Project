@@ -21,7 +21,7 @@
 
                         <div class="form-group col-lg-12">
                             <label>Email Address</label>
-                            <input type="email" name="email" class="form-control" id="" value="">
+                            <input type="email" name="email" class="form-control" id="" value="" autofocus>
                         </div>
 
                         <div class="form-group col-lg-12">
