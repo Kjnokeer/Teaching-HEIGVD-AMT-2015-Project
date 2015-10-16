@@ -45,6 +45,7 @@ public class AuthentificationServlet extends HttpServlet {
 
       if (u != null) {
          request.getSession().setAttribute("userId", u.getId());
+         request.getSession().setAttribute("email", u.getEmail());
          response.sendRedirect(request.getContextPath() + "/home");
       } else {
          // Message d'erreur

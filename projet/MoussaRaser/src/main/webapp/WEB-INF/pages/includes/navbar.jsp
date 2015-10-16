@@ -17,7 +17,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-               <li><a>Logged in as xxx@xxx</a></li>
+               <li><a>Logged in as <%= request.getSession().getAttribute("email") %></a></li>
                 <li><a href="${pageContext.request.contextPath}">Logout</a></li>
             </ul>
         </div><!--/.nav-collapse -->
