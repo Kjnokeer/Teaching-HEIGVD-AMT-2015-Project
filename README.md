@@ -4,7 +4,7 @@ Welcome to the home of the AMT Project. This is where you will find information 
 
 ## Members
 - Dolt Mathias
-- Duchoud Thibaut
+- Duchoud Thibaud
 - Ferreira Mario
 - Moret Jérôme
 
