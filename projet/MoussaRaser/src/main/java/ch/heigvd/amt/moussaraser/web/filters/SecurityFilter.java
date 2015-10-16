@@ -59,6 +59,12 @@ public class SecurityFilter implements Filter {
             request.setAttribute("targetUrl", path);
 
         }
+        
+        String action = httpRequest.getParameter("a");
+        
+        if(action != null && action.equals("logout")) {
+           httpRequest.getSession().invalidate();
+        }
 
         /*
          * If the user has been authenticated before, then the AuthenticationServlet has placed
