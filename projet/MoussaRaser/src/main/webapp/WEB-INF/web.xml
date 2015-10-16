@@ -20,6 +20,10 @@
         <servlet-name>RegistrationServlet</servlet-name>
         <servlet-class>ch.heigvd.amt.moussaraser.web.controllers.RegistrationServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HomeServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.moussaraser.web.controllers.HomeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MyController</servlet-name>
         <url-pattern>/pages</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>RegistrationServlet</servlet-name>
         <url-pattern>/reg</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomeServlet</servlet-name>
+        <url-pattern>/home</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
