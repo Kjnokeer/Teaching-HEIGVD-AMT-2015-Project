@@ -29,7 +29,7 @@ public class UsersDAO extends GenericDAO<User, Long> implements UsersDAOLocal {
    @Override
    public User getFromId(Long id) {
       User u = (User) em.createNamedQuery("User.findById").setParameter("id", id).getSingleResult();
-      return u;
+      return createAndReturnManagedEntity(u);
    }
 
 }
