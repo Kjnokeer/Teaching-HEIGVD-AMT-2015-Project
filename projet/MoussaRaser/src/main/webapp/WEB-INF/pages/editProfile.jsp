@@ -10,6 +10,7 @@
     <head>
         <%@include file="includes/header.jsp" %>
         <link href="static/css/simple-sidebar.css" rel="stylesheet">
+        <title>Edit profile</title>
         
         <script>
             $(document).ready(function() {
@@ -48,19 +49,19 @@
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Email:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" value="" disabled="true" type="text">
+                                <input class="form-control" value="<%= request.getSession().getAttribute("email") %>" disabled="true" type="text">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">First name:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" value="" type="text">
+                                <input class="form-control" value="<%= request.getSession().getAttribute("firstname") %>" type="text">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Last name:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" value="" type="text">
+                                <input class="form-control" value="<%= request.getSession().getAttribute("lastname") %>" type="text">
                             </div>
                         </div>
                         <div class="form-group">
