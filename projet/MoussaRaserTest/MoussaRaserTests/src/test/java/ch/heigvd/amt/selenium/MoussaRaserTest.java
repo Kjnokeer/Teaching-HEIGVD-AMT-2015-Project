@@ -4,6 +4,7 @@ import ch.heigvd.amt.selenium.pages.CreateAppPage;
 import ch.heigvd.amt.selenium.pages.EditAppPage;
 import ch.heigvd.amt.selenium.pages.EditProfilePage;
 import ch.heigvd.amt.selenium.pages.HomePage;
+import ch.heigvd.amt.selenium.pages.ListUsersPage;
 import ch.heigvd.amt.selenium.pages.LoginPage;
 import ch.heigvd.amt.selenium.pages.RegistrationPage;
 import io.probedock.client.annotations.ProbeTest;
@@ -267,6 +268,25 @@ public class MoussaRaserTest {
     editAppPage.typeDescription("Test Description");
     EditAppPage editAppPageF = (EditAppPage)editAppPage.submitForm(EditAppPage.class);
   }
+  
+  // Logout
+  @Test
+  @ProbeTest(tags = "WebUI")
+  public void itShouldLogout() {
+    driver.get(baseUrl + "home");    
+    HomePage homePage = new HomePage(driver);
+    LoginPage loginPage = (LoginPage)homePage.submitLogout(LoginPage.class);
+  }
+  
+  // Users List
+  @Test
+  @ProbeTest(tags = "WebUI")
+  public void itShouldDisplayListUsers() {
+    driver.get(baseUrl + "home");    
+    HomePage homePage = new HomePage(driver);
+    ListUsersPage listUsersPage = (ListUsersPage)homePage.submitListUsers(ListUsersPage.class);
+  }
+  
   
   @After
   public void closeBrowser() {
