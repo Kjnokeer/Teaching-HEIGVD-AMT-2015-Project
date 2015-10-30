@@ -1,5 +1,6 @@
 package ch.heigvd.amt.selenium;
 
+import ch.heigvd.amt.selenium.pages.EditProfilePage;
 import ch.heigvd.amt.selenium.pages.HomePage;
 import ch.heigvd.amt.selenium.pages.LoginPage;
 import ch.heigvd.amt.selenium.pages.RegistrationPage;
@@ -26,6 +27,8 @@ public class MoussaRaserTest {
     //driver = new ChromeDriver();
   }
   
+  
+  // Registration page
   @Test
   @ProbeTest(tags = "WebUI")
   public void itShouldCorrectlyCreateAccount() {
@@ -75,7 +78,7 @@ public class MoussaRaserTest {
     RegistrationPage registrationPageF = (RegistrationPage)registrationPage.submitForm(RegistrationPage.class);
   }
   
-   @Test
+    @Test
   @ProbeTest(tags = "WebUI")
   public void itShouldNotBePossibleToCreateAccount2DifferentPasswords() {
     driver.get(baseUrl + "registrationPage");
@@ -85,6 +88,17 @@ public class MoussaRaserTest {
     registrationPage.typeLName("Duchoud");
     registrationPage.typeRPassword("4321");
     registrationPage.typePassword("1234");
+    RegistrationPage registrationPageF = (RegistrationPage)registrationPage.submitForm(RegistrationPage.class);
+  }
+  
+  @Test
+  @ProbeTest(tags = "WebUI")
+  public void itShouldNotBePossibleToCreateAccountWithoutPassword() {
+    driver.get(baseUrl + "registrationPage");
+    RegistrationPage registrationPage = new RegistrationPage(driver);
+    registrationPage.typeEmailAddress("thibaud.duchoud4@heig-vd.ch");
+    registrationPage.typeFName("Thibaud");
+    registrationPage.typeLName("Duchoud");
     RegistrationPage registrationPageF = (RegistrationPage)registrationPage.submitForm(RegistrationPage.class);
   }
   
@@ -111,6 +125,9 @@ public class MoussaRaserTest {
     RegistrationPage registrationPageF = (RegistrationPage)registrationPage.submitForm(RegistrationPage.class);
   }
 
+  // ---------------------------------------------------------------------------
+  
+  // Login Page
   @Test
   @ProbeTest(tags = "WebUI")
   public void itShouldNotBePossibleToSigninWithAnInvalidEmail() {
@@ -143,42 +160,65 @@ public class MoussaRaserTest {
     HomePage homePage = (HomePage)loginPage.submitForm(HomePage.class);
   }
 
-  /*@Test
-  @ProbeTest(tags = "WebUI")
-  public void aUserTryingToGetToAboutPageShouldBeRedirectedThereAfterSignin() {
-    driver.get(baseUrl + "/pages/about");
-    LoginPage loginPage = new LoginPage(driver);
-    loginPage.typeEmailAddress("a@a.com");
-    loginPage.typePassword("any password");
-    AboutPage aboutPage = (AboutPage)loginPage.submitForm(AboutPage.class);
-  }
-
+  // ---------------------------------------------------------------------------
+  
+  // Edit profile page
+  
   @Test
   @ProbeTest(tags = "WebUI")
-  public void aUserShouldBeAbleToVisitAllPagesAfterSignin() {
-    driver.get(baseUrl);
-    LoginPage loginPage = new LoginPage(driver);
-    loginPage.typeEmailAddress("a@a.com");
-    loginPage.typePassword("any password");
-    HomePage homePage = (HomePage)loginPage.submitForm(HomePage.class);
-    homePage.goToBeersPageViaMenu()
-      .goToBeersPageViaMenu()
-      .goToAJAXPageViaMenu()
-      .goToGenerateTestDataPageViaMenu()
-      .goToCorporateInformationPageViaMenu();
+  public void itShouldModifyCorrectlyTheProfile() {
+    driver.get(baseUrl + "editProfile");
+    EditProfilePage editProfilePage = new EditProfilePage(driver);
+    editProfilePage.typeFName("Mario");
+    editProfilePage.typeLName("Ferreira");
+    editProfilePage.typeRPassword("5678");
+    editProfilePage.typePassword("5678");
+    HomePage homePage = (HomePage)editProfilePage.submitForm(HomePage.class);
   }
-
+  
   @Test
   @ProbeTest(tags = "WebUI")
-  public void aUserShouldBeAbleToGetDetailsInformationAboutACompany() {
-    driver.get(baseUrl);
-    LoginPage loginPage = new LoginPage(driver);
-    loginPage.typeEmailAddress("a@a.com");
-    loginPage.typePassword("any password");
-    HomePage homePage = (HomePage)loginPage.submitForm(HomePage.class);
-    homePage.goToCorporateInformationPageViaMenu()
-      .clickOnFirstCompanyLinkInCompaniesTable();
-  }*/
+  public void itShouldNotBePossibleToModifyAccount2DifferentPasswords() {
+    driver.get(baseUrl + "editProfile");
+    EditProfilePage editProfilePage = new EditProfilePage(driver);
+    editProfilePage.typeFName("Mario");
+    editProfilePage.typeLName("Ferreira");
+    editProfilePage.typeRPassword("5678");
+    editProfilePage.typePassword("8765");
+    EditProfilePage editProfilePageF = (EditProfilePage)editProfilePage.submitForm(EditProfilePage.class);
+  }
+  
+  @Test
+  @ProbeTest(tags = "WebUI")
+  public void itShouldNotBePossibleToModifyAccountWithoutFName() {
+    driver.get(baseUrl + "editProfile");
+    EditProfilePage editProfilePage = new EditProfilePage(driver);
+    editProfilePage.typeLName("Ferreira");
+    editProfilePage.typeRPassword("5678");
+    editProfilePage.typePassword("5678");
+    EditProfilePage editProfilePageF = (EditProfilePage)editProfilePage.submitForm(EditProfilePage.class);
+  }
+  
+  @Test
+  @ProbeTest(tags = "WebUI")
+  public void itShouldNotBePossibleToModifyAccountWithoutLName() {
+    driver.get(baseUrl + "editProfile");
+    EditProfilePage editProfilePage = new EditProfilePage(driver);
+    editProfilePage.typeFName("Mario");
+    editProfilePage.typeRPassword("5678");
+    editProfilePage.typePassword("5678");
+    EditProfilePage editProfilePageF = (EditProfilePage)editProfilePage.submitForm(EditProfilePage.class);
+  }
+  
+  @Test
+  @ProbeTest(tags = "WebUI")
+  public void itShouldNotBePossibleToModifyAccountWithoutPassword() {
+    driver.get(baseUrl + "editProfile");
+    EditProfilePage editProfilePage = new EditProfilePage(driver);
+    editProfilePage.typeFName("Mario");
+    editProfilePage.typeLName("Ferreira");
+    EditProfilePage editProfilePageF = (EditProfilePage)editProfilePage.submitForm(EditProfilePage.class);
+  }
   
   @After
   public void closeBrowser() {
