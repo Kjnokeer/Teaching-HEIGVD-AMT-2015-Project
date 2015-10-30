@@ -5,8 +5,12 @@
  */
 package ch.heigvd.amt.moussaraser.web.controllers;
 
+import ch.heigvd.amt.moussaraser.model.entities.User;
+import ch.heigvd.amt.moussaraser.services.dao.UsersDAO;
+import ch.heigvd.amt.moussaraser.services.dao.UsersDAOLocal;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +21,9 @@ import javax.servlet.http.HttpServletResponse;
  * @author Mathias
  */
 public class AccountServlet extends HttpServlet {
+
+   @EJB
+   UsersDAOLocal usersDAO;
 
    /**
     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,6 +36,9 @@ public class AccountServlet extends HttpServlet {
     */
    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
+      User u = (User) usersDAO.getFromId((long) request.getSession().getAttribute("userId"));
+      request.getSession().setAttribute("firstname", u.getFirstName());
+      request.getSession().setAttribute("lastname", u.getLastName());
       request.getRequestDispatcher("/WEB-INF/pages/editProfile.jsp").forward(request, response);
    }
 

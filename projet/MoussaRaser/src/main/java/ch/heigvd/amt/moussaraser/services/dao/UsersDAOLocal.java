@@ -16,5 +16,7 @@ import javax.ejb.Local;
 public interface UsersDAOLocal extends IGenericDAO<User, Long> {
 
    User login(String username, String password);
+   
+   User getFromId(Long id);
     
 }
