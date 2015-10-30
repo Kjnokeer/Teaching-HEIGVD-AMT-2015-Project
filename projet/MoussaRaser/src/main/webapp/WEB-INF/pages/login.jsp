@@ -10,6 +10,8 @@
 <html>
     <head>
         <%@include file="includes/header.jsp" %>
+        
+        <title>Login</title>
     </head>
 
     <body>
@@ -30,8 +32,8 @@
                             <input id="password" name="password" type="password" class="form-control" name="password" value="" placeholder="Password">                                        
                         </div>
 
-                        <button type="submit" value="login" class="btn btn-primary" name="action">Login</button>
-                        <a href="${pageContext.request.contextPath}/registrationPage"><button type="button" class="btn btn-primary" style="margin-left: 20px">Create account</button></a>
+                        <button id="bSignIn" type="submit" value="login" class="btn btn-primary" name="action">Login</button>
+                        <a href="${pageContext.request.contextPath}/registrationPage"><button id="bCreateAccount" type="button" class="btn btn-primary" style="margin-left: 20px">Create account</button></a>
                     </form>
                     
 

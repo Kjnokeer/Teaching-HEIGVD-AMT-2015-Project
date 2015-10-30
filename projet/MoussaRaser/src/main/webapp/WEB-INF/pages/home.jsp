@@ -10,6 +10,7 @@
     <head>
         <%@include file="includes/header.jsp" %>
         <link href="static/css/simple-sidebar.css" rel="stylesheet">
+        <title>Welcome</title>
 
         <script>
             $(document).ready(function () {
