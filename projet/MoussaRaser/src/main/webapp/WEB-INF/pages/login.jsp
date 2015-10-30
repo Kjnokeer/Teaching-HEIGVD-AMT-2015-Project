@@ -57,12 +57,12 @@
             </div>
 
             <div class="alert alert-info">
-                <p>232 accounts created</p>
-                <p>483 applications managed</p>
+                <p><%= request.getAttribute("nbUsers") %> accounts created</p>
+                <p><%= request.getAttribute("nbApp") %> applications managed</p>
             </div>
 
             <div class="alert alert-info">
-                <p>8827 users created by applications during the last 30 days</p>
+                <p>0 users created by applications during the last 30 days</p>
             </div>
 
             
