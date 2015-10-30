@@ -30,23 +30,23 @@
                 <!-- edit form column -->
                 <div class="col-md-9 personal-info">
 
-                    <form class="form-horizontal" role="form">
+                    <form class="form-horizontal" role="form" method="POST" action="addApp">
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Name:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" value="" type="text">
+                                <input class="form-control" name="name" value="" type="text">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Description:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" value="" type="text">
+                                <input class="form-control" name="description" value="" type="text">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label"></label>
                             <div class="col-md-8">
-                                <input class="btn btn-primary" value="Register" type="button">
+                                <input class="btn btn-primary" name="action" value="Register" type="submit">
                                 <span></span>
                                 <input class="btn btn-default" value="Cancel" type="reset">
                             </div>

@@ -33,7 +33,7 @@
         <servlet-class>ch.heigvd.amt.moussaraser.web.controllers.AccountServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>NewAppServlet</servlet-name>
+        <servlet-name>AddAppServlet</servlet-name>
         <servlet-class>ch.heigvd.amt.moussaraser.web.controllers.AddAppServlet</servlet-class>
     </servlet>
     <servlet>
@@ -65,7 +65,7 @@
         <url-pattern>/editProfile</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>NewAppServlet</servlet-name>
+        <servlet-name>AddAppServlet</servlet-name>
         <url-pattern>/addApp</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
