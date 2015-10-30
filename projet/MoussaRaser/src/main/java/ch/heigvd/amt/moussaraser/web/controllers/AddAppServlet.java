@@ -5,8 +5,12 @@
  */
 package ch.heigvd.amt.moussaraser.web.controllers;
 
+import ch.heigvd.amt.moussaraser.model.entities.Application;
+import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;
+import ch.heigvd.amt.moussaraser.services.dao.UsersDAOLocal;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +21,12 @@ import javax.servlet.http.HttpServletResponse;
  * @author jermoret
  */
 public class AddAppServlet extends HttpServlet {
+
+   @EJB
+   ApplicationDAOLocal applicationDAO;
+
+   @EJB
+   UsersDAOLocal usersDAO;
 
    /**
     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,6 +39,19 @@ public class AddAppServlet extends HttpServlet {
     */
    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
+
+      String action = request.getParameter("action");
+
+      if (action != null && action.equals("Register")) {
+         Application app = new Application();
+         app.setDescription(request.getParameter("description"));
+         app.setName(request.getParameter("name"));
+         app.setCreator(usersDAO.getFromId((long) request.getSession().getAttribute("userId")));
+         applicationDAO.create(app);
+
+         request.getRequestDispatcher("/WEB-INF/pages/home.jsp").forward(request, response);
+      }
+
       request.getRequestDispatcher("/WEB-INF/pages/addApp.jsp").forward(request, response);
    }
 

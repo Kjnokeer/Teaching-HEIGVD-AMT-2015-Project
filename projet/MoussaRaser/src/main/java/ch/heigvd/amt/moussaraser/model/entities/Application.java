@@ -26,6 +26,22 @@ public class Application extends AbstractDomainModelEntity<Long> {
    @ManyToOne
    private User creator;
 
+   public String getApiKey() {
+      return apiKey;
+   }
+
+   public void setApiKey(String apiKey) {
+      this.apiKey = apiKey;
+   }
+
+   public User getCreator() {
+      return creator;
+   }
+
+   public void setCreator(User creator) {
+      this.creator = creator;
+   }
+
 
    public Application() {
    }
