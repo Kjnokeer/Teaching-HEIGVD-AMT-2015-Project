@@ -55,13 +55,13 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">New Password:</label>
                             <div class="col-md-8">
-                                <input class="form-control" name="password" value="" type="password">
+                                <input class="form-control" name="password" value="" type="password" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Confirm password:</label>
                             <div class="col-md-8">
-                                <input class="form-control" name="rpassword" value="" type="password">
+                                <input class="form-control" name="rpassword" value="" type="password" required>
                             </div>
                         </div>
                         <div class="form-group">
