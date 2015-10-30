@@ -5,13 +5,8 @@
  */
 package ch.heigvd.amt.moussaraser.web.controllers;
 
-import ch.heigvd.amt.moussaraser.model.entities.User;
-import ch.heigvd.amt.moussaraser.services.dao.UsersDAO;
-import ch.heigvd.amt.moussaraser.services.dao.UsersDAOLocal;
-import ch.heigvd.amt.moussaraser.web.utils.EncryptionManager;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,12 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Mathias
+ * @author jermoret
  */
-public class AccountServlet extends HttpServlet {
-
-   @EJB
-   UsersDAOLocal usersDAO;
+public class AddAppServlet extends HttpServlet {
 
    /**
     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,28 +29,7 @@ public class AccountServlet extends HttpServlet {
     */
    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
-
-      User u = (User) usersDAO.getFromId((long) request.getSession().getAttribute("userId"));
-
-      String action = request.getParameter("action");
-
-      if (action != null && action.equals("Save Changes")) {
-         String firstName = request.getParameter("firstname");
-         String lastName = request.getParameter("lastname");
-         String password = request.getParameter("password");
-         String rpassword = request.getParameter("rpassword");
-
-         if (password.equals(rpassword)) {
-            u.setFirstName(firstName);
-            u.setLastName(lastName);
-            u.setPassword(EncryptionManager.getHash(password));
-            usersDAO.update(u);
-         }
-      }
-
-      request.getSession().setAttribute("firstname", u.getFirstName());
-      request.getSession().setAttribute("lastname", u.getLastName());
-      request.getRequestDispatcher("/WEB-INF/pages/editProfile.jsp").forward(request, response);
+      request.getRequestDispatcher("/WEB-INF/pages/addApp.jsp").forward(request, response);
    }
 
    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
