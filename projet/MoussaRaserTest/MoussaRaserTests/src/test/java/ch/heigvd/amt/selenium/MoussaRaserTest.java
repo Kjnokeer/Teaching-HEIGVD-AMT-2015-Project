@@ -1,5 +1,7 @@
 package ch.heigvd.amt.selenium;
 
+import ch.heigvd.amt.selenium.pages.CreateAppPage;
+import ch.heigvd.amt.selenium.pages.EditAppPage;
 import ch.heigvd.amt.selenium.pages.EditProfilePage;
 import ch.heigvd.amt.selenium.pages.HomePage;
 import ch.heigvd.amt.selenium.pages.LoginPage;
@@ -166,7 +168,7 @@ public class MoussaRaserTest {
   
   @Test
   @ProbeTest(tags = "WebUI")
-  public void itShouldModifyCorrectlyTheProfile() {
+  public void itShouldModifyProfile() {
     driver.get(baseUrl + "editProfile");
     EditProfilePage editProfilePage = new EditProfilePage(driver);
     editProfilePage.typeFName("Mario");
@@ -218,6 +220,52 @@ public class MoussaRaserTest {
     editProfilePage.typeFName("Mario");
     editProfilePage.typeLName("Ferreira");
     EditProfilePage editProfilePageF = (EditProfilePage)editProfilePage.submitForm(EditProfilePage.class);
+  }
+  
+  //----------------------------------------------------------------------------
+  
+  // Create App
+  
+  @Test
+  @ProbeTest(tags = "WebUI")
+  public void itShouldCreateApp() {
+    driver.get(baseUrl + "addApp");    
+    CreateAppPage createAppPage = new CreateAppPage(driver);
+    createAppPage.typeDescription("Test Description");
+    createAppPage.typeName("Test Name");
+    HomePage homePage = (HomePage)createAppPage.submitForm(HomePage.class);
+  }
+  
+  @Test
+  @ProbeTest(tags = "WebUI")
+  public void itShouldNotBePossibleToCreateAppWithoutName() {
+    driver.get(baseUrl + "addApp");    
+    CreateAppPage createAppPage = new CreateAppPage(driver);
+    createAppPage.typeDescription("Test Description");
+    CreateAppPage createAppPageF = (CreateAppPage)createAppPage.submitForm(CreateAppPage.class);
+  }
+  
+  //----------------------------------------------------------------------------
+  
+  // Edit App
+  
+  @Test
+  @ProbeTest(tags = "WebUI")
+  public void itShouldModifyApp() {
+    driver.get(baseUrl + "editApp");    
+    EditAppPage editAppPage = new EditAppPage(driver);
+    editAppPage.typeDescription("Test Description");
+    editAppPage.typeName("Test Name");
+    HomePage homePage = (HomePage)editAppPage.submitForm(HomePage.class);
+  }
+  
+   @Test
+  @ProbeTest(tags = "WebUI")
+  public void itShouldNotBePossibleToModifyAppWithoutName() {
+    driver.get(baseUrl + "addApp");    
+    EditAppPage editAppPage = new EditAppPage(driver);
+    editAppPage.typeDescription("Test Description");
+    EditAppPage editAppPageF = (EditAppPage)editAppPage.submitForm(EditAppPage.class);
   }
   
   @After
