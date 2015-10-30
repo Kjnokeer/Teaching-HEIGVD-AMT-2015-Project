@@ -14,7 +14,8 @@ import org.openqa.selenium.WebDriver;
  *
  * @author Mario Ferreira
  */
-public class EditProfilePage extends AbstractMoussaRaserPage{
+public class EditProfilePage extends AbstractMoussaRaserPage {
+
     By tfFNameLocator = By.id("fname");
     By tfLNameLocator = By.id("lname");
     By tfPasswordLocator = By.id("password");
@@ -23,29 +24,28 @@ public class EditProfilePage extends AbstractMoussaRaserPage{
 
     public EditProfilePage(WebDriver driver) {
         super(driver);
-        
+
         // Check that we're on the right page.
         if (!"Edit profile".equals(driver.getTitle())) {
             throw new IllegalStateException("This is not the correct page");
         }
     }
-    
 
     public EditProfilePage typePassword(String password) {
         driver.findElement(tfPasswordLocator).sendKeys(password);
         return this;
     }
-    
+
     public EditProfilePage typeRPassword(String rpassword) {
         driver.findElement(tfRPasswordLocator).sendKeys(rpassword);
         return this;
     }
-    
+
     public EditProfilePage typeFName(String fname) {
         driver.findElement(tfFNameLocator).sendKeys(fname);
         return this;
     }
-    
+
     public EditProfilePage typeLName(String lname) {
         driver.findElement(tfLNameLocator).sendKeys(lname);
         return this;
@@ -60,8 +60,8 @@ public class EditProfilePage extends AbstractMoussaRaserPage{
             Logger.getLogger(EditProfilePage.class.getName()).log(Level.SEVERE, null, ex);
             throw new RuntimeException("Exception when using reflection: " + ex.getMessage());
         }
-        
+
         return targetPage;
     }
-    
+
 }

@@ -15,14 +15,11 @@ public class ListUsersPage extends AbstractMoussaRaserPage {
 
     public ListUsersPage(WebDriver driver) {
         super(driver);
-        
+
         // Check that we're on the right page.
         if (!"List Users".equals(driver.getTitle())) {
-          throw new IllegalStateException("This is not the correct page");
+            throw new IllegalStateException("This is not the correct page");
         }
     }
 
-    
-    
-    
 }
