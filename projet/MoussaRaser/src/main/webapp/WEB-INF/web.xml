@@ -32,6 +32,14 @@
         <servlet-name>AccountServlet</servlet-name>
         <servlet-class>ch.heigvd.amt.moussaraser.web.controllers.AccountServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>NewAppServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.moussaraser.web.controllers.AddAppServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditAppServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.moussaraser.web.controllers.EditAppServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MyController</servlet-name>
         <url-pattern>/pages</url-pattern>
@@ -55,6 +63,14 @@
     <servlet-mapping>
         <servlet-name>AccountServlet</servlet-name>
         <url-pattern>/editProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewAppServlet</servlet-name>
+        <url-pattern>/addApp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditAppServlet</servlet-name>
+        <url-pattern>/editApp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

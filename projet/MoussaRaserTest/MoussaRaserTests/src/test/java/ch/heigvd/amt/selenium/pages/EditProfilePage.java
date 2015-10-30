@@ -14,55 +14,50 @@ import org.openqa.selenium.WebDriver;
  *
  * @author Mario Ferreira
  */
-public class RegistrationPage extends AbstractMoussaRaserPage {
-    By tfEmailLocator = By.id("email");
+public class EditProfilePage extends AbstractMoussaRaserPage{
     By tfFNameLocator = By.id("fname");
     By tfLNameLocator = By.id("lname");
     By tfPasswordLocator = By.id("password");
     By tfRPasswordLocator = By.id("rpassword");
-    By bRegisterLocator = By.id("bRegister");
-    
-    public RegistrationPage(WebDriver driver) {
+    By bSaveChangesLocator = By.id("bSaveChanges");
+
+    public EditProfilePage(WebDriver driver) {
         super(driver);
         
         // Check that we're on the right page.
-        if (!"Registration".equals(driver.getTitle())) {
-          throw new IllegalStateException("This is not the correct page");
+        if (!"Edit profile".equals(driver.getTitle())) {
+            throw new IllegalStateException("This is not the correct page");
         }
     }
     
-    public RegistrationPage typeEmailAddress(String email) {
-        driver.findElement(tfEmailLocator).sendKeys(email);
-        return this;
-    }
 
-    public RegistrationPage typePassword(String password) {
+    public EditProfilePage typePassword(String password) {
         driver.findElement(tfPasswordLocator).sendKeys(password);
         return this;
     }
     
-    public RegistrationPage typeRPassword(String rpassword) {
+    public EditProfilePage typeRPassword(String rpassword) {
         driver.findElement(tfRPasswordLocator).sendKeys(rpassword);
         return this;
     }
     
-    public RegistrationPage typeFName(String fname) {
+    public EditProfilePage typeFName(String fname) {
         driver.findElement(tfFNameLocator).sendKeys(fname);
         return this;
     }
     
-    public RegistrationPage typeLName(String lname) {
+    public EditProfilePage typeLName(String lname) {
         driver.findElement(tfLNameLocator).sendKeys(lname);
         return this;
     }
 
     public Page submitForm(Class<? extends Page> expectedPageClass) {
-        driver.findElement(bRegisterLocator).click();
+        driver.findElement(bSaveChangesLocator).click();
         Page targetPage = null;
         try {
             targetPage = expectedPageClass.getConstructor(WebDriver.class).newInstance(driver);
         } catch (Exception ex) {
-            Logger.getLogger(RegistrationPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditProfilePage.class.getName()).log(Level.SEVERE, null, ex);
             throw new RuntimeException("Exception when using reflection: " + ex.getMessage());
         }
         
