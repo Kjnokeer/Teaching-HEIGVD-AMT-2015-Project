@@ -14,29 +14,31 @@ import org.openqa.selenium.WebDriver;
  *
  * @author Mario Ferreira
  */
-public class CreateAppPage extends AbstractMoussaRaserPage{
+public class CreateAppPage extends AbstractMoussaRaserPage {
+
     By tfNameLocator = By.id("name");
     By tfDescriptionLocator = By.id("description");
     By bCreateAppLocator = By.id("bCreateApp");
 
     public CreateAppPage(WebDriver driver) {
         super(driver);
-        
+
         // Check that we're on the right page.
         if (!"Create App".equals(driver.getTitle())) {
-          throw new IllegalStateException("This is not the correct page");
+            throw new IllegalStateException("This is not the correct page");
         }
     }
-    
+
     public CreateAppPage typeName(String name) {
         driver.findElement(tfNameLocator).sendKeys(name);
         return this;
     }
+
     public CreateAppPage typeDescription(String description) {
         driver.findElement(tfDescriptionLocator).sendKeys(description);
         return this;
     }
-    
+
     public Page submitForm(Class<? extends Page> expectedPageClass) {
         driver.findElement(bCreateAppLocator).click();
         Page targetPage = null;
@@ -46,8 +48,8 @@ public class CreateAppPage extends AbstractMoussaRaserPage{
             Logger.getLogger(CreateAppPage.class.getName()).log(Level.SEVERE, null, ex);
             throw new RuntimeException("Exception when using reflection: " + ex.getMessage());
         }
-        
+
         return targetPage;
     }
-    
+
 }
