@@ -6,6 +6,8 @@
 package ch.heigvd.amt.moussaraser.services.dao;
 
 import ch.heigvd.amt.moussaraser.model.entities.Application;
+import ch.heigvd.amt.moussaraser.model.entities.User;
+import java.util.List;
 import javax.ejb.Stateless;
 
 /**
@@ -15,6 +17,9 @@ import javax.ejb.Stateless;
 @Stateless
 public class ApplicationDAO extends GenericDAO<Application, Long> implements ApplicationDAOLocal {
 
-    // Add business logic below. (Right-click in editor and choose
-   // "Insert Code > Add Business Method")
+   @Override
+   public List<Application> getAllAplicationsForUser(User u) {
+      return em.createNamedQuery("Application.findAllByUser").setParameter("user", u).getResultList();
+   }
+   
 }

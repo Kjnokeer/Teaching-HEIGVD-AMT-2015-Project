@@ -51,7 +51,9 @@ public class AddAppServlet extends HttpServlet {
          app.setApiKey(EncryptionManager.getAPIKey());
          applicationDAO.create(app);
 
-         request.getRequestDispatcher("/WEB-INF/pages/home.jsp").forward(request, response);
+         //request.getRequestDispatcher("/WEB-INF/pages/home.jsp").forward(request, response);
+         response.sendRedirect(request.getContextPath() + "/home");
+         return;
       }
 
       request.getRequestDispatcher("/WEB-INF/pages/addApp.jsp").forward(request, response);

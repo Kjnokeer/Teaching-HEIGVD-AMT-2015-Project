@@ -24,7 +24,7 @@ public class EncryptionManager {
    }
    
    public static String getAPIKey() {
-      return UUID.randomUUID().toString();
+      return UUID.randomUUID().toString().replaceAll("[\\s\\-()]", "");
    }
    
 }

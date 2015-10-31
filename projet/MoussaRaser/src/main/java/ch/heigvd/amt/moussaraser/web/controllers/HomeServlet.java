@@ -5,8 +5,14 @@
  */
 package ch.heigvd.amt.moussaraser.web.controllers;
 
+import ch.heigvd.amt.moussaraser.model.entities.Application;
+import ch.heigvd.amt.moussaraser.model.entities.User;
+import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;
+import ch.heigvd.amt.moussaraser.services.dao.UsersDAOLocal;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +23,12 @@ import javax.servlet.http.HttpServletResponse;
  * @author Mathias
  */
 public class HomeServlet extends HttpServlet {
+   
+   @EJB
+   ApplicationDAOLocal applicationsDAO;
+   
+   @EJB
+   UsersDAOLocal usersDAO;
 
    /**
     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,6 +41,13 @@ public class HomeServlet extends HttpServlet {
     */
    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
+      
+      User u = usersDAO.getFromId((Long) request.getSession().getAttribute("userId"));
+      
+      List<Application> applications = applicationsDAO.getAllAplicationsForUser(u);
+      
+      request.setAttribute("applications", applications);
+      
       request.getRequestDispatcher("/WEB-INF/pages/home.jsp").forward(request, response);
    }
 

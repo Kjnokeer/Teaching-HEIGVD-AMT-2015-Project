@@ -4,80 +4,72 @@
     Author     : Mathias
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <head>
-        <%@include file="includes/header.jsp" %>
-        <link href="static/css/simple-sidebar.css" rel="stylesheet">
-        <title>Welcome</title>
+   <head>
+      <%@include file="includes/header.jsp" %>
+      <link href="static/css/simple-sidebar.css" rel="stylesheet">
+      <title>Welcome</title>
 
-        <script>
-            $(document).ready(function () {
-                $("#my-apps").addClass("active");
-            });
-        </script>
-    </head>
-
-
-
-    <body>
-        <div id="wrapper">
-            <%@include file="includes/sidebar.jsp" %>
-            <div id="page-content-wrapper">
-                <div class="container">
-                    <%@include file="includes/navbar.jsp" %>
+      <script>
+         $(document).ready(function () {
+            $("#my-apps").addClass("active");
+         });
+      </script>
+   </head>
 
 
-                    <h1>Your apps</h1>
-                    <hr>
+
+   <body>
+      <div id="wrapper">
+         <%@include file="includes/sidebar.jsp" %>
+         <div id="page-content-wrapper">
+            <div class="container">
+               <%@include file="includes/navbar.jsp" %>
 
 
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <td>Name</td>
-                                <td>Description</td>
-                                <td>API Key</td>
-                                <td>Users</td>
-                                <td></td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>demo1</td>
-                                <td>Just a test</td>
-                                <td>xxxxxxxxxxxxxxxxxxxxxxxxxx</td>
-                                <td><a href="${pageContext.request.contextPath}/listUsers">120</a></td>
-                                <td>
-                                    <a  href="${pageContext.request.contextPath}/editApp"><button type="button" class="btn btn-default">edit</button></a>
-                                    <input data-toggle="toggle" data-on="Enabled" data-off="Disabled" type="checkbox">
-                                </td>
-                            </tr>
+               <h1>Your apps</h1>
+               <hr>
 
-                            <tr>
-                                <td>test app</td>
-                                <td>another test</td>
-                                <td>yyyyyyyyyyyyyyyyyyyyyyyyyy</td>
-                                <td>No Users</td>
-                                <td>
 
-                                    <button type="button" class="btn btn-default" href="${pageContext.request.contextPath}/editApp">edit</button>
-                                    <input data-toggle="toggle" data-on="Enabled" data-off="Disabled" type="checkbox">
-                                </td>
-                            </tr>
-                        </tbody>
+               <table class="table table-striped">
+                  <thead>
+                     <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>API Key</th>
+                        <th>Users</th>
+                        <th></th>
+                     </tr>
+                  </thead>
+                  <tbody>
 
-                    </table>
-                    <a  href="${pageContext.request.contextPath}/addApp"><button type="button" class="btn btn-default">Register new app</button></a>
+                     <c:forEach items="${applications}" var="app">
+                        <tr>
+                           <td>${app.getName()}</td>
+                           <td>${app.getDescription()}</td>
+                           <td>${app.getApiKey()}</td>
+                           <td></td>
+                           <td>
+                              <button type="button" class="btn btn-default" href="${pageContext.request.contextPath}/editApp">edit</button>
+                              <input <c:if test="${app.isEnabled()}"><c:out value="checked" /></c:if> data-toggle="toggle" data-on="Enabled" data-off="Disabled" type="checkbox">
+                           </td>
+                        </tr>
+                     </c:forEach>
+                  </tbody>
 
-                </div>
+               </table>
+               <a  href="${pageContext.request.contextPath}/addApp"><button type="button" class="btn btn-default">Register new app</button></a>
+
             </div>
-        </div>
+         </div>
+      </div>
 
 
-        <%@include file="includes/footer.jsp" %>
-    </body>
+      <%@include file="includes/footer.jsp" %>
+   </body>
 </html>
 
 
