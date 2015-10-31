@@ -46,21 +46,25 @@ public class EditAppServlet extends HttpServlet {
       String action = request.getParameter("action");
 
       if (action != null && action.equals("Save changes")) {
-         Application application = (Application) request.getSession().getAttribute("application");
-         
-         application.setName((String) request.getParameter("name"));
-         application.setDescription((String) request.getParameter("description"));
-         
-         String state = request.getParameter("state");
-         
-         if(state != null && state.equals("on")) {
-            application.setEnabled(true);
-         } else {
-            application.setEnabled(false);
+         String name = request.getParameter("name");
+         String description = request.getParameter("description");
+
+         if (name != null && description != null) {
+            Application application = (Application) request.getSession().getAttribute("application");
+
+            application.setName((String) request.getParameter("name"));
+            application.setDescription((String) request.getParameter("description"));
+
+            String state = request.getParameter("state");
+
+            if (state != null && state.equals("on")) {
+               application.setEnabled(true);
+            } else {
+               application.setEnabled(false);
+            }
+
+            applicationsDAO.update(application);
          }
-         
-         applicationsDAO.update(application);
-         
          request.getSession().removeAttribute("application");
 
          response.sendRedirect(request.getContextPath() + "/home");

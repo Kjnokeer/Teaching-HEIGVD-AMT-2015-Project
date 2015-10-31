@@ -36,13 +36,13 @@
                   <div class="form-group">
                      <label class="col-lg-3 control-label">Name:</label>
                      <div class="col-lg-8">
-                        <input class="form-control" name="name" value="${application.getName()}" type="text">
+                        <input class="form-control" name="name" value="${application.getName()}" type="text" required>
                      </div>
                   </div>
                   <div class="form-group">
                      <label class="col-lg-3 control-label">Description:</label>
                      <div class="col-lg-8">
-                        <input class="form-control" name="description" value="${application.getDescription()}" type="text">
+                        <input class="form-control" name="description" value="${application.getDescription()}" type="text" required>
                      </div>
                   </div>
                   <div class="form-group">

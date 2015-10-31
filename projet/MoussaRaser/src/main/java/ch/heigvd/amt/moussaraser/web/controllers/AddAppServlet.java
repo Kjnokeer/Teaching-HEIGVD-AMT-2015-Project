@@ -44,13 +44,17 @@ public class AddAppServlet extends HttpServlet {
       String action = request.getParameter("action");
 
       if (action != null && action.equals("Register")) {
-         Application app = new Application();
-         app.setDescription(request.getParameter("description"));
-         app.setName(request.getParameter("name"));
-         app.setCreator(usersDAO.getUserFromId((long) request.getSession().getAttribute("userId")));
-         app.setApiKey(EncryptionManager.getAPIKey());
-         applicationDAO.create(app);
+         String name = request.getParameter("name");
+         String description = request.getParameter("description");
 
+         if (name != null && description != null) {
+            Application app = new Application();
+            app.setName(name);
+            app.setDescription(description);
+            app.setCreator(usersDAO.getUserFromId((long) request.getSession().getAttribute("userId")));
+            app.setApiKey(EncryptionManager.getAPIKey());
+            applicationDAO.create(app);
+         }
          response.sendRedirect(request.getContextPath() + "/home");
          return;
       }
