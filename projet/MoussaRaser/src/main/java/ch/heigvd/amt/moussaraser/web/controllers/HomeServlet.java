@@ -42,7 +42,7 @@ public class HomeServlet extends HttpServlet {
    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
       
-      User u = usersDAO.getFromId((Long) request.getSession().getAttribute("userId"));
+      User u = usersDAO.getUserFromId((Long) request.getSession().getAttribute("userId"));
       
       List<Application> applications = applicationsDAO.getAllAplicationsForUser(u);
       

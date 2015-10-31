@@ -38,7 +38,7 @@ public class AccountServlet extends HttpServlet {
    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
 
-      User u = (User) usersDAO.getFromId((long) request.getSession().getAttribute("userId"));
+      User u = (User) usersDAO.getManagedUserFromId((long) request.getSession().getAttribute("userId"));
 
       String action = request.getParameter("action");
 

@@ -47,11 +47,10 @@ public class AddAppServlet extends HttpServlet {
          Application app = new Application();
          app.setDescription(request.getParameter("description"));
          app.setName(request.getParameter("name"));
-         app.setCreator(usersDAO.getFromId((long) request.getSession().getAttribute("userId")));
+         app.setCreator(usersDAO.getUserFromId((long) request.getSession().getAttribute("userId")));
          app.setApiKey(EncryptionManager.getAPIKey());
          applicationDAO.create(app);
 
-         //request.getRequestDispatcher("/WEB-INF/pages/home.jsp").forward(request, response);
          response.sendRedirect(request.getContextPath() + "/home");
          return;
       }

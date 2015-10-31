@@ -53,8 +53,15 @@
                            <td>${app.getApiKey()}</td>
                            <td></td>
                            <td>
-                              <button type="button" class="btn btn-default" href="${pageContext.request.contextPath}/editApp">edit</button>
-                              <input <c:if test="${app.isEnabled()}"><c:out value="checked" /></c:if> data-toggle="toggle" data-on="Enabled" data-off="Disabled" type="checkbox">
+                              <a  href="${pageContext.request.contextPath}/editApp?app=${app.getApiKey()}"><button type="button" class="btn btn-default">edit</button></a>
+                              <c:choose>
+                                 <c:when test="${app.isEnabled()}">
+                                    <button type="button" class="btn btn-success" disabled>Enabled</button>
+                                 </c:when>
+                                 <c:otherwise>
+                                    <button type="button" class="btn btn-danger" disabled>Disabled</button>
+                                 </c:otherwise>
+                              </c:choose>
                            </td>
                         </tr>
                      </c:forEach>

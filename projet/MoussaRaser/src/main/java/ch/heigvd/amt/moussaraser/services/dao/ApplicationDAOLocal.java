@@ -19,4 +19,6 @@ public interface ApplicationDAOLocal extends IGenericDAO<Application, Long> {
    
    List<Application> getAllAplicationsForUser(User u);
    
+   Application getManagedApplicationByApiKey(String apiKey);
+   
 }

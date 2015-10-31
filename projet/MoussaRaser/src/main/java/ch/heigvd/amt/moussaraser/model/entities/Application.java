@@ -13,6 +13,7 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
   @NamedQuery(name = "Application.findAllByUser", query = "SELECT a FROM Application a WHERE a.creator = :user"),
+  @NamedQuery(name = "Application.findByApiKey", query = "SELECT a FROM Application a WHERE a.apiKey = :apiKey"),
 })
 /**
  *
