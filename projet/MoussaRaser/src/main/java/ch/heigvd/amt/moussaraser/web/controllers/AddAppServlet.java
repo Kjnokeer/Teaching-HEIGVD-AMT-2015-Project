@@ -8,6 +8,7 @@ package ch.heigvd.amt.moussaraser.web.controllers;
 import ch.heigvd.amt.moussaraser.model.entities.Application;
 import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.UsersDAOLocal;
+import ch.heigvd.amt.moussaraser.web.utils.EncryptionManager;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.ejb.EJB;
@@ -47,6 +48,7 @@ public class AddAppServlet extends HttpServlet {
          app.setDescription(request.getParameter("description"));
          app.setName(request.getParameter("name"));
          app.setCreator(usersDAO.getFromId((long) request.getSession().getAttribute("userId")));
+         app.setApiKey(EncryptionManager.getAPIKey());
          applicationDAO.create(app);
 
          request.getRequestDispatcher("/WEB-INF/pages/home.jsp").forward(request, response);
