@@ -53,7 +53,9 @@ public class AccountServlet extends HttpServlet {
             u.setLastName(lastName);
             u.setPassword(EncryptionManager.getHash(password));
             usersDAO.update(u);
-            request.getRequestDispatcher("/WEB-INF/pages/home.jsp").forward(request, response);
+
+            response.sendRedirect(request.getContextPath() + "/home");
+            return;
          }
       }
 

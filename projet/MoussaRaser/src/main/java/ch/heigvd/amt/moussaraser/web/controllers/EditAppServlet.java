@@ -22,10 +22,10 @@ import javax.servlet.http.HttpServletResponse;
  * @author jermoret
  */
 public class EditAppServlet extends HttpServlet {
-   
+
    @EJB
    ApplicationDAOLocal applicationsDAO;
-   
+
    @EJB
    UsersDAOLocal usersDAO;
 
@@ -40,13 +40,36 @@ public class EditAppServlet extends HttpServlet {
     */
    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
-      
+
       User u = usersDAO.getUserFromId((Long) request.getSession().getAttribute("userId"));
-      
+
+      String action = request.getParameter("action");
+
+      if (action != null && action.equals("Save changes")) {
+         Application application = (Application) request.getSession().getAttribute("application");
+         
+         application.setName((String) request.getParameter("name"));
+         application.setDescription((String) request.getParameter("description"));
+         
+         String state = request.getParameter("state");
+         
+         if(state != null && state.equals("on")) {
+            application.setEnabled(true);
+         } else {
+            application.setEnabled(false);
+         }
+         
+         applicationsDAO.update(application);
+         
+         request.getSession().removeAttribute("application");
+
+         response.sendRedirect(request.getContextPath() + "/home");
+         return;
+      }
+
       Application application = applicationsDAO.getManagedApplicationByApiKey(request.getParameter("app"));
-      
-      request.setAttribute("application", application);
-      
+      request.getSession().setAttribute("application", application);
+
       request.getRequestDispatcher("/WEB-INF/pages/editApp.jsp").forward(request, response);
    }
 
