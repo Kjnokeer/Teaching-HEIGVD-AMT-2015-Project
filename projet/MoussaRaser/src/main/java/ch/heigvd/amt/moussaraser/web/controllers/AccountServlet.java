@@ -1,3 +1,9 @@
+/**
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date    : 30.10.2015
+ * Fichier : AccountServler.java
+ */
+
 package ch.heigvd.amt.moussaraser.web.controllers;
 
 import ch.heigvd.amt.moussaraser.model.entities.User;
@@ -10,6 +16,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Servlet s'occupant de l'édition d'un utilisateur (page de gestion de compte).
+ */
 public class AccountServlet extends HttpServlet {
 
    @EJB

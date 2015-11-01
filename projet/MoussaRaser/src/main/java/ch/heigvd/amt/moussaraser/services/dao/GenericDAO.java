@@ -1,3 +1,8 @@
+/**
+ * Auteurs : Olivier Liechti
+ * Fichier : GenericDAO.java
+ */
+
 package ch.heigvd.amt.moussaraser.services.dao;
 
 import ch.heigvd.amt.moussaraser.model.entities.AbstractDomainModelEntity;
