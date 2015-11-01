@@ -135,9 +135,25 @@ Dans cette phase du projet nous avons seulement réalisé des tests de surcharge
 ### Tests ###
 Voici les résultats obtenus dans le cas où le nombre d'utilisateurs en simultané augmente doucement:
 
+Nombre d'utilisateurs en simultané (threads) :
+
+![Number of threads](img/jmeter_nb_users_1.png)
+
+Temps d'attente (ms) :
+
+![Waiting time](img/jmeter_pool_1.png)
+
 Comme vous pouvez le constater, les temps de réponse restent corrects même avec une grande quantité d'utilisateurs qui se connectent en même temps. Nous avons un pique au moment où il y a le plus grand nombre d'utilisateurs connectés. (~50 sec)
 
 Les différentes requêtes possèdent le même temps de réaction.
 
 Voici les résultats obtenus dans le cas où le nombre d'utilisateurs en simultané augmente assez rapidement:
+
+Nombre d'utilisateurs en simultané (threads) :
+
+![Number of threads](img/jmeter_nb_users_2.png)
+
+Temps d'attente (ms) :
+
+![Waiting time](img/jmeter_pool_2.png)
 
