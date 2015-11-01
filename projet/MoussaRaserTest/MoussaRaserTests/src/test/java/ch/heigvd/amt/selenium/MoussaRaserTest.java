@@ -172,6 +172,7 @@ public class MoussaRaserTest {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
+        loginPage.submitForm(HomePage.class);
         
         driver.get(baseUrl + "editProfile");
         EditProfilePage editProfilePage = new EditProfilePage(driver);
@@ -198,6 +199,7 @@ public class MoussaRaserTest {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
+        loginPage.submitForm(HomePage.class);
         
         driver.get(baseUrl + "editProfile");
         EditProfilePage editProfilePage = new EditProfilePage(driver);
@@ -224,6 +226,7 @@ public class MoussaRaserTest {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
+        loginPage.submitForm(HomePage.class);
         
         driver.get(baseUrl + "editProfile");
         EditProfilePage editProfilePage = new EditProfilePage(driver);
@@ -249,6 +252,7 @@ public class MoussaRaserTest {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
+        loginPage.submitForm(HomePage.class);
         
         driver.get(baseUrl + "editProfile");
         EditProfilePage editProfilePage = new EditProfilePage(driver);
@@ -274,6 +278,7 @@ public class MoussaRaserTest {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
+        loginPage.submitForm(HomePage.class);
         
         driver.get(baseUrl + "editProfile");
         EditProfilePage editProfilePage = new EditProfilePage(driver);
@@ -300,6 +305,7 @@ public class MoussaRaserTest {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
+        loginPage.submitForm(HomePage.class);
         
         driver.get(baseUrl + "addApp");
         CreateAppPage createAppPage = new CreateAppPage(driver);
@@ -324,6 +330,7 @@ public class MoussaRaserTest {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
+        loginPage.submitForm(HomePage.class);
         
         driver.get(baseUrl + "addApp");
         CreateAppPage createAppPage = new CreateAppPage(driver);
@@ -349,6 +356,7 @@ public class MoussaRaserTest {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
+        loginPage.submitForm(HomePage.class);
         
         driver.get(baseUrl + "editApp");
         EditAppPage editAppPage = new EditAppPage(driver);
@@ -373,6 +381,7 @@ public class MoussaRaserTest {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
+        loginPage.submitForm(HomePage.class);
         
         driver.get(baseUrl + "addApp");
         EditAppPage editAppPage = new EditAppPage(driver);
@@ -395,13 +404,14 @@ public class MoussaRaserTest {
         registrationPage.typePassword("1234");
 
         driver.get(baseUrl);
-        LoginPage loginPageC = new LoginPage(driver);
-        loginPageC.typeEmailAddress("mario.ferreira@heig-vd.ch");
-        loginPageC.typePassword("1234");
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
+        loginPage.typePassword("1234");
+        loginPage.submitForm(HomePage.class);
         
         driver.get(baseUrl + "home");
         HomePage homePage = new HomePage(driver);
-        LoginPage loginPage = (LoginPage)homePage.submitLogout(LoginPage.class);
+        LoginPage loginPageC = (LoginPage)homePage.submitLogout(LoginPage.class);
     }
 
     //--------------------------------------------------------------------------
@@ -422,6 +432,7 @@ public class MoussaRaserTest {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
+        loginPage.submitForm(HomePage.class);
         
         driver.get(baseUrl + "home");
         HomePage homePage = new HomePage(driver);
