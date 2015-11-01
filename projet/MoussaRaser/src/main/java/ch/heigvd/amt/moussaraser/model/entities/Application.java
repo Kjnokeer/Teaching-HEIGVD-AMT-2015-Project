@@ -12,12 +12,8 @@ import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({
-<<<<<<< HEAD
-  @NamedQuery(name = "Application.findAllByCreatorId", query = "SELECT a FROM Application a WHERE a.creator = :creator"),
-=======
   @NamedQuery(name = "Application.findAllByUser", query = "SELECT a FROM Application a WHERE a.creator = :user"),
   @NamedQuery(name = "Application.findByApiKey", query = "SELECT a FROM Application a WHERE a.apiKey = :apiKey"),
->>>>>>> c7fc52835aac6e7dd0a0570b4f4fe6e3ea5e0b63
 })
 /**
  *
