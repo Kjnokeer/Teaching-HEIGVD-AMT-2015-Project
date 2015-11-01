@@ -12,7 +12,7 @@
       <div id="navbar" class="navbar-collapse collapse">
          <ul class="nav navbar-nav navbar-right">
             <li><a>Logged in as <%= request.getSession().getAttribute("email")%></a></li>
-            <li><a href="${pageContext.request.contextPath}/?a=logout">Logout</a></li>
+            <li><a href="${pageContext.request.contextPath}/?a=logout" id="logout">Logout</a></li>
          </ul>
       </div><!--/.nav-collapse -->
    </div><!--/.container-fluid -->

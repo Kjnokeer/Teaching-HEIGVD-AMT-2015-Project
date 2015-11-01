@@ -37,31 +37,31 @@
                   <div class="form-group">
                      <label class="col-lg-3 control-label">First name:</label>
                      <div class="col-lg-8">
-                        <input class="form-control" name="firstname" value="<%= request.getSession().getAttribute("firstname")%>" type="text">
+                        <input id="fname" class="form-control" name="firstname" value="<%= request.getSession().getAttribute("firstname")%>" type="text">
                      </div>
                   </div>
                   <div class="form-group">
                      <label class="col-lg-3 control-label">Last name:</label>
                      <div class="col-lg-8">
-                        <input class="form-control" name="lastname" value="<%= request.getSession().getAttribute("lastname")%>" type="text">
+                        <input id="lname" class="form-control" name="lastname" value="<%= request.getSession().getAttribute("lastname")%>" type="text">
                      </div>
                   </div>
                   <div class="form-group">
                      <label class="col-md-3 control-label">New Password:</label>
                      <div class="col-md-8">
-                        <input class="form-control" name="password" value="" type="password" required>
+                        <input id="password" class="form-control" name="password" value="" type="password" required>
                      </div>
                   </div>
                   <div class="form-group">
                      <label class="col-md-3 control-label">Confirm password:</label>
                      <div class="col-md-8">
-                        <input class="form-control" name="rpassword" value="" type="password" required>
+                        <input id="rpassword" class="form-control" name="rpassword" value="" type="password" required>
                      </div>
                   </div>
                   <div class="form-group">
                      <label class="col-md-3 control-label"></label>
                      <div class="col-md-8">
-                        <input class="btn btn-primary" name="action" value="Save Changes" type="submit">
+                        <input id="bSaveChanges" class="btn btn-primary" name="action" value="Save Changes" type="submit">
                         <span></span>
                         <input class="btn btn-default" value="Cancel" type="reset">
                      </div>
