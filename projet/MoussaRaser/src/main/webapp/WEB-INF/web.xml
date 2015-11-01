@@ -41,10 +41,6 @@
         <servlet-class>ch.heigvd.amt.moussaraser.web.controllers.EditAppServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>MyController</servlet-name>
-        <url-pattern>/pages</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>AuthentificationServlet</servlet-name>
         <url-pattern>/auth</url-pattern>
     </servlet-mapping>

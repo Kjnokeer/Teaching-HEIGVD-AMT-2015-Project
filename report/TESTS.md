@@ -130,4 +130,34 @@ Résultat :
 ## JMeter ##
 ### Description ###
 Dans cette section du rapport nous allons vous parler des tests de surcharge réalisés avec JMeter.
+
+Dans cette phase du projet nous avons seulement réalisé des tests de surcharge. Plusieurs personnes qui se connectent en même temps et qui chargent plusieurs fois la page d'accueil.
 ### Tests ###
+Voici les résultats obtenus dans le cas où le nombre d'utilisateurs en simultané augmente doucement:
+
+Nombre d'utilisateurs en simultané (threads) :
+
+![Number of threads](img/jmeter_nb_users_1.png)
+
+Temps d'attente (ms) :
+
+![Waiting time](img/jmeter_pool_1.png)
+
+Comme vous pouvez le constater, les temps de réponse restent corrects même avec une grande quantité d'utilisateurs qui se connectent en même temps. Nous avons un pique au moment où il y a le plus grand nombre d'utilisateurs connectés. (~50 msec)
+
+Les différentes requêtes possèdent le même temps de réaction.
+
+Voici les résultats obtenus dans le cas où le nombre d'utilisateurs en simultané augmente assez rapidement:
+
+Nombre d'utilisateurs en simultané (threads) :
+
+![Number of threads](img/jmeter_nb_users_2.png)
+
+Temps d'attente (ms) :
+
+![Waiting time](img/jmeter_pool_2.png)
+
+Dans ce cas, le temps de réponse reste correcte, même si un peu plus élevé (~120 msec) rester correct, notre système réponds correctement à une grande quantité de requêtes. 
+
+Par contre, nous constatons un pique (~540 msec) lors de l'affichage de la page d'accueil après la connexion de l'utilisateur (~00:12:00). Ce pique arrive au moment d'une surcharge constante. Après plusieurs tests, ce pique est régulier, mais nous n'avons pas trouvé la cause. 
+

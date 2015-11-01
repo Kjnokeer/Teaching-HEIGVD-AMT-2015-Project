@@ -34,13 +34,13 @@
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Name:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" name="name" value="" type="text">
+                                <input class="form-control" name="name" value="" type="text" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Description:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" name="description" value="" type="text">
+                                <input class="form-control" name="description" value="" type="text" required>
                             </div>
                         </div>
                         <div class="form-group">

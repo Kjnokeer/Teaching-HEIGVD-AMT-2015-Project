@@ -38,7 +38,7 @@ public class AccountServlet extends HttpServlet {
    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
 
-      User u = (User) usersDAO.getFromId((long) request.getSession().getAttribute("userId"));
+      User u = (User) usersDAO.getManagedUserFromId((long) request.getSession().getAttribute("userId"));
 
       String action = request.getParameter("action");
 
@@ -53,7 +53,9 @@ public class AccountServlet extends HttpServlet {
             u.setLastName(lastName);
             u.setPassword(EncryptionManager.getHash(password));
             usersDAO.update(u);
-            request.getRequestDispatcher("/WEB-INF/pages/home.jsp").forward(request, response);
+
+            response.sendRedirect(request.getContextPath() + "/home");
+            return;
          }
       }
 

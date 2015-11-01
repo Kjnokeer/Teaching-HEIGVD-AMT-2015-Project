@@ -5,6 +5,7 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.HexBin;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,6 +21,10 @@ public class EncryptionManager {
       }
       
       return null;
+   }
+   
+   public static String getAPIKey() {
+      return UUID.randomUUID().toString().replaceAll("[\\s\\-()]", "");
    }
    
 }
