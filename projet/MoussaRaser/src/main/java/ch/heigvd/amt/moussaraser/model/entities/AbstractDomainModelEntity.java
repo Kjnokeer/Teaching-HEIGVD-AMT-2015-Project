@@ -1,3 +1,8 @@
+/**
+ * Auteurs : Olivier Liechti
+ * Fichier : AbstractDomainModelEntity.java
+ */
+
 package ch.heigvd.amt.moussaraser.model.entities;
 
 import java.io.Serializable;

@@ -1,3 +1,9 @@
+/**
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date    : 09.10.2015
+ * Fichier : HomeServlet.java
+ */
+
 package ch.heigvd.amt.moussaraser.web.controllers;
 
 import ch.heigvd.amt.moussaraser.model.entities.Application;
@@ -12,6 +18,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Servlet s'occupant de la page principale (page principale après la connexion).
+ */
 public class HomeServlet extends HttpServlet {
 
    @EJB

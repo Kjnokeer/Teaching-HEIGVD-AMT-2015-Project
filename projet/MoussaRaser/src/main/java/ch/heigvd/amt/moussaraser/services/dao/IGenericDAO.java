@@ -1,3 +1,8 @@
+/**
+ * Auteurs : Olivier Liechti
+ * Fichier : IGenericDAO.java
+ */
+
 package ch.heigvd.amt.moussaraser.services.dao;
 
 import ch.heigvd.amt.moussaraser.model.entities.AbstractDomainModelEntity;
@@ -5,7 +10,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- *
+ * 
  * @author Olivier Liechti (olivier.liechti@heig-vd.ch)
  */
 @Local

@@ -1,3 +1,9 @@
+/**
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date    : 16.10.2015
+ * Fichier : RegistrationServlet.java
+ */
+
 package ch.heigvd.amt.moussaraser.web.controllers;
 
 import ch.heigvd.amt.moussaraser.model.entities.User;
@@ -10,6 +16,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Servlet s'occupant l'enregistrement d'un nouvel utilisateur (page d'inscription).
+ */
 public class RegistrationServlet extends HttpServlet {
 
    @EJB

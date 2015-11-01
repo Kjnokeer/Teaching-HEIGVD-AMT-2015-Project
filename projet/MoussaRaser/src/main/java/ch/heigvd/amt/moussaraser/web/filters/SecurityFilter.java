@@ -1,3 +1,9 @@
+/**
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date    : 09.10.2015
+ * Fichier : SecurityFilter.java
+ */
+
 package ch.heigvd.amt.moussaraser.web.filters;
 
 import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;
@@ -12,6 +18,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Servlet qui est appelé sur tous les URLs et qui gère la sécurité.
+ * Si la page ou l'utilisateur veut aller nécessite d'être connecté, c'est
+ * ce servlet qui gère la redirection (page de login si pas connecté et page
+ * demandée s'il est connecté) ...
+ */
 public class SecurityFilter implements Filter {
 
    @EJB

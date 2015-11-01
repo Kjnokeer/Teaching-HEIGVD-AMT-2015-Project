@@ -1,3 +1,9 @@
+/**
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date    : 09.10.2015
+ * Fichier : Application.java
+ */
+
 package ch.heigvd.amt.moussaraser.model.entities;
 
 import javax.persistence.Entity;
@@ -10,6 +16,9 @@ import javax.persistence.NamedQuery;
    @NamedQuery(name = "Application.findAllByUser", query = "SELECT a FROM Application a WHERE a.creator = :user"),
    @NamedQuery(name = "Application.findByApiKey", query = "SELECT a FROM Application a WHERE a.apiKey = :apiKey"),})
 
+/**
+ * Cette classe est un JPA, elle représente l'entité (table) Application.
+ */
 public class Application extends AbstractDomainModelEntity<Long> {
 
    private String name;

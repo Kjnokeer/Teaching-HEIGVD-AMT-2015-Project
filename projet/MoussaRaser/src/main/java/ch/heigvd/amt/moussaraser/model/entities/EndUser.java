@@ -1,3 +1,9 @@
+/**
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date    : 09.10.2015
+ * Fichier : EndUser.java
+ */
+
 package ch.heigvd.amt.moussaraser.model.entities;
 
 import javax.persistence.Entity;
@@ -8,6 +14,9 @@ import javax.persistence.NamedQueries;
 @NamedQueries({ //@NamedQuery(name = "User.findByNameAndPassword", query = "SELECT u FROM User u WHERE u.firstName = :fname AND u.password = :pass"),
 })
 
+/**
+ * Cette classe est un JPA, elle représente l'entité (table) EndUser.
+ */
 public class EndUser extends AbstractDomainModelEntity<Long> {
 
    @ManyToOne

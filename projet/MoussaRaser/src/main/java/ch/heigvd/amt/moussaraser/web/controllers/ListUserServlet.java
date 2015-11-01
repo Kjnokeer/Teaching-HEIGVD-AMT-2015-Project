@@ -1,3 +1,9 @@
+/**
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date    : 30.10.2015
+ * Fichier : ListUserServlet.java
+ */
+
 package ch.heigvd.amt.moussaraser.web.controllers;
 
 import java.io.IOException;
@@ -6,6 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Servlet s'occupant de l'affichage de la liste des utilisateurs (pour une application).
+ */
 public class ListUserServlet extends HttpServlet {
 
    /**
