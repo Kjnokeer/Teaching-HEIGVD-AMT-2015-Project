@@ -1,9 +1,3 @@
-<%-- 
-    Document   : sidebar
-    Created on : 25 sept. 2015, 09:49:47
-    Author     : Mathias
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div id="sidebar-wrapper">
    <ul class="sidebar-nav">

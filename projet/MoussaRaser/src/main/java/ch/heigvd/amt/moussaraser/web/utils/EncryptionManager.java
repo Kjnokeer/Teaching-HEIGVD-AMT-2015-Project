@@ -19,12 +19,12 @@ public class EncryptionManager {
       } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
          Logger.getLogger(EncryptionManager.class.getName()).log(Level.SEVERE, null, ex);
       }
-      
+
       return null;
    }
-   
+
    public static String getAPIKey() {
       return UUID.randomUUID().toString().replaceAll("[\\s\\-()]", "");
    }
-   
+
 }

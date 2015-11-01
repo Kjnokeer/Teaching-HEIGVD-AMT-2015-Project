@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ch.heigvd.amt.moussaraser.model.entities;
 
 import javax.persistence.Entity;
@@ -12,38 +7,18 @@ import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({
-  @NamedQuery(name = "Application.findAllByUser", query = "SELECT a FROM Application a WHERE a.creator = :user"),
-  @NamedQuery(name = "Application.findByApiKey", query = "SELECT a FROM Application a WHERE a.apiKey = :apiKey"),
-})
-/**
- *
- * @author jermoret
- */
+   @NamedQuery(name = "Application.findAllByUser", query = "SELECT a FROM Application a WHERE a.creator = :user"),
+   @NamedQuery(name = "Application.findByApiKey", query = "SELECT a FROM Application a WHERE a.apiKey = :apiKey"),})
+
 public class Application extends AbstractDomainModelEntity<Long> {
+
    private String name;
    private String description;
    private String apiKey;
    private boolean enabled;
-   
+
    @ManyToOne
    private User creator;
-
-   public String getApiKey() {
-      return apiKey;
-   }
-
-   public void setApiKey(String apiKey) {
-      this.apiKey = apiKey;
-   }
-
-   public User getCreator() {
-      return creator;
-   }
-
-   public void setCreator(User creator) {
-      this.creator = creator;
-   }
-
 
    public Application() {
    }
@@ -88,5 +63,33 @@ public class Application extends AbstractDomainModelEntity<Long> {
     */
    public void setEnabled(boolean enabled) {
       this.enabled = enabled;
-   }   
+   }
+
+   /**
+    * @return the apiKey
+    */
+   public String getApiKey() {
+      return apiKey;
+   }
+
+   /**
+    * @param apiKey the apiKey to set
+    */
+   public void setApiKey(String apiKey) {
+      this.apiKey = apiKey;
+   }
+
+   /**
+    * @return the creator
+    */
+   public User getCreator() {
+      return creator;
+   }
+
+   /**
+    * @param creator the creator to set
+    */
+   public void setCreator(User creator) {
+      this.creator = creator;
+   }
 }

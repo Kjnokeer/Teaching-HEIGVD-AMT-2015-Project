@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ch.heigvd.amt.moussaraser.web.controllers;
 
 import ch.heigvd.amt.moussaraser.model.entities.Application;
@@ -10,17 +5,12 @@ import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.UsersDAOLocal;
 import ch.heigvd.amt.moussaraser.web.utils.EncryptionManager;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author jermoret
- */
 public class AddAppServlet extends HttpServlet {
 
    @EJB

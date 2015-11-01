@@ -1,34 +1,27 @@
 package ch.heigvd.amt.moussaraser.model.entities;
 
-import java.util.LinkedList;
-import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 
 @Entity
 @NamedQueries({
-  @NamedQuery(name = "User.findByEmailAndPassword", query = "SELECT u FROM User u WHERE u.email = :email AND u.password = :pass"),
-  @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
-})
+   @NamedQuery(name = "User.findByEmailAndPassword", query = "SELECT u FROM User u WHERE u.email = :email AND u.password = :pass"),
+   @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),})
 
 public class User extends AbstractDomainModelEntity<Long> {
 
-  private String firstName;
-  private String lastName;
-  private String email;
-  private String password;
-  
+   private String firstName;
+   private String lastName;
+   private String email;
+   private String password;
+
    @ManyToOne
    private Role role;
 
-  public User() {
-  }
+   public User() {
+   }
 
    /**
     * @return the firstName
@@ -85,5 +78,19 @@ public class User extends AbstractDomainModelEntity<Long> {
    public void setPassword(String password) {
       this.password = password;
    }
-  
+
+   /**
+    * @return the role
+    */
+   public Role getRole() {
+      return role;
+   }
+
+   /**
+    * @param role the role to set
+    */
+   public void setRole(Role role) {
+      this.role = role;
+   }
+
 }

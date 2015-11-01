@@ -1,9 +1,3 @@
-<%-- 
-    Document   : home
-    Created on : 18 sept. 2015, 10:29:28
-    Author     : Mathias
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="ch.heigvd.amt.moussaraser.model.entities.Application"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -74,12 +68,7 @@
                   </form>
                </div>
             </div>
-
-
-
          </div>
-
-
       <%@include file="includes/footer.jsp" %>
    </body>
 </html>

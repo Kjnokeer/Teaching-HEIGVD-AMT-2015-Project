@@ -1,9 +1,3 @@
-<%-- 
-    Document   : home
-    Created on : 18 sept. 2015, 10:29:28
-    Author     : Mathias
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -20,19 +14,14 @@
       </script>
    </head>
 
-
-
    <body>
       <div id="wrapper">
          <%@include file="includes/sidebar.jsp" %>
          <div id="page-content-wrapper">
             <div class="container">
                <%@include file="includes/navbar.jsp" %>
-
-
                <h1>Your apps</h1>
                <hr>
-
                <c:choose>
                   <c:when test="${applications.size() > 0}">
                      <table class="table table-striped">
@@ -76,8 +65,6 @@
             </div>
          </div>
       </div>
-
-
       <%@include file="includes/footer.jsp" %>
    </body>
 </html>

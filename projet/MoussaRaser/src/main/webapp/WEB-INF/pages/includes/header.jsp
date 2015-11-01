@@ -1,9 +1,3 @@
-<%-- 
-    Document   : header
-    Created on : 18 sept. 2015, 10:26:20
-    Author     : Mathias
---%>
-
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">

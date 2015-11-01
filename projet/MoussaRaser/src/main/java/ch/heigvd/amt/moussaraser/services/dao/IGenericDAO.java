@@ -11,20 +11,20 @@ import javax.ejb.Local;
 @Local
 public interface IGenericDAO<T extends AbstractDomainModelEntity, PK> {
 
-  public PK create(T t);
+   public PK create(T t);
 
-  public T createAndReturnManagedEntity(T t);
+   public T createAndReturnManagedEntity(T t);
 
-  public void update(T t);
+   public void update(T t);
 
-  public void delete(T t);
+   public void delete(T t);
 
-  public long count();
-  
-  public T findById(PK id);
+   public long count();
 
-  public List<T> findAll();
-  
-  public List<T> findAllByPage(int pageSize, int pageIndex);
+   public T findById(PK id);
+
+   public List<T> findAll();
+
+   public List<T> findAllByPage(int pageSize, int pageIndex);
 
 }

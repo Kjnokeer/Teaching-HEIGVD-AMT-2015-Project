@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ch.heigvd.amt.moussaraser.model.entities;
 
 import javax.persistence.Entity;
@@ -10,19 +5,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 
 @Entity
-@NamedQueries({
-  //@NamedQuery(name = "User.findByNameAndPassword", query = "SELECT u FROM User u WHERE u.firstName = :fname AND u.password = :pass"),
+@NamedQueries({ //@NamedQuery(name = "User.findByNameAndPassword", query = "SELECT u FROM User u WHERE u.firstName = :fname AND u.password = :pass"),
 })
-/**
- *
- * @author jermoret
- */
+
 public class EndUser extends AbstractDomainModelEntity<Long> {
+
    @ManyToOne
    private Application application;
    private String firstName;
    private String lastName;
-   
+
    public EndUser() {
    }
 
@@ -53,6 +45,19 @@ public class EndUser extends AbstractDomainModelEntity<Long> {
    public void setLastName(String lastName) {
       this.lastName = lastName;
    }
-   
-   
+
+   /**
+    * @return the application
+    */
+   public Application getApplication() {
+      return application;
+   }
+
+   /**
+    * @param application the application to set
+    */
+   public void setApplication(Application application) {
+      this.application = application;
+   }
+
 }
