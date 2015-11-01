@@ -8,10 +8,11 @@ package ch.heigvd.amt.moussaraser.model.entities;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({
-  //@NamedQuery(name = "User.findByNameAndPassword", query = "SELECT u FROM User u WHERE u.firstName = :fname AND u.password = :pass"),
+  @NamedQuery(name = "Application.findAllByCreatorId", query = "SELECT a FROM Application a WHERE a.creator = :creator"),
 })
 /**
  *
