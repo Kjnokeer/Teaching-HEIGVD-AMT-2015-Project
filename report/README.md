@@ -36,7 +36,7 @@ Pour cela, le plus simple est d’utiliser la console d’administration graphiq
 
 Vous pourrez ensuite dans l’onglet des ressources, puis dans celui de JDBC, créer le pool de connexion dont nos propriétés figurent sur l’image ci-dessous.
 
-![Pool de connexion JDBC]("img/poolProperties.png")
+![Pool de connexion JDBC](img/poolProperties.png)
 
 Il est important que le nom du pool soit bien le suivant : **moussaRaserPool**.
 
@@ -55,23 +55,23 @@ Vous pouvez, dès lors, accéder à l’application sur `http://<adresse_ip_serv
 
 #### Website pages
 ##### Home page
-![]("img/homePage.png")
+![](img/homePage.png)
 
 Vous pouvez ici soit vous loggez au sein de l'application ou alors créer un compte si vous n'en possédez pas.
 ##### Registration page
-![]("img/registrationPage.png")
+![](img/registrationPage.png)
 ##### My apps page
-![]("img/appsPage.png")
+![](img/appsPage.png)
 
 Cette page donne un resumé de vos applications, il est possible de modifier les propriétés d'une application à l'aide du bouton `edit`. 
 
 Vous pouvez également enregister une nouvelle application à l'aide du bouton `Register new app`. 
 ###### Register new app page
-![]("img/registerNewApp.png")
+![](img/registerNewApp.png)
 ###### Edit app page
-![]("img/editAppPage.png")
+![](img/editAppPage.png)
 ##### My account page
-![]("img/accountPage.png")
+![](img/accountPage.png)
 #### JUnit
 Pour les tests unitaires il faut tout d'abord il faut lancer le serveur web.
 
