@@ -26,7 +26,7 @@ Pour pouvoir exécuter notre application, vous avez besoin de configurer :
 
 - La base de données MySQL
 
-Il vous suffit de créer une base de données portant le nom moussaraser.
+Il vous suffit de créer une base de données portant le nom `moussaraser`.
 Notre application tentera d’accéder à la base de données à travers l’identifiant 
 `root` accompagné du mot de passe `pass`.
 
