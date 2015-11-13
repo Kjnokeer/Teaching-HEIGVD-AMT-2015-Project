@@ -42,9 +42,11 @@
                Invalid email or password
             </div>
          </c:if>
-
+            
+         
          <div class="page-header">
-            <h1>Welcome to MoussaRaser</h1>
+             
+            <h1><img src="static/img/logo.svg" width="300px" />Welcome to MoussaRaser</h1>
          </div>
 
          <div class="alert alert-info">
