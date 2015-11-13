@@ -6,7 +6,7 @@
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
       <title>Registration</title>
       <%@include file="includes/header.jsp" %>
-      
+
       <style>
          .aster {
             color:#f00;
@@ -20,7 +20,7 @@
             <div class="container-page">	
                <form method="POST" action="reg">
                   <h1>Registration</h1>
-                  
+
                   <c:if test="${loginError == 1}">
                      <div class="alert alert-danger" role="alert">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -52,7 +52,7 @@
 
                   <div class="form-group col-lg-6">
                      <label>Repeat Password<span class="aster">*</span></label>
-                     <input type="password" name="rpassword" class="form-control" id="rpassword" value="" requires>
+                     <input type="password" name="rpassword" class="form-control" id="rpassword" value="" required>
                   </div>
 
                   <a href="${pageContext.request.contextPath}"><button type="button" class="btn btn-default">Cancel</button></a>
