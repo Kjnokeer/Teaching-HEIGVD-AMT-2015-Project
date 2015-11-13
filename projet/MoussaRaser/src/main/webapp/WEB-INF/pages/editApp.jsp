@@ -16,6 +16,7 @@
    </head>
 
    <body>
+       
       <%@include file="includes/sidebar.jsp" %>
       <div class="container">
          <%@include file="includes/navbar.jsp" %>
