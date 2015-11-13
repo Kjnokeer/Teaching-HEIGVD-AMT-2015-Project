@@ -16,9 +16,6 @@ import javax.ejb.Local;
  * Interface pour le DAO ApplicationDAO
  */
 @Local
-public interface ApplicationDAOLocal extends IGenericDAO<Application, Long> {
-
-   List<Application> getAllAplicationsForUser(User u);
-
-   Application getManagedApplicationByApiKey(ApiKey apiKey);
+public interface ApiKeyDAOLocal extends IGenericDAO<ApiKey, Long> {
+   ApiKey findByApiKeyString(String apiKeyStr);
 }

@@ -16,15 +16,11 @@ import javax.ejb.Stateless;
  * DAO correspondant à l'entité (table) Application
  */
 @Stateless
-public class ApplicationDAO extends GenericDAO<Application, Long> implements ApplicationDAOLocal {
+public class ApiKeyDAO extends GenericDAO<ApiKey, Long> implements ApiKeyDAOLocal {
 
    @Override
-   public List<Application> getAllAplicationsForUser(User u) {
-      return em.createNamedQuery("Application.findAllByUser").setParameter("user", u).getResultList();
+   public ApiKey findByApiKeyString(String apiKeyStr) {
+      return (ApiKey) em.createNamedQuery("ApiKey.findByApiKeyStr").setParameter("apiKey", apiKeyStr).getSingleResult();
    }
 
-   @Override
-   public Application getManagedApplicationByApiKey(ApiKey apiKey) {
-      return createAndReturnManagedEntity((Application) em.createNamedQuery("Application.findByApiKey").setParameter("apiKey", apiKey).getSingleResult());
-   }
 }

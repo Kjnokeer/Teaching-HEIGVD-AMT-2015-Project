@@ -44,7 +44,7 @@
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">API-Key:</label>
                                     <div class="col-lg-8">
-                                        <input class="form-control" value="${application.getApiKey()}" disabled="true" type="text">
+                                        <input class="form-control" value="${application.getApiKey().getApiKey()}" disabled="true" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group">

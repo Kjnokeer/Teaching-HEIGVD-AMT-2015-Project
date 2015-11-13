@@ -8,6 +8,7 @@ package ch.heigvd.amt.moussaraser.web.controllers;
 
 import ch.heigvd.amt.moussaraser.model.entities.Application;
 import ch.heigvd.amt.moussaraser.model.entities.User;
+import ch.heigvd.amt.moussaraser.services.dao.ApiKeyDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.UsersDAOLocal;
 import java.io.IOException;
@@ -27,6 +28,9 @@ public class EditAppServlet extends HttpServlet {
 
    @EJB
    UsersDAOLocal usersDAO;
+   
+   @EJB
+   ApiKeyDAOLocal apiKeyDAO;
 
    /**
     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -70,7 +74,10 @@ public class EditAppServlet extends HttpServlet {
          return;
       }
 
-      Application application = applicationsDAO.getManagedApplicationByApiKey(request.getParameter("app"));
+      Application application = applicationsDAO.getManagedApplicationByApiKey(
+              apiKeyDAO.findByApiKeyString(request.getParameter("app"))
+      );
+      
       request.getSession().setAttribute("application", application);
 
       request.getRequestDispatcher("/WEB-INF/pages/editApp.jsp").forward(request, response);

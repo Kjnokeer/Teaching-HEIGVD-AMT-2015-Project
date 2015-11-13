@@ -10,11 +10,13 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 
 @Entity
 @NamedQueries({
    @NamedQuery(name = "Application.findAllByUser", query = "SELECT a FROM Application a WHERE a.creator = :user"),
-   @NamedQuery(name = "Application.findByApiKey", query = "SELECT a FROM Application a WHERE a.apiKey = :apiKey"),})
+   @NamedQuery(name = "Application.findByApiKey", query = "SELECT a FROM Application a WHERE a.apiKey = :apiKey"),
+})
 
 /**
  * Cette classe est un JPA, elle représente l'entité (table) Application.
@@ -23,8 +25,10 @@ public class Application extends AbstractDomainModelEntity<Long> {
 
    private String name;
    private String description;
-   private String apiKey;
    private boolean enabled;
+   
+   @OneToOne
+   private ApiKey apiKey;
 
    @ManyToOne
    private User creator;
@@ -75,20 +79,6 @@ public class Application extends AbstractDomainModelEntity<Long> {
    }
 
    /**
-    * @return the apiKey
-    */
-   public String getApiKey() {
-      return apiKey;
-   }
-
-   /**
-    * @param apiKey the apiKey to set
-    */
-   public void setApiKey(String apiKey) {
-      this.apiKey = apiKey;
-   }
-
-   /**
     * @return the creator
     */
    public User getCreator() {
@@ -101,4 +91,19 @@ public class Application extends AbstractDomainModelEntity<Long> {
    public void setCreator(User creator) {
       this.creator = creator;
    }
+
+   /**
+    * @return the apiKey
+    */
+   public ApiKey getApiKey() {
+      return apiKey;
+   }
+
+   /**
+    * @param apiKey the apiKey to set
+    */
+   public void setApiKey(ApiKey apiKey) {
+      this.apiKey = apiKey;
+   }
+   
 }

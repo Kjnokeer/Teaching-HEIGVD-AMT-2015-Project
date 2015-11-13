@@ -39,10 +39,10 @@
                                         <tr>
                                             <td>${app.getName()}</td>
                                             <td>${app.getDescription()}</td>
-                                            <td>${app.getApiKey()}</td>
+                                            <td>${app.getApiKey().getApiKey()}</td>
                                             <td></td>
                                             <td>
-                                                <a  href="${pageContext.request.contextPath}/editApp?app=${app.getApiKey()}"><button type="button" class="btn btn-default">edit</button></a>
+                                                <a  href="${pageContext.request.contextPath}/editApp?app=${app.getApiKey().getApiKey()}"><button type="button" class="btn btn-default">edit</button></a>
                                                 <c:choose>
                                                     <c:when test="${app.isEnabled()}">
                                                         <button type="button" class="btn btn-success" disabled>Enabled</button>

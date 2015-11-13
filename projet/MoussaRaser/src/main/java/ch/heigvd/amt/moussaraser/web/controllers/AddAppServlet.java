@@ -6,7 +6,9 @@
 
 package ch.heigvd.amt.moussaraser.web.controllers;
 
+import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
 import ch.heigvd.amt.moussaraser.model.entities.Application;
+import ch.heigvd.amt.moussaraser.services.dao.ApiKeyDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.UsersDAOLocal;
 import ch.heigvd.amt.moussaraser.web.utils.EncryptionManager;
@@ -27,6 +29,9 @@ public class AddAppServlet extends HttpServlet {
 
    @EJB
    UsersDAOLocal usersDAO;
+   
+   @EJB
+   ApiKeyDAOLocal apiKeyDAO;
 
    /**
     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,7 +56,7 @@ public class AddAppServlet extends HttpServlet {
             app.setName(name);
             app.setDescription(description);
             app.setCreator(usersDAO.getUserFromId((long) request.getSession().getAttribute("userId")));
-            app.setApiKey(EncryptionManager.getAPIKey());
+            app.setApiKey(apiKeyDAO.createAndReturnManagedEntity(new ApiKey(EncryptionManager.getAPIKey())));
             applicationDAO.create(app);
          }
          response.sendRedirect(request.getContextPath() + "/home");
