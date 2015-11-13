@@ -46,7 +46,7 @@
                                                     <td><p>${nbEndUsersInApp[count]}</p></td>
                                                 </c:when> 
                                                 <c:otherwise>
-                                                    <td><a href="${pageContext.request.contextPath}/listUsers?app=${app.getApiKey().getApiKey()}">${nbEndUsersInApp[count]}</a></td>
+                                                    a<td><a href="${pageContext.request.contextPath}/listUsers?app=${app.getApiKey().getApiKey()}">${nbEndUsersInApp[count]}</a></td>
                                                 </c:otherwise>
                                             </c:choose>
                                             <td>
