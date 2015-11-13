@@ -35,14 +35,22 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <c:set var="count" value="0" scope="page" />
                                     <c:forEach items="${applications}" var="app">
                                         <tr>
                                             <td>${app.getName()}</td>
                                             <td>${app.getDescription()}</td>
                                             <td>${app.getApiKey().getApiKey()}</td>
-                                            <td></td>
+                                            <c:choose>
+                                                <c:when test="${nbEndUsersInApp[count] == 0}">
+                                                    <td><p>${nbEndUsersInApp[count]}</p></td>
+                                                </c:when> 
+                                                <c:otherwise>
+                                                    <td><a href="${pageContext.request.contextPath}/listUsers?app=${app.getApiKey().getApiKey()}">${nbEndUsersInApp[count]}</a></td>
+                                                </c:otherwise>
+                                            </c:choose>
                                             <td>
-                                                <a  href="${pageContext.request.contextPath}/editApp?app=${app.getApiKey().getApiKey()}"><button type="button" class="btn btn-default">edit</button></a>
+                                                <a href="${pageContext.request.contextPath}/editApp?app=${app.getApiKey().getApiKey()}"><button type="button" class="btn btn-default">edit</button></a>
                                                 <c:choose>
                                                     <c:when test="${app.isEnabled()}">
                                                         <button type="button" class="btn btn-success" disabled>Enabled</button>
@@ -53,6 +61,7 @@
                                                 </c:choose>
                                             </td>
                                         </tr>
+                                        <c:set var="count" value="${count + 1}" scope="page"/>
                                     </c:forEach>
                                 </tbody>
                             </table>

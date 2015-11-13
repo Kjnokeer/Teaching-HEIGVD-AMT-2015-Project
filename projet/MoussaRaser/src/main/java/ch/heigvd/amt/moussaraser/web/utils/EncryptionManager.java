@@ -6,9 +6,8 @@
 
 package ch.heigvd.amt.moussaraser.web.utils;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.HexBin;
-
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
@@ -30,7 +29,8 @@ public class EncryptionManager {
       try {
          MessageDigest digest = MessageDigest.getInstance("SHA-256");
          digest.reset();
-         return HexBin.encode(digest.digest(text.getBytes("UTF-8")));
+         
+         return String.format("%x", new BigInteger(1, digest.digest(text.getBytes("UTF-8"))));
       } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
          Logger.getLogger(EncryptionManager.class.getName()).log(Level.SEVERE, null, ex);
       }
