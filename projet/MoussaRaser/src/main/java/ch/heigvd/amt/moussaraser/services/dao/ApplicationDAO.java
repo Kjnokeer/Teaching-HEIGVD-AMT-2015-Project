@@ -18,7 +18,7 @@ import javax.ejb.Stateless;
 public class ApplicationDAO extends GenericDAO<Application, Long> implements ApplicationDAOLocal {
 
    @Override
-   public List<Application> getAllAplicationsForUser(User u) {
+   public List<Application> getAllApplicationsForUser(User u) {
       return em.createNamedQuery("Application.findAllByUser").setParameter("user", u).getResultList();
    }
 

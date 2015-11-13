@@ -1,16 +1,17 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
- * Date    : 09.10.2015
- * Fichier : HomeServlet.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date
+ * : 09.10.2015 Fichier : HomeServlet.java
  */
-
 package ch.heigvd.amt.moussaraser.web.controllers;
 
 import ch.heigvd.amt.moussaraser.model.entities.Application;
 import ch.heigvd.amt.moussaraser.model.entities.User;
 import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;
+import ch.heigvd.amt.moussaraser.services.dao.EndUserDAO;
+import ch.heigvd.amt.moussaraser.services.dao.EndUserDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.UsersDAOLocal;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -19,74 +20,83 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet s'occupant de la page principale (page principale après la connexion).
+ * Servlet s'occupant de la page principale (page principale après la
+ * connexion).
  */
 public class HomeServlet extends HttpServlet {
 
-   @EJB
-   ApplicationDAOLocal applicationsDAO;
+    @EJB
+    ApplicationDAOLocal applicationsDAO;
 
-   @EJB
-   UsersDAOLocal usersDAO;
+    @EJB
+    UsersDAOLocal usersDAO;
 
-   /**
-    * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-    * methods.
-    *
-    * @param request servlet request
-    * @param response servlet response
-    * @throws ServletException if a servlet-specific error occurs
-    * @throws IOException if an I/O error occurs
-    */
-   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-           throws ServletException, IOException {
+    @EJB
+    EndUserDAOLocal endUsersDAO;
 
-      User u = usersDAO.getUserFromId((Long) request.getSession().getAttribute("userId"));
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-      List<Application> applications = applicationsDAO.getAllAplicationsForUser(u);
+        User u = usersDAO.getUserFromId((Long) request.getSession().getAttribute("userId"));
 
-      request.setAttribute("applications", applications);
+        List<Application> applications = applicationsDAO.getAllApplicationsForUser(u);
+        ArrayList<Long> nbEndUsersInApp = new ArrayList<Long>();
+        for (Application app : applications) {
+            nbEndUsersInApp.add(endUsersDAO.getNumberOfEndUsersInApp(app));
+        }
 
-      request.getRequestDispatcher("/WEB-INF/pages/home.jsp").forward(request, response);
-   }
+        request.setAttribute("applications", applications);
+        request.setAttribute("nbEndUsersInApp", nbEndUsersInApp);
 
-   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-   /**
-    * Handles the HTTP <code>GET</code> method.
-    *
-    * @param request servlet request
-    * @param response servlet response
-    * @throws ServletException if a servlet-specific error occurs
-    * @throws IOException if an I/O error occurs
-    */
-   @Override
-   protected void doGet(HttpServletRequest request, HttpServletResponse response)
-           throws ServletException, IOException {
-      processRequest(request, response);
-   }
+        request.getRequestDispatcher("/WEB-INF/pages/home.jsp").forward(request, response);
+    }
 
-   /**
-    * Handles the HTTP <code>POST</code> method.
-    *
-    * @param request servlet request
-    * @param response servlet response
-    * @throws ServletException if a servlet-specific error occurs
-    * @throws IOException if an I/O error occurs
-    */
-   @Override
-   protected void doPost(HttpServletRequest request, HttpServletResponse response)
-           throws ServletException, IOException {
-      processRequest(request, response);
-   }
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
 
-   /**
-    * Returns a short description of the servlet.
-    *
-    * @return a String containing servlet description
-    */
-   @Override
-   public String getServletInfo() {
-      return "Short description";
-   }// </editor-fold>
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
 
 }

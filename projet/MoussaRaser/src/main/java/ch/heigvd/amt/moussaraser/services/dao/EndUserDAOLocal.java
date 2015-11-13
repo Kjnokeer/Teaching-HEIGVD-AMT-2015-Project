@@ -7,7 +7,7 @@
 package ch.heigvd.amt.moussaraser.services.dao;
 
 import ch.heigvd.amt.moussaraser.model.entities.Application;
-import ch.heigvd.amt.moussaraser.model.entities.User;
+import ch.heigvd.amt.moussaraser.model.entities.EndUser;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -15,9 +15,9 @@ import javax.ejb.Local;
  * Interface pour le DAO ApplicationDAO
  */
 @Local
-public interface ApplicationDAOLocal extends IGenericDAO<Application, Long> {
+public interface EndUserDAOLocal extends IGenericDAO<EndUser, Long> {
 
-   List<Application> getAllApplicationsForUser(User u);
-
-   Application getManagedApplicationByApiKey(String apiKey);
+   Long getNumberOfEndUsersInApp(Application app);
+   
+   List<EndUser> getEndUsersInApp(Application app);
 }

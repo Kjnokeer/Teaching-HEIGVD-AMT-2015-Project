@@ -35,12 +35,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <c:set var="count" value="0" scope="page" />
                                     <c:forEach items="${applications}" var="app">
                                         <tr>
                                             <td>${app.getName()}</td>
                                             <td>${app.getDescription()}</td>
                                             <td>${app.getApiKey()}</td>
-                                            <td></td>
+                                            <td><a href="${pageContext.request.contextPath}/listUsers?app=${app.getApiKey()}">${nbEndUsersInApp[count]}</a></td>
                                             <td>
                                                 <a  href="${pageContext.request.contextPath}/editApp?app=${app.getApiKey()}"><button type="button" class="btn btn-default">edit</button></a>
                                                 <c:choose>
@@ -53,6 +54,7 @@
                                                 </c:choose>
                                             </td>
                                         </tr>
+                                        <c:set var="count" value="${count + 1}" scope="page"/>
                                     </c:forEach>
                                 </tbody>
                             </table>

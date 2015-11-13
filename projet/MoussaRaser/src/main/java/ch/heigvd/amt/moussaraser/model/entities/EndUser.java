@@ -9,9 +9,12 @@ package ch.heigvd.amt.moussaraser.model.entities;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @Entity
-@NamedQueries({ //@NamedQuery(name = "User.findByNameAndPassword", query = "SELECT u FROM User u WHERE u.firstName = :fname AND u.password = :pass"),
+@NamedQueries({
+   @NamedQuery(name = "EndUser.getNumberOfEndUsersInApp", query = "SELECT COUNT(eu) FROM EndUser eu WHERE eu.application = :app"),
+   @NamedQuery(name = "EndUser.getEndUsersInApp", query = "SELECT eu FROM EndUser eu WHERE eu.application = :app")
 })
 
 /**
