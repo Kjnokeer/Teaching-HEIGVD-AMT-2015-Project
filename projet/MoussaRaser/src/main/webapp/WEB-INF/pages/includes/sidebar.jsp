@@ -2,7 +2,7 @@
 <div id="sidebar-wrapper">
     <ul class="sidebar-nav">
         <li class="sidebar-brand">
-            <a href="${pageContext.request.contextPath}/home">Start Bootstrap</a>
+            <a href="${pageContext.request.contextPath}/home">MoussaRaser</a>
         </li>
         <li id="my-apps">
             <a href="${pageContext.request.contextPath}/home"><span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span> My apps</a>

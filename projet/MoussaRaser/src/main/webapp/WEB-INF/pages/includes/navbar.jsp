@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="${pageContext.request.contextPath}/home">MoussaRaser</a>
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/home" style="margin-top: -15px; margin-left: -30px;"><p><img src="static/img/logo.svg" width="50px"/>MoussaRaser</p></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
