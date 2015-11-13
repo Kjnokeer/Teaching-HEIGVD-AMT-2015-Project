@@ -42,7 +42,10 @@ public class RegistrationServlet extends HttpServlet {
       String password = request.getParameter("password");
       String rpassword = request.getParameter("rpassword");
 
-      if (password.equals(rpassword)) {
+      if (email != null && !email.equals("") &&
+              firstName != null && !firstName.equals("") &&
+              lastName != null && !lastName.equals("") &&
+              password.equals(rpassword)) {
          User u = new User();
          u.setEmail(email);
          u.setFirstName(firstName);
@@ -52,6 +55,12 @@ public class RegistrationServlet extends HttpServlet {
          usersDAO.create(u);
 
          response.sendRedirect(request.getContextPath());
+      } else {
+         request.setAttribute("loginError", 1);
+         request.setAttribute("email", email);
+         request.setAttribute("fname", firstName);
+         request.setAttribute("lname", lastName);
+         request.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(request, response);
       }
    }
 

@@ -49,6 +49,7 @@ public class SecurityFilter implements Filter {
 
       if ("/registrationPage".equals(path)) {
          request.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(request, response);
+         return;
       }
 
       /*
