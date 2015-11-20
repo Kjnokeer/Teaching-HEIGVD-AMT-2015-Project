@@ -23,7 +23,7 @@
                     <h1>List of users for "${applicationName}"</h1>
                     <hr>
                     <table class="table table-striped">
-                        
+
                         <thead>
                             <tr>
                                 <td>User ID</td>
@@ -33,21 +33,27 @@
                         </thead>
                         <tbody>
                             <c:forEach items="${endUsers}" var="endUser">
-                            <tr>
-                                <td>${endUser.getId()}</td>
-                                <td>${endUser.getFirstName()}</td>
-                                <td>${endUser.getLastName()}</td>
-                            </tr>
-                        </c:forEach>
+                                <tr>
+                                    <td>${endUser.getId()}</td>
+                                    <td>${endUser.getFirstName()}</td>
+                                    <td>${endUser.getLastName()}</td>
+                                </tr>
+                            </c:forEach>
                         </tbody>
                     </table>
                     <nav>
                         <ul class="pagination">
-                            <li class="disabled"><a href=""><span aria-hidden="true">&laquo;</span></a></li>
-                            <li class="active"><a href="">1<span class="sr-only">(current)</span></a></li>
-                            <li><a href="">2</a></li>
-                            <li><a href="">3</a></li>
-                            <li><a href=""><span aria-hidden="true">&raquo;</span></a></li>
+                                <c:forEach begin="1" end="${nbPagesRequired}" varStatus="loop">
+                                    <c:choose>
+                                        <c:when test="${loop.count == pageNumber}">
+                                            <li class="active"><a href='listUsers?app=${app}&page=${loop.count}'>${loop.count}</a></li>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <li><a href='listUsers?app=${app}&page=${loop.count}'>${loop.count}</a></li>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    
+                                </c:forEach>
                         </ul>
                     </nav>
                 </div>
