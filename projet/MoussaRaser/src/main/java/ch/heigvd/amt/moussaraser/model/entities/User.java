@@ -6,7 +6,10 @@
 
 package ch.heigvd.amt.moussaraser.model.entities;
 
+import java.util.List;
+import java.util.Set;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -25,6 +28,23 @@ public class User extends AbstractDomainModelEntity<Long> {
    private String lastName;
    private String email;
    private String password;
+   
+   @ManyToMany
+   private List<Badge> badges;
+  
+   @ManyToMany
+   private List<Reward> rewards;
+   
+   @ManyToOne
+   private Score score;
+
+   public List<Badge> getBadges() {
+      return badges;
+   }
+
+   public void setBadges(List<Badge> badges) {
+      this.badges = badges;
+   }
 
    @ManyToOne
    private Role role;
