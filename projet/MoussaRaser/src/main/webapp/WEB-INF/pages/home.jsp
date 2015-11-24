@@ -47,18 +47,11 @@
                                                 </c:when> 
                                                 <c:otherwise>
                                                     <td><a href="${pageContext.request.contextPath}/listUsers?app=${app.getApiKey().getApiKey()}&page=1">${nbEndUsersInApp[count]}</a></td>
-                                                </c:otherwise>
-                                            </c:choose>
-                                            <td>
-                                                <a href="${pageContext.request.contextPath}/editApp?app=${app.getApiKey().getApiKey()}"><button type="button" class="btn btn-default">edit</button></a>
-                                                <c:choose>
-                                                    <c:when test="${app.isEnabled()}">
-                                                        <button type="button" class="btn btn-success" disabled>Enabled</button>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <button type="button" class="btn btn-danger" disabled>Disabled</button>
                                                     </c:otherwise>
                                                 </c:choose>
+                                            <td>
+                                                <a href="${pageContext.request.contextPath}/editApp?app=${app.getApiKey().getApiKey()}"><button type="button" class="btn btn-default">edit</button></a>
+                                                <input name="state" id="app-state" apiKey="${app.getApiKey().getApiKey()}" data-toggle="toggle" data-on="Enabled" data-off="Disabled" type="checkbox" onchange="changeState();" <c:if test="${app.isEnabled()}">checked</c:if>>
                                             </td>
                                         </tr>
                                         <c:set var="count" value="${count + 1}" scope="page"/>
@@ -74,6 +67,13 @@
                 </div>
             </div>
         </div>
+        <script>
+            function changeState() {
+                var apiKey = $('#app-state').attr('apiKey');
+                
+                $.post( "${pageContext.request.contextPath}/editApp", { action: "changeState", apiKey: apiKey } );
+            }
+        </script>
         <%@include file="includes/footer.jsp" %>
     </body>
 </html>
