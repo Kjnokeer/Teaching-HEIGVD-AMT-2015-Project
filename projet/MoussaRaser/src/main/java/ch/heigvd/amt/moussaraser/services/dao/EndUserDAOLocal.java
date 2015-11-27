@@ -20,4 +20,6 @@ public interface EndUserDAOLocal extends IGenericDAO<EndUser, Long> {
    Long getNumberOfEndUsersInApp(Application app);
    
    List<EndUser> getEndUsersInApp(Application app);
+   
+   List<EndUser> getEndUsersByApiKey(String apiKey);
 }
