@@ -41,8 +41,11 @@ public class UsersResource {
         return endUsersDTO;
     }
 
+    @GET
     @Path("/{id}")
-    public EndUser getUser(@PathParam("id") long id) {
-        return endUsersDAO.findById(id);
+    @Produces("application/json")
+    public EndUserDTO getUser(@PathParam("id") long id) {
+        EndUser endUser = endUsersDAO.findById(id);
+        return new EndUserDTO(endUser.getFirstName(), endUser.getLastName());
     }
 }
