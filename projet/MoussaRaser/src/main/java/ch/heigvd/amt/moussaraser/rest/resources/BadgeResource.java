@@ -22,7 +22,7 @@ public class BadgeResource {
    public List<Badge> getBadges() {
       return badgeDAO.findAll();
    }
-
+   
    @GET
    @Path("/{id}")
    @Produces("application/json")

@@ -40,9 +40,9 @@ public class ApplicationConfig extends Application {
      * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(ch.heigvd.amt.moussaraser.rest.config.MyExceptionMapper.class);
-        resources.add(ch.heigvd.amt.moussaraser.rest.config.MyObjectMapperProvider.class);
-        resources.add(ch.heigvd.amt.moussaraser.rest.resources.BadgeResource.class);
+      resources.add(ch.heigvd.amt.moussaraser.rest.config.MyExceptionMapper.class);
+      resources.add(ch.heigvd.amt.moussaraser.rest.config.MyObjectMapperProvider.class);
+      resources.add(ch.heigvd.amt.moussaraser.rest.resources.BadgeResource.class);
       resources.add(ch.heigvd.amt.moussaraser.rest.resources.UsersResource.class);
     }
 
