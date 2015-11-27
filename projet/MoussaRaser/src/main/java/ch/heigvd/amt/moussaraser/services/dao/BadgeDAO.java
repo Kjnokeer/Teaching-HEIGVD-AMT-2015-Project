@@ -6,8 +6,10 @@
 
 package ch.heigvd.amt.moussaraser.services.dao;
 
+import ch.heigvd.amt.moussaraser.model.entities.Application;
 import ch.heigvd.amt.moussaraser.model.entities.Badge;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
@@ -15,10 +17,18 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class BadgeDAO extends GenericDAO<Badge, Long> implements BadgeDAOLocal {
+   
+   @EJB
+   ApplicationDAOLocal applicationDAO;
+   
+   @EJB
+   ApiKeyDAOLocal apiKeyDAO;
 
    @Override
    public List<Badge> getBadgesByApiKey(String apiKey) {
-      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      Application app = applicationDAO.getApplicationByApiKey(apiKeyDAO.findByApiKeyString(apiKey));
+      
+      return em.createNamedQuery("Badge.getAllByApplication").setParameter("app", app).getResultList();
    }
 
 }

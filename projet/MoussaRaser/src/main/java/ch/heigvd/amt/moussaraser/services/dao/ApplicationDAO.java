@@ -22,9 +22,15 @@ public class ApplicationDAO extends GenericDAO<Application, Long> implements App
    public List<Application> getAllApplicationsForUser(User u) {
       return em.createNamedQuery("Application.findAllByUser").setParameter("user", u).getResultList();
    }
+   
+   @Override
+   public Application getApplicationByApiKey(ApiKey apiKey) {
+      return (Application) em.createNamedQuery("Application.findByApiKey").setParameter("apiKey", apiKey).getSingleResult();
+   }
 
    @Override
    public Application getManagedApplicationByApiKey(ApiKey apiKey) {
-      return createAndReturnManagedEntity((Application) em.createNamedQuery("Application.findByApiKey").setParameter("apiKey", apiKey).getSingleResult());
+      return createAndReturnManagedEntity(getApplicationByApiKey(apiKey));
    }
+   
 }

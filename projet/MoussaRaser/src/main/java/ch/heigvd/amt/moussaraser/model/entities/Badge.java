@@ -15,7 +15,7 @@ import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({
-
+   @NamedQuery(name = "Badge.getAllByApplication", query = "SELECT b FROM Badge b WHERE b.application = :app"),
 })
 
 /**

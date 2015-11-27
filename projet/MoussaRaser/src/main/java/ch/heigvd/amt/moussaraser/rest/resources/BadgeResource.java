@@ -2,6 +2,7 @@ package ch.heigvd.amt.moussaraser.rest.resources;
 
 import ch.heigvd.amt.moussaraser.model.entities.Badge;
 import ch.heigvd.amt.moussaraser.services.dao.BadgeDAOLocal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -21,7 +22,13 @@ public class BadgeResource {
    @GET
    @Produces("application/json")
    public List<Badge> getBadges(@QueryParam("apiKey") String apiKey) {
-      return badgeDAO.getBadgesByApiKey(apiKey);
+      try {
+         return badgeDAO.getBadgesByApiKey(apiKey);
+      } catch(Exception e) {
+         
+      }
+      
+      return new ArrayList<Badge>();
    }
    
    @GET
