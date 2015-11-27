@@ -6,7 +6,9 @@
 package ch.heigvd.amt.moussaraser.rest.resources;
 
 import ch.heigvd.amt.moussaraser.model.entities.EndUser;
+import ch.heigvd.amt.moussaraser.rest.dto.EndUserDTO;
 import ch.heigvd.amt.moussaraser.services.dao.EndUserDAOLocal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -23,34 +25,27 @@ import javax.ws.rs.Produces;
 @Path("/users")
 public class UsersResource {
 
-  @EJB
-  EndUserDAOLocal endUsersDAO;
-
-  @GET
-  @Produces("application/json")
-  public List<EndUser> getUsers() {
-    return endUsersDAO.findAll();
-  }
-
-  @Path("/{id}")
-  public EndUser getUser(@PathParam("id") long id) {
-    return endUsersDAO.findById(id);
-  }
-
-  public class EndUserResource {
-
-    private long id;
-
-    public EndUserResource(long id) {
-      this.id = id;
-    }
+    @EJB
+    EndUserDAOLocal endUsersDAO;
 
     @GET
     @Produces("application/json")
-    public EndUser getBeer() {
-      return new EndUser();
+    public List<EndUserDTO> getUsers() {
+        List<EndUser> endUsers = endUsersDAO.findAll();
+        List<EndUserDTO> endUsersDTO = new ArrayList<>();
+
+        for (EndUser endUser : endUsers) {
+            endUsersDTO.add(new EndUserDTO(endUser.getFirstName(), endUser.getLastName()));
+        }
+
+        return endUsersDTO;
     }
 
-  }
+    @GET
+    @Path("/{id}")
+    @Produces("application/json")
+    public EndUserDTO getUser(@PathParam("id") long id) {
+        EndUser endUser = endUsersDAO.findById(id);
+        return new EndUserDTO(endUser.getFirstName(), endUser.getLastName());
+    }
 }
-
