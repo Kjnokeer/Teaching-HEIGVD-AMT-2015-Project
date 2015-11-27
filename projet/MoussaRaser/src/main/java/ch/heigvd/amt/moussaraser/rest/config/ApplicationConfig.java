@@ -43,7 +43,6 @@ public class ApplicationConfig extends Application {
         resources.add(ch.heigvd.amt.moussaraser.rest.config.MyExceptionMapper.class);
         resources.add(ch.heigvd.amt.moussaraser.rest.config.MyObjectMapperProvider.class);
         resources.add(ch.heigvd.amt.moussaraser.rest.resources.UsersResource.class);
-        resources.add(ch.heigvd.amt.moussaraser.rest.resources.UsersResource.EndUserResource.class);
     }
 
 }
