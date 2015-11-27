@@ -9,6 +9,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 @Stateless
 @Path("/badges")
@@ -19,8 +20,8 @@ public class BadgeResource {
 
    @GET
    @Produces("application/json")
-   public List<Badge> getBadges() {
-      return badgeDAO.findAll();
+   public List<Badge> getBadges(@QueryParam("apiKey") String apiKey) {
+      return badgeDAO.getBadgesByApiKey(apiKey);
    }
    
    @GET

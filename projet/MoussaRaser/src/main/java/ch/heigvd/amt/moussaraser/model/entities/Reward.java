@@ -27,6 +27,9 @@ public class Reward extends AbstractDomainModelEntity<Long> {
    private String category;
    private String description;
    private String image;
+   
+   @ManyToOne
+   private Application application;
 
    public Reward() {
    }
