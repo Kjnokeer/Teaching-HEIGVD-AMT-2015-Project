@@ -28,26 +28,6 @@ public class User extends AbstractDomainModelEntity<Long> {
    private String lastName;
    private String email;
    private String password;
-   
-   @ManyToMany
-   private List<Badge> badges;
-  
-   @ManyToMany
-   private List<Reward> rewards;
-   
-   @ManyToOne
-   private Score score;
-
-   public List<Badge> getBadges() {
-      return badges;
-   }
-
-   public void setBadges(List<Badge> badges) {
-      this.badges = badges;
-   }
-
-   @ManyToOne
-   private Role role;
 
    public User() {
    }
@@ -107,19 +87,4 @@ public class User extends AbstractDomainModelEntity<Long> {
    public void setPassword(String password) {
       this.password = password;
    }
-
-   /**
-    * @return the role
-    */
-   public Role getRole() {
-      return role;
-   }
-
-   /**
-    * @param role the role to set
-    */
-   public void setRole(Role role) {
-      this.role = role;
-   }
-
 }
