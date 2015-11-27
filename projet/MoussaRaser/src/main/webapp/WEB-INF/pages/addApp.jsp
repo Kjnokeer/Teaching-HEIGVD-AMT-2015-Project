@@ -44,7 +44,7 @@
                                     <div class="col-md-8">
                                         <input class="btn btn-primary" name="action" value="Register" type="submit">
                                         <span></span>
-                                        <input class="btn btn-default" value="Cancel" type="reset">
+                                        <a class="btn btn-default" href="${pageContext.request.contextPath}/home">Cancel</a>
                                     </div>
                                 </div>
                             </form>
