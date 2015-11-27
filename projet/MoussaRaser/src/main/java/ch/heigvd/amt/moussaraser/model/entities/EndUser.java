@@ -6,7 +6,9 @@
 
 package ch.heigvd.amt.moussaraser.model.entities;
 
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -26,6 +28,15 @@ public class EndUser extends AbstractDomainModelEntity<Long> {
    private Application application;
    private String firstName;
    private String lastName;
+   
+   @ManyToMany
+   private List<Badge> badges;
+  
+   @ManyToMany
+   private List<Reward> rewards;
+   
+   @ManyToOne
+   private Score score;
 
    public EndUser() {
    }
@@ -71,5 +82,31 @@ public class EndUser extends AbstractDomainModelEntity<Long> {
    public void setApplication(Application application) {
       this.application = application;
    }
+
+   public List<Badge> getBadges() {
+      return badges;
+   }
+
+   public void setBadges(List<Badge> badges) {
+      this.badges = badges;
+   }
+
+   public List<Reward> getRewards() {
+      return rewards;
+   }
+
+   public void setRewards(List<Reward> rewards) {
+      this.rewards = rewards;
+   }
+
+   public Score getScore() {
+      return score;
+   }
+
+   public void setScore(Score score) {
+      this.score = score;
+   }
+   
+   
 
 }
