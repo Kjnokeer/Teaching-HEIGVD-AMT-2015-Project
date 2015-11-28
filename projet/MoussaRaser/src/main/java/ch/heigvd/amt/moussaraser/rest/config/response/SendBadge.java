@@ -5,7 +5,7 @@
  */
 package ch.heigvd.amt.moussaraser.rest.config.response;
 
-import ch.heigvd.amt.moussaraser.rest.config.response.error.ErrorObject;
+import ch.heigvd.amt.moussaraser.rest.config.response.message.ErrorObject;
 import javax.ws.rs.core.Response;
 
 /**
@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
  */
 public class SendBadge extends SendResponse {
    
-   public static Response errorUserInvalid() {
+   public static Response errorBadgeInvalid() {
       return Response.status(401)
                 .entity(new ErrorObject("The badge ID you requested was invalid"))
                 .type("application/json")

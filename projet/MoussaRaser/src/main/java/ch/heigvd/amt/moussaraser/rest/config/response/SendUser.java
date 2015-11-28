@@ -5,7 +5,7 @@
  */
 package ch.heigvd.amt.moussaraser.rest.config.response;
 
-import ch.heigvd.amt.moussaraser.rest.config.response.error.ErrorObject;
+import ch.heigvd.amt.moussaraser.rest.config.response.message.ErrorObject;
 import javax.ws.rs.core.Response;
 
 /**
