@@ -7,9 +7,7 @@
 package ch.heigvd.amt.moussaraser.services.dao;
 
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
-import ch.heigvd.amt.moussaraser.model.entities.Application;
 import ch.heigvd.amt.moussaraser.model.entities.Badge;
-import ch.heigvd.amt.moussaraser.model.entities.User;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -19,5 +17,7 @@ import javax.ejb.Local;
 @Local
 public interface BadgeDAOLocal extends IGenericDAO<Badge, Long> {
 
-   List<Badge> getBadgesByApiKey(String apiKey);
+   List<Badge> getBadgesByApiKey(ApiKey apiKey);
+   
+   Badge getBadgeByIdAndByApiKey(Long id, ApiKey apiKey);
 }

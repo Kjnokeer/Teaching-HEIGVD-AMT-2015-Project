@@ -16,6 +16,7 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
    @NamedQuery(name = "Badge.getAllByApplication", query = "SELECT b FROM Badge b WHERE b.application = :app"),
+   @NamedQuery(name = "Badge.getByIdAndByApplication", query = "SELECT b FROM Badge b WHERE b.id = :id AND b.application = :app"),
 })
 
 /**
@@ -65,4 +66,13 @@ public class Badge extends AbstractDomainModelEntity<Long> {
    public void setImage(String image) {
       this.image = image;
    }
+
+   public Application getApplication() {
+      return application;
+   }
+
+   public void setApplication(Application application) {
+      this.application = application;
+   }
+   
 }
