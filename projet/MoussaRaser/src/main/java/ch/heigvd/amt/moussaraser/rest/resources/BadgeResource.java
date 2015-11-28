@@ -18,6 +18,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import ch.heigvd.amt.moussaraser.rest.config.SendResponse;
 import ch.heigvd.amt.moussaraser.web.utils.EncryptionManager;
+import java.util.ArrayList;
+import java.util.List;
 
 @Stateless
 @Path("/badges")
@@ -46,7 +48,14 @@ public class BadgeResource {
          return SendResponse.errorApiKeyInvalid();
       }
       
-      return SendResponse.send200OK(badgeDAO.getBadgesByApiKey(key));
+      List<Badge> badges = badgeDAO.getBadgesByApiKey(key);
+      List<BadgeDTO> badgesDTO = new ArrayList<>();
+      
+      for(Badge badge : badges) {
+         badgesDTO.add(new BadgeDTO(badge.getId(), badge.getName(), badge.getCategory(), badge.getDescription(), badge.getImage()));
+      }
+      
+      return SendResponse.send200OK(badgesDTO);
    }
    
    @POST
