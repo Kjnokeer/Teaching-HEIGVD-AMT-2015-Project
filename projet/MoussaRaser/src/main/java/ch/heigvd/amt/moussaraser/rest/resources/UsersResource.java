@@ -5,25 +5,25 @@
  */
 package ch.heigvd.amt.moussaraser.rest.resources;
 
+import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
 import ch.heigvd.amt.moussaraser.model.entities.EndUser;
+import ch.heigvd.amt.moussaraser.rest.config.response.SendApiKey;
+import ch.heigvd.amt.moussaraser.rest.config.response.SendUser;
 import ch.heigvd.amt.moussaraser.rest.dto.EndUserDTO;
 import ch.heigvd.amt.moussaraser.services.dao.ApiKeyDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.EndUserDAOLocal;
+import ch.heigvd.amt.moussaraser.web.utils.EncryptionManager;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import static javax.ws.rs.HttpMethod.POST;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -33,41 +33,61 @@ import javax.ws.rs.core.MediaType;
 @Path("/users")
 public class UsersResource {
 
-    @EJB
-    EndUserDAOLocal endUsersDAO;
+   @EJB
+   EndUserDAOLocal endUsersDAO;
 
-    @EJB
-    ApplicationDAOLocal applicationDAO;
+   @EJB
+   ApplicationDAOLocal applicationDAO;
 
-    @EJB
-    ApiKeyDAOLocal apiKeyDAO;
+   @EJB
+   ApiKeyDAOLocal apiKeyDAO;
 
-    @GET
-    @Produces("application/json")
-    public List<EndUserDTO> getUsers(@QueryParam("apiKey") String apiKey) {
-        List<EndUser> endUsers;
-        List<EndUserDTO> endUsersDTO = new ArrayList<>();
-        try {
-            endUsers = endUsersDAO.getEndUsersByApiKey(apiKey);
-        }
-        catch(Exception e) {
-            return endUsersDTO;
-        }
-        
+   @GET
+   @Produces("application/json")
+   public Response getEndUsers(@QueryParam("apiKey") String apiKey) {
 
-        for (EndUser endUser : endUsers) {
-            endUsersDTO.add(new EndUserDTO(endUser.getFirstName(), endUser.getLastName()));
-        }
+      if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
+         return SendApiKey.errorApiKeyNotProvided();
+      }
 
-        return endUsersDTO;
-    }
-    
-    @GET
-    @Path("/{id}")
-    @Produces("application/json")
-    public EndUserDTO getUser(@PathParam("id") long id) {
-        EndUser endUser = endUsersDAO.findById(id);
-        return new EndUserDTO(endUser.getFirstName(), endUser.getLastName());
-    }
+      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+
+      if (key == null) {
+         return SendApiKey.errorApiKeyInvalid();
+      }
+
+      List<EndUser> endUsers = endUsersDAO.getEndUsersByApiKey(key);
+      List<EndUserDTO> endUsersDTO = new ArrayList<>();
+      
+      for (EndUser endUser : endUsers) {
+         endUsersDTO.add(new EndUserDTO(endUser.getFirstName(), endUser.getLastName()));
+      }
+      
+      return SendUser.send200OK(endUsersDTO);
+   }
+
+   @GET
+   @Path("/{id}")
+   @Produces("application/json")
+   public Response getEndUser(@PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+      
+      if(apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
+         return SendApiKey.errorApiKeyNotProvided();
+      }
+      
+      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+      
+      if(key == null) {
+         return SendApiKey.errorApiKeyInvalid();
+      }
+      
+      EndUser endUser = endUsersDAO.findById(id);
+      
+      if(endUser == null) {
+         return SendUser.errorUserInvalid();
+      }
+      
+      return SendUser.send200OK(new EndUserDTO(endUser.getFirstName(), endUser.getLastName()));
+   }
 
 }

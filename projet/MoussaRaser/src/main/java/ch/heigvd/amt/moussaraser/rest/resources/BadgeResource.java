@@ -2,6 +2,8 @@ package ch.heigvd.amt.moussaraser.rest.resources;
 
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
 import ch.heigvd.amt.moussaraser.model.entities.Badge;
+import ch.heigvd.amt.moussaraser.rest.config.response.SendApiKey;
+import ch.heigvd.amt.moussaraser.rest.config.response.SendBadge;
 import ch.heigvd.amt.moussaraser.rest.dto.BadgeDTO;
 import ch.heigvd.amt.moussaraser.services.dao.ApiKeyDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;
@@ -16,7 +18,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
-import ch.heigvd.amt.moussaraser.rest.config.SendResponse;
 import ch.heigvd.amt.moussaraser.web.utils.EncryptionManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,13 +40,13 @@ public class BadgeResource {
    public Response getBadges(@QueryParam("apiKey") String apiKey) {
       
       if(apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
-         return SendResponse.errorApiKeyNotProvided();
+         return SendApiKey.errorApiKeyNotProvided();
       }
       
       ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
       
       if(key == null) {
-         return SendResponse.errorApiKeyInvalid();
+         return SendApiKey.errorApiKeyInvalid();
       }
       
       List<Badge> badges = badgeDAO.getBadgesByApiKey(key);
@@ -55,7 +56,7 @@ public class BadgeResource {
          badgesDTO.add(new BadgeDTO(badge.getId(), badge.getName(), badge.getCategory(), badge.getDescription(), badge.getImage()));
       }
       
-      return SendResponse.send200OK(badgesDTO);
+      return SendBadge.send200OK(badgesDTO);
    }
    
    @POST
@@ -64,20 +65,20 @@ public class BadgeResource {
    public Response createBadge(Badge b, @QueryParam("apiKey") String apiKey) {
       
       if(apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
-         return SendResponse.errorApiKeyNotProvided();
+         return SendApiKey.errorApiKeyNotProvided();
       }
       
       ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
       
       if(key == null) {
-         return SendResponse.errorApiKeyInvalid();
+         return SendApiKey.errorApiKeyInvalid();
       }
       
       b.setApplication(applicationDAO.getApplicationByApiKey(key));
       
       badgeDAO.create(b);
       
-      return SendResponse.send200OK(new BadgeDTO(b.getId(), b.getName(), b.getCategory(), b.getDescription(), b.getImage()));
+      return SendBadge.send200OK(new BadgeDTO(b.getId(), b.getName(), b.getCategory(), b.getDescription(), b.getImage()));
    }
    
    @GET
@@ -86,15 +87,21 @@ public class BadgeResource {
    public Response getBadge(@PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
       
       if(apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
-         return SendResponse.errorApiKeyNotProvided();
+         return SendApiKey.errorApiKeyNotProvided();
       }
       
       ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
       
       if(key == null) {
-         return SendResponse.errorApiKeyInvalid();
+         return SendApiKey.errorApiKeyInvalid();
       }
       
-      return SendResponse.send200OK(badgeDAO.getBadgeByIdAndByApiKey(id, key));
+      Badge b = badgeDAO.getBadgeByIdAndByApiKey(id, key);
+      
+      if(b == null) {
+         return SendBadge.errorUserInvalid();
+      }
+      
+      return SendBadge.send200OK(new BadgeDTO(b.getId(), b.getName(), b.getCategory(), b.getDescription(), b.getImage()));
    }
 }

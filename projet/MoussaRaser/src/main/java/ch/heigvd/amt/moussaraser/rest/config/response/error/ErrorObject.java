@@ -3,17 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.heigvd.amt.moussaraser.rest.config;
+package ch.heigvd.amt.moussaraser.rest.config.response.error;
 
 /**
  *
  * @author Mathias
  */
-public class ErrorApiKey {
+public class ErrorObject {
  
    private String error;
 
-   public ErrorApiKey(String error) {
+   public ErrorObject(String error) {
       this.error = error;
    }
 

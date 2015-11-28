@@ -6,6 +6,7 @@
 
 package ch.heigvd.amt.moussaraser.services.dao;
 
+import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
 import ch.heigvd.amt.moussaraser.model.entities.Application;
 import ch.heigvd.amt.moussaraser.model.entities.EndUser;
 import java.util.List;
@@ -21,9 +22,6 @@ public class EndUserDAO extends GenericDAO<EndUser, Long> implements EndUserDAOL
     @EJB
     ApplicationDAOLocal applicationDAO;
     
-    @EJB
-    ApiKeyDAOLocal apiKeyDAO;
-    
     @Override
     public Long getNumberOfEndUsersInApp(Application app) {
         return (Long)em.createNamedQuery("EndUser.getNumberOfEndUsersInApp").setParameter("app", app).getSingleResult();
@@ -35,8 +33,9 @@ public class EndUserDAO extends GenericDAO<EndUser, Long> implements EndUserDAOL
     }
     
     @Override
-    public List<EndUser> getEndUsersByApiKey(String apiKey) {
-        Application application = applicationDAO.getManagedApplicationByApiKey(apiKeyDAO.findByApiKeyString(apiKey));
+    public List<EndUser> getEndUsersByApiKey(ApiKey apiKey) {
+        Application application = applicationDAO.getManagedApplicationByApiKey(apiKey);
+        
         return getEndUsersInApp(application);
     }
 }

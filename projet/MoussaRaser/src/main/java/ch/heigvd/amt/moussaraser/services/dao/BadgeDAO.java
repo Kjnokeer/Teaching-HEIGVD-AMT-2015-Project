@@ -12,6 +12,7 @@ import ch.heigvd.amt.moussaraser.model.entities.Badge;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 
 /**
  * DAO correspondant à l'entité (table) Application
@@ -33,7 +34,11 @@ public class BadgeDAO extends GenericDAO<Badge, Long> implements BadgeDAOLocal {
    public Badge getBadgeByIdAndByApiKey(Long id, ApiKey apiKey) {
       Application app = applicationDAO.getApplicationByApiKey(apiKey);
       
-      return (Badge) em.createNamedQuery("Badge.getByIdAndByApplication").setParameter("id", id).setParameter("app", app).getSingleResult();
+      try {
+         return (Badge) em.createNamedQuery("Badge.getByIdAndByApplication").setParameter("id", id).setParameter("app", app).getSingleResult();
+      } catch(NoResultException e) {
+         return null;
+      }
    }
 
 }

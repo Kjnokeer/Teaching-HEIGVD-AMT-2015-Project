@@ -6,6 +6,7 @@
 
 package ch.heigvd.amt.moussaraser.services.dao;
 
+import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
 import ch.heigvd.amt.moussaraser.model.entities.Application;
 import ch.heigvd.amt.moussaraser.model.entities.EndUser;
 import java.util.List;
@@ -21,5 +22,5 @@ public interface EndUserDAOLocal extends IGenericDAO<EndUser, Long> {
    
    List<EndUser> getEndUsersInApp(Application app);
    
-   List<EndUser> getEndUsersByApiKey(String apiKey);
+   List<EndUser> getEndUsersByApiKey(ApiKey apiKey);
 }
