@@ -7,10 +7,8 @@
 package ch.heigvd.amt.moussaraser.services.dao;
 
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
-import ch.heigvd.amt.moussaraser.model.entities.Application;
-import ch.heigvd.amt.moussaraser.model.entities.User;
-import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 
 /**
  * DAO correspondant à l'entité (table) Application
@@ -20,7 +18,11 @@ public class ApiKeyDAO extends GenericDAO<ApiKey, Long> implements ApiKeyDAOLoca
 
    @Override
    public ApiKey findByApiKeyString(String apiKeyStr) {
-      return (ApiKey) em.createNamedQuery("ApiKey.findByApiKeyStr").setParameter("apiKey", apiKeyStr).getSingleResult();
+      try {
+         return (ApiKey) em.createNamedQuery("ApiKey.findByApiKeyStr").setParameter("apiKey", apiKeyStr).getSingleResult();
+      } catch(NoResultException e) {
+         return null;
+      }
    }
 
 }
