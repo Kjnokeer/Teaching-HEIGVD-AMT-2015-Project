@@ -13,12 +13,34 @@ import ch.heigvd.amt.moussaraser.model.entities.LeaderBoard;
 import ch.heigvd.amt.moussaraser.model.entities.Reward;
 import ch.heigvd.amt.moussaraser.model.entities.User;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 
 /**
  * DAO correspondant à l'entité (table) Application
  */
 @Stateless
 public class RewardDAO extends GenericDAO<Reward, Long> implements RewardDAOLocal {
+
+   @EJB
+   ApplicationDAOLocal applicationDAO;
+   
+   @Override
+   public List<Reward> getRewardsByApiKey(ApiKey apiKey) {
+      Application app = applicationDAO.getApplicationByApiKey(apiKey);
+      return em.createNamedQuery("Reward.getAllByApplication").setParameter("app", app).getResultList();    
+   }
+
+   @Override
+   public Reward getRewardsByIdAndByApiKey(Long id, ApiKey apiKey) {
+      Application app = applicationDAO.getApplicationByApiKey(apiKey);
+      
+      try {
+         return (Reward) em.createNamedQuery("Reward.getByIdAndByApplication").setParameter("id", id).setParameter("app", app).getSingleResult();
+      } catch(NoResultException e) {
+         return null;
+      }
+   }
 
 }

@@ -20,4 +20,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface RewardDAOLocal extends IGenericDAO<Reward, Long> {
+   List<Reward> getRewardsByApiKey(ApiKey apiKey);
+   Reward getRewardsByIdAndByApiKey(Long id, ApiKey apiKey);
 }

@@ -42,6 +42,7 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
       resources.add(ch.heigvd.amt.moussaraser.rest.config.MyObjectMapperProvider.class);
       resources.add(ch.heigvd.amt.moussaraser.rest.resources.BadgeResource.class);
+      resources.add(ch.heigvd.amt.moussaraser.rest.resources.RewardsRessource.class);
       resources.add(ch.heigvd.amt.moussaraser.rest.resources.UsersResource.class);
     }
 

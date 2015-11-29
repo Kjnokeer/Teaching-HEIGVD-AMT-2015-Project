@@ -26,6 +26,7 @@ public class EndUser extends AbstractDomainModelEntity<Long> {
 
    @ManyToOne
    private Application application;
+   
    private String firstName;
    private String lastName;
    
