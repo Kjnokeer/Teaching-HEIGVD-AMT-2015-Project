@@ -16,7 +16,8 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
    @NamedQuery(name = "EndUser.getNumberOfEndUsersInApp", query = "SELECT COUNT(eu) FROM EndUser eu WHERE eu.application = :app"),
-   @NamedQuery(name = "EndUser.getEndUsersInApp", query = "SELECT eu FROM EndUser eu WHERE eu.application = :app")
+   @NamedQuery(name = "EndUser.getEndUsersInApp", query = "SELECT eu FROM EndUser eu WHERE eu.application = :app"),
+   @NamedQuery(name = "EndUser.getEndUserByIdAndApp", query = "SELECT eu FROM EndUser eu WHERE eu.id = :id AND eu.application = :app")
 })
 
 /**
@@ -24,11 +25,11 @@ import javax.persistence.NamedQuery;
  */
 public class EndUser extends AbstractDomainModelEntity<Long> {
 
-   @ManyToOne
-   private Application application;
-   
    private String firstName;
    private String lastName;
+   
+   @ManyToOne
+   private Application application;
    
    @ManyToMany
    private List<Badge> badges;

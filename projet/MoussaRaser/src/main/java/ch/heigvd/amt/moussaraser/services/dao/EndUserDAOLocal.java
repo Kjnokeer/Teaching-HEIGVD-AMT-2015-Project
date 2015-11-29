@@ -17,10 +17,8 @@ import javax.ejb.Local;
  */
 @Local
 public interface EndUserDAOLocal extends IGenericDAO<EndUser, Long> {
-
-   Long getNumberOfEndUsersInApp(Application app);
-   
-   List<EndUser> getEndUsersInApp(Application app);
-   
+   Long getNumberOfEndUsersInApp(Application app);  
+   List<EndUser> getEndUsersInApp(Application app);   
    List<EndUser> getEndUsersByApiKey(ApiKey apiKey);
+   EndUser getEndUserByIdAndByApiKey(Long id, ApiKey apiKey);
 }

@@ -20,5 +20,4 @@ public class SendUser extends SendResponse {
                 .type("application/json")
                 .build();
    }
-   
 }

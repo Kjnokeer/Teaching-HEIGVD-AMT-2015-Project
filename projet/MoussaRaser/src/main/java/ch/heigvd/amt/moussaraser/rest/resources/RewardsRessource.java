@@ -2,10 +2,12 @@ package ch.heigvd.amt.moussaraser.rest.resources;
 
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
 import ch.heigvd.amt.moussaraser.model.entities.Badge;
+import ch.heigvd.amt.moussaraser.model.entities.EndUser;
 import ch.heigvd.amt.moussaraser.model.entities.Reward;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendApiKey;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendBadge;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendReward;
+import ch.heigvd.amt.moussaraser.rest.config.response.message.ErrorObject;
 import ch.heigvd.amt.moussaraser.rest.config.response.message.InfoObject;
 import ch.heigvd.amt.moussaraser.rest.dto.BadgeDTO;
 import ch.heigvd.amt.moussaraser.rest.dto.RewardDTO;
@@ -91,7 +93,7 @@ public class RewardsRessource {
       
       rewardDAO.create(reward);
       
-      return SendBadge.send200OK(new BadgeDTO(
+      return SendReward.send200OK(new BadgeDTO(
               reward.getId(), 
               reward.getName(), 
               reward.getCategory(), 
@@ -158,7 +160,7 @@ public class RewardsRessource {
       updateReward.setDescription(reward.getDescription());
       updateReward.setImage(reward.getImage());
       
-      return SendBadge.send200OK(new RewardDTO(
+      return SendReward.send200OK(new RewardDTO(
               updateReward.getId(), 
               updateReward.getName(), 
               updateReward.getCategory(), 
@@ -190,7 +192,7 @@ public class RewardsRessource {
       
       rewardDAO.delete(reward);
       
-      return SendBadge.send200OK(new InfoObject("Reward successfully deleted"));
+      return SendReward.send200OK(new InfoObject("Reward successfully deleted"));
    }
    
 }

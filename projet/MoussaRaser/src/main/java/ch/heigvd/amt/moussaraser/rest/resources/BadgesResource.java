@@ -27,7 +27,7 @@ import javax.ws.rs.PUT;
 
 @Stateless
 @Path("/badges")
-public class BadgeResource {
+public class BadgesResource {
 
    @EJB
    BadgeDAOLocal badgeDAO;

@@ -21,4 +21,11 @@ public class SendResponse {
               .build();
    }
    
+   public static Response missingDataInPayload(Object toSend) {
+      return Response.status(500)
+              .entity(toSend)
+              .type("application/json")
+              .build();
+   }
+   
 }

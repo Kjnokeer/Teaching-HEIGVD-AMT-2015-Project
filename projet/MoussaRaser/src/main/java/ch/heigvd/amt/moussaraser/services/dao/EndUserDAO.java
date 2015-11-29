@@ -12,6 +12,7 @@ import ch.heigvd.amt.moussaraser.model.entities.EndUser;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 
 /**
  * DAO correspondant à l'entité (table) Application
@@ -38,4 +39,15 @@ public class EndUserDAO extends GenericDAO<EndUser, Long> implements EndUserDAOL
         
         return getEndUsersInApp(application);
     }
+
+   @Override
+   public EndUser getEndUserByIdAndByApiKey(Long id, ApiKey apiKey) {
+      Application app = applicationDAO.getApplicationByApiKey(apiKey);
+      
+      try {
+         return (EndUser) em.createNamedQuery("EndUser.getEndUserByIdAndApp").setParameter("id", id).setParameter("app", app).getSingleResult();
+      } catch(NoResultException e) {
+         return null;
+      }
+   }
 }

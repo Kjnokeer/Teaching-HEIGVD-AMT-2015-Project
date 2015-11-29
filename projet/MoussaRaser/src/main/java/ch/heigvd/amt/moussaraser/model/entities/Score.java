@@ -29,6 +29,7 @@ public class Score extends AbstractDomainModelEntity<Long> {
    LeaderBoard leaderBoard;
 
    public Score() {
+      score = 0;
    }
 
    public int getScore() {

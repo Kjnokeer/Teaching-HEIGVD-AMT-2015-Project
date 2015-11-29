@@ -16,8 +16,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface BadgeDAOLocal extends IGenericDAO<Badge, Long> {
-
    List<Badge> getBadgesByApiKey(ApiKey apiKey);
-   
    Badge getBadgeByIdAndByApiKey(Long id, ApiKey apiKey);
 }
