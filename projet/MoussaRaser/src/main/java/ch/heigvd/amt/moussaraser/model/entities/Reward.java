@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @NamedQueries({
@@ -24,8 +25,8 @@ import javax.persistence.NamedQuery;
  */
 public class Reward extends AbstractDomainModelEntity<Long> {
 
-   private String name;
-   private String category;
+   @NotNull private String name;
+   @NotNull private String category;
    private String description;
    private String image;
    

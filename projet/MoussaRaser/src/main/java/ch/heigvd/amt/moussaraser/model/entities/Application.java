@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @NamedQueries({
@@ -25,7 +26,7 @@ import javax.persistence.OneToOne;
  */
 public class Application extends AbstractDomainModelEntity<Long> {
 
-   private String name;
+   @NotNull private String name;
    private String description;
    private boolean enabled;
    

@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @NamedQueries({
@@ -25,8 +26,9 @@ import javax.persistence.NamedQuery;
  */
 public class EndUser extends AbstractDomainModelEntity<Long> {
 
-   private String firstName;
-   private String lastName;
+   @NotNull private String firstName;
+   @NotNull private String lastName;
+   private long score = 0;
    
    @ManyToOne
    private Application application;
@@ -36,9 +38,6 @@ public class EndUser extends AbstractDomainModelEntity<Long> {
   
    @ManyToMany
    private List<Reward> rewards;
-   
-   @ManyToOne
-   private Score score;
 
    public EndUser() {
    }
@@ -101,14 +100,13 @@ public class EndUser extends AbstractDomainModelEntity<Long> {
       this.rewards = rewards;
    }
 
-   public Score getScore() {
+   public long getScore() {
       return score;
    }
 
-   public void setScore(Score score) {
+   public void setScore(long score) {
       this.score = score;
    }
    
    
-
 }

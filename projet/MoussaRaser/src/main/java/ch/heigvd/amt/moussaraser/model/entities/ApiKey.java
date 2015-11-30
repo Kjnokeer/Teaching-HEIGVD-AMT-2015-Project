@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @NamedQueries({
@@ -21,7 +22,7 @@ import javax.persistence.NamedQuery;
  */
 public class ApiKey extends AbstractDomainModelEntity<Long> {
 
-   private String apiKey;
+   @NotNull private String apiKey;
 
    public ApiKey() {
    }

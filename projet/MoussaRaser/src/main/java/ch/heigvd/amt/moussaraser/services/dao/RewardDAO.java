@@ -9,7 +9,6 @@ package ch.heigvd.amt.moussaraser.services.dao;
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
 import ch.heigvd.amt.moussaraser.model.entities.Application;
 import ch.heigvd.amt.moussaraser.model.entities.Badge;
-import ch.heigvd.amt.moussaraser.model.entities.LeaderBoard;
 import ch.heigvd.amt.moussaraser.model.entities.Reward;
 import ch.heigvd.amt.moussaraser.model.entities.User;
 import java.util.List;
@@ -33,7 +32,7 @@ public class RewardDAO extends GenericDAO<Reward, Long> implements RewardDAOLoca
    }
 
    @Override
-   public Reward getRewardsByIdAndByApiKey(Long id, ApiKey apiKey) {
+   public Reward getRewardByIdAndByApiKey(Long id, ApiKey apiKey) {
       Application app = applicationDAO.getApplicationByApiKey(apiKey);
       
       try {

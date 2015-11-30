@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @NamedQueries({
@@ -24,10 +25,10 @@ import javax.persistence.NamedQuery;
  */
 public class User extends AbstractDomainModelEntity<Long> {
 
-   private String firstName;
-   private String lastName;
-   private String email;
-   private String password;
+   @NotNull private String firstName;
+   @NotNull private String lastName;
+   @NotNull private String email;
+   @NotNull private String password;
 
    public User() {
    }

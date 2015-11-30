@@ -6,22 +6,25 @@
 package ch.heigvd.amt.moussaraser.rest.resources;
 
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
+import ch.heigvd.amt.moussaraser.model.entities.Badge;
 import ch.heigvd.amt.moussaraser.model.entities.EndUser;
 import ch.heigvd.amt.moussaraser.model.entities.Reward;
-import ch.heigvd.amt.moussaraser.model.entities.Score;
 import ch.heigvd.amt.moussaraser.model.entities.User;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendApiKey;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendBadge;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendResponse;
+import ch.heigvd.amt.moussaraser.rest.config.response.SendReward;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendUser;
 import ch.heigvd.amt.moussaraser.rest.config.response.message.ErrorObject;
 import ch.heigvd.amt.moussaraser.rest.config.response.message.InfoObject;
 import ch.heigvd.amt.moussaraser.rest.dto.BadgeDTO;
 import ch.heigvd.amt.moussaraser.rest.dto.EndUserDTO;
+import ch.heigvd.amt.moussaraser.rest.dto.RewardDTO;
 import ch.heigvd.amt.moussaraser.services.dao.ApiKeyDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;
+import ch.heigvd.amt.moussaraser.services.dao.BadgeDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.EndUserDAOLocal;
-import ch.heigvd.amt.moussaraser.services.dao.ScoreDAOLocal;
+import ch.heigvd.amt.moussaraser.services.dao.RewardDAOLocal;
 import ch.heigvd.amt.moussaraser.web.utils.EncryptionManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,11 +59,10 @@ public class UsersResource {
    ApiKeyDAOLocal apiKeyDAO;
    
    @EJB
-   ScoreDAOLocal scoreDAO;
-
-   public boolean isPayloadValid(EndUser payload) {
-      return !(payload.getFirstName() == null || payload.getLastName() == null);
-   }
+   BadgeDAOLocal badgeDAO;
+   
+   @EJB
+   RewardDAOLocal rewardDAO;
    
    @GET
    @Produces("application/json")
@@ -91,12 +93,6 @@ public class UsersResource {
    @Produces("application/json")
    public Response createUser(EndUser endUser, @QueryParam("apiKey") String apiKey) {
       
-      if(!isPayloadValid(endUser)) {
-         return SendUser.missingDataInPayload(new ErrorObject(
-                 "firstName or lastName miss in the payload"
-         ));
-      }
-      
       if(apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
          return SendApiKey.errorApiKeyNotProvided();
       }
@@ -108,7 +104,6 @@ public class UsersResource {
       }
       
       endUser.setApplication(applicationDAO.getApplicationByApiKey(key));
-      endUser.setScore(scoreDAO.createAndReturnManagedEntity(new Score()));
       
       endUsersDAO.create(endUser);
       
@@ -133,7 +128,7 @@ public class UsersResource {
          return SendApiKey.errorApiKeyInvalid();
       }
       
-      EndUser endUser = endUsersDAO.findById(id);
+      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(id, key);
       
       if(endUser == null) {
          return SendUser.errorUserInvalid();
@@ -147,12 +142,6 @@ public class UsersResource {
    @Consumes("application/json")
    @Produces("application/json")
    public Response updateUser(EndUser endUser, @PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
-      
-      if(!isPayloadValid(endUser)) {
-         return SendUser.missingDataInPayload(new ErrorObject(
-                 "firstName or lastName miss in the payload"
-         ));
-      }
       
       if(apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
          return SendApiKey.errorApiKeyNotProvided();
@@ -211,6 +200,215 @@ public class UsersResource {
       return SendUser.send200OK(new InfoObject(
               "User successfully deleted"
       ));
+   }
+   
+   @GET
+   @Path("/{id}/badges")
+   @Produces("application/json")
+   public Response getBadgesOfUser(@PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+      if(apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
+         return SendApiKey.errorApiKeyNotProvided();
+      }
+      
+      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+      
+      if(key == null) {
+         return SendApiKey.errorApiKeyInvalid();
+      }
+      
+      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(id, key);
+      
+      if(endUser == null) {
+         return SendUser.errorUserInvalid();
+      }
+      
+      List<Badge> badges = endUser.getBadges();
+      ArrayList<BadgeDTO> badgesDTO = new ArrayList<>();
+      
+      for(Badge badge : badges) {
+         badgesDTO.add(new BadgeDTO(
+                 badge.getId(), 
+                 badge.getName(), 
+                 badge.getCategory(),
+                 badge.getDescription(),
+                 badge.getImage()
+         ));
+      }
+            
+      return SendUser.send200OK(badgesDTO);
+   }
+   
+   @POST
+   @Path("/{id}/badges")
+   @Consumes("application/json")
+   @Produces("application/json")
+   public Response createBadgeOfUser(Badge badge, @PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+      if(apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
+         return SendApiKey.errorApiKeyNotProvided();
+      }
+      
+      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+      
+      if(key == null) {
+         return SendApiKey.errorApiKeyInvalid();
+      }
+      
+      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(id, key);
+      
+      if(endUser == null) {
+         return SendUser.errorUserInvalid();
+      }
+      
+      Badge managedBadge = badgeDAO.createAndReturnManagedEntity(badge);
+      managedBadge.setApplication(applicationDAO.getApplicationByApiKey(key));
+      endUser.getBadges().add(managedBadge);
+      endUsersDAO.update(endUser);
+            
+      return SendUser.send200OK(new InfoObject("New badge successfully added"));
+   }
+   
+   @DELETE
+   @Path("/{idUser}/badges/{idBadge}")
+   @Produces("application/json")
+   public Response deleteBadgeOfUser(
+           @PathParam("idUser") long idUser,
+           @PathParam("idBadge") long idBadge,
+           @QueryParam("apiKey") String apiKey)
+   {
+      if(apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
+         return SendApiKey.errorApiKeyNotProvided();
+      }
+      
+      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+      
+      if(key == null) {
+         return SendApiKey.errorApiKeyInvalid();
+      }
+      
+      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(idUser, key);
+      
+      if(endUser == null) {
+         return SendUser.errorUserInvalid();
+      }
+      
+      Badge badge = badgeDAO.getBadgeByIdAndByApiKey(idBadge, key);
+      
+      if(badge == null) {
+         return SendBadge.errorBadgeInvalid();
+      }
+      
+      String infoMsg = "Badge successfully deleted";
+      if(!endUser.getBadges().remove(badge)) {
+         infoMsg = "Nothing deleted, the user doesn't have this badge.";
+      }
+      
+      endUsersDAO.update(endUser);
+        
+      return SendUser.send200OK(new InfoObject(infoMsg));
+   }
+   
+   @GET
+   @Path("/{id}/rewards")
+   @Produces("application/json")
+   public Response getRewardsOfUser(@PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+      if(apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
+         return SendApiKey.errorApiKeyNotProvided();
+      }
+      
+      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+      
+      if(key == null) {
+         return SendApiKey.errorApiKeyInvalid();
+      }
+      
+      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(id, key);
+      
+      if(endUser == null) {
+         return SendUser.errorUserInvalid();
+      }
+      
+      List<Reward> rewards = endUser.getRewards();
+      ArrayList<RewardDTO> rewardsDTO = new ArrayList<>();
+      
+      for(Reward reward : rewards) {
+         rewardsDTO.add(new RewardDTO(
+                 reward.getId(), 
+                 reward.getName(), 
+                 reward.getCategory(),
+                 reward.getDescription(),
+                 reward.getImage()
+         ));
+      }
+            
+      return SendUser.send200OK(rewardsDTO);
+   }
+   
+   @POST
+   @Path("/{id}/rewards")
+   @Consumes("application/json")
+   @Produces("application/json")
+   public Response createRewardOfUser(Reward reward, @PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+      if(apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
+         return SendApiKey.errorApiKeyNotProvided();
+      }
+      
+      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+      
+      if(key == null) {
+         return SendApiKey.errorApiKeyInvalid();
+      }
+      
+      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(id, key);
+      
+      if(endUser == null) {
+         return SendUser.errorUserInvalid();
+      }
+      
+      Reward managedReward = rewardDAO.createAndReturnManagedEntity(reward);
+      managedReward.setApplication(applicationDAO.getApplicationByApiKey(key));
+      endUser.getRewards().add(managedReward);
+      endUsersDAO.update(endUser);
+            
+      return SendUser.send200OK(new InfoObject("New reward successfully added"));
+   }
+   
+   @DELETE
+   @Path("/{idUser}/rewards/{idBadge}")
+   @Produces("application/json")
+   public Response deleteRewardOfUser(
+           @PathParam("idUser") long idUser,
+           @PathParam("idBadge") long idBadge,
+           @QueryParam("apiKey") String apiKey)
+   {
+      if(apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
+         return SendApiKey.errorApiKeyNotProvided();
+      }
+      
+      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+      
+      if(key == null) {
+         return SendApiKey.errorApiKeyInvalid();
+      }
+      
+      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(idUser, key);
+      
+      if(endUser == null) {
+         return SendUser.errorUserInvalid();
+      }
+      
+      Reward reward = rewardDAO.getRewardByIdAndByApiKey(idBadge, key);
+      
+      if(reward == null) {
+         return SendReward.errorRewardInvalid();
+      }
+      
+      String infoMsg = "Reward successfully deleted";
+      if(!endUser.getRewards().remove(reward))
+         infoMsg = "Nothing deleted, the user doesn't have this reward.";
+      
+      endUsersDAO.update(endUser);
+        
+      return SendUser.send200OK(new InfoObject(infoMsg));
    }
 
 }

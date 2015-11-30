@@ -117,7 +117,7 @@ public class RewardsRessource {
          return SendApiKey.errorApiKeyInvalid();
       }
       
-      Reward reward = rewardDAO.getRewardsByIdAndByApiKey(id, key);
+      Reward reward = rewardDAO.getRewardByIdAndByApiKey(id, key);
       
       if(reward == null) {
          return SendReward.errorRewardInvalid();
@@ -148,7 +148,7 @@ public class RewardsRessource {
          return SendApiKey.errorApiKeyInvalid();
       }
       
-      Reward tmp = rewardDAO.getRewardsByIdAndByApiKey(id, key);
+      Reward tmp = rewardDAO.getRewardByIdAndByApiKey(id, key);
       
       if(tmp == null) {
          return SendReward.errorRewardInvalid();
@@ -184,7 +184,7 @@ public class RewardsRessource {
          return SendApiKey.errorApiKeyInvalid();
       }
       
-      Reward reward = rewardDAO.getRewardsByIdAndByApiKey(id, key);
+      Reward reward = rewardDAO.getRewardByIdAndByApiKey(id, key);
       
       if(reward == null) {
          return SendReward.errorRewardInvalid();
