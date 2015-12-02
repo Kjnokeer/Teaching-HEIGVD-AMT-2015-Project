@@ -5,10 +5,7 @@
 package ch.heigvd.amt.moussaraser.services.dao;
 
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
-import ch.heigvd.amt.moussaraser.model.entities.Application;
-import ch.heigvd.amt.moussaraser.model.entities.Badge;
 import ch.heigvd.amt.moussaraser.model.entities.Reward;
-import ch.heigvd.amt.moussaraser.model.entities.User;
 import java.util.List;
 import javax.ejb.Local;
 

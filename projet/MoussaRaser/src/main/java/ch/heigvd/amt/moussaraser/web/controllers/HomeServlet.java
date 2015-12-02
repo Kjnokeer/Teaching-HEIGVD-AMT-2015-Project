@@ -7,7 +7,6 @@ package ch.heigvd.amt.moussaraser.web.controllers;
 import ch.heigvd.amt.moussaraser.model.entities.Application;
 import ch.heigvd.amt.moussaraser.model.entities.User;
 import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;
-import ch.heigvd.amt.moussaraser.services.dao.EndUserDAO;
 import ch.heigvd.amt.moussaraser.services.dao.EndUserDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.UsersDAOLocal;
 import java.io.IOException;
