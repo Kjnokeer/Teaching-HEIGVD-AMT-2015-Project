@@ -2,12 +2,9 @@ package ch.heigvd.amt.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.probedock.client.annotations.ProbeTest;
 import java.io.IOException;
-import java.util.List;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -18,7 +15,6 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.Before;
 
 public class RestApiTest {
-
     private final String baseUrl = "http://localhost:8080/MoussaRaser/api";
     // Clé api avec le bon format mais qui n'existe pas dans la base de données
     private final String fakeApiKey = "092abcde6ec143c0bbe132253263e34s";
@@ -26,6 +22,10 @@ public class RestApiTest {
     private final String apiKeyWithUsers = "092abcde6ec143c0bbe132253263e340";
     // Clé api d'une application existante avec utilisateurs finaux
     private final String apiKeyWithoutUsers = "8def28edc4504a93b1acf88475f4d707";
+    // Id utilisateur à modifier
+    private final String idUserToModify = "1";
+    // Id utilisateur à modifier
+    private final String idUserToDisplay = "2";
 
     private Client client;
     private ObjectMapper mapper;
@@ -134,6 +134,7 @@ public class RestApiTest {
          * L'api doit renvoyer les informations suivantes
          */
         for (JsonNode users : rootNodeasArray) {
+            assertThat(users.get("id")).isNotNull();
             assertThat(users.get("firstname")).isNotNull();
             assertThat(users.get("lastname")).isNotNull();
         }
@@ -200,6 +201,7 @@ public class RestApiTest {
          */
         String jsonPayload = response.readEntity(String.class);
         JsonNode root = mapper.readTree(jsonPayload);
+        assertThat(root.get("id")).isNotNull();
         assertThat(root.get("firstname").asText().compareToIgnoreCase(firstName));
         assertThat(root.get("lastname").asText().compareToIgnoreCase(lastName));
     }
@@ -219,18 +221,51 @@ public class RestApiTest {
          * Requête POST à l'api pour ajouter l'utilisateur créé auparavant à
          * l'application
          */
-        WebTarget target = client.target(baseUrl).path("users").path("1").queryParam("apiKey", apiKeyWithUsers);
+        WebTarget target = client.target(baseUrl).path("users").path(idUserToModify).queryParam("apiKey", apiKeyWithUsers);
         Response response = target.request().put(Entity.entity(userInfo, "application/json"));
 
         /**
          * L'api doit renvoyer un code 201
          */
-        assertThat(response.getStatus()).isEqualTo(Response.Status.CREATED.getStatusCode());
+        assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
 
         /**
          * L'api doit renvoyer les informations de l'utilisateur correctes
          */
         String jsonPayload = response.readEntity(String.class);
+        JsonNode root = mapper.readTree(jsonPayload);
+        assertThat(root.get("id").asText().compareToIgnoreCase(idUserToModify));
+        assertThat(root.get("firstname").asText().compareToIgnoreCase(firstName));
+        assertThat(root.get("lastname").asText().compareToIgnoreCase(lastName));
+    }
+    
+    @Test
+    @ProbeTest(tags = "REST")
+    public void itShouldByPossibleToDisplayAnEndUser() throws IOException {        
+        String firstName = "Thibaud";
+        String lastName = "Duchoud";
+        /**
+         * Requête GET à l'api pour récupérer liste d'utilisateurs d'une
+         * application
+         */
+        WebTarget target = client.target(baseUrl).path("users").path(idUserToDisplay).queryParam("apiKey", apiKeyWithUsers);
+        Response response = target.request().get();
+
+        /**
+         * L'api doit renvoyer un code 200
+         */
+        assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
+
+        /**
+         * Récupérer la réponse et contrôler qu'elle n'est pas vide
+         */
+        String jsonPayload = response.readEntity(String.class);
+        assertThat(jsonPayload).isNotNull();
+        assertThat(jsonPayload).isNotEmpty();
+
+        /**
+         * L'api doit renvoyer les informations de l'utilisateur correctes
+         */
         JsonNode root = mapper.readTree(jsonPayload);
         assertThat(root.get("firstname").asText().compareToIgnoreCase(firstName));
         assertThat(root.get("lastname").asText().compareToIgnoreCase(lastName));
