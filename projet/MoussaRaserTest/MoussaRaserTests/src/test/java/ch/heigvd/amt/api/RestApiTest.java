@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.probedock.client.annotations.ProbeTest;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -55,14 +54,9 @@ public class RestApiTest {
         assertThat(jsonPayload).isNotEmpty();
         
         System.out.println(jsonPayload);
-
-        JsonNode[] rootNodeasArray = mapper.readValue(jsonPayload, JsonNode[].class);
-        assertThat(rootNodeasArray).isNotNull();
-        assertThat(rootNodeasArray).isNotEmpty();
-
-        for (JsonNode users : rootNodeasArray) {
-            assertThat(users.get("error").asText().compareToIgnoreCase(messageError));
-        }
+        
+        JsonNode root = mapper.readTree(jsonPayload);
+        assertThat(root.get("error").asText().compareToIgnoreCase(messageError));
     }
     
     @Test
@@ -85,13 +79,8 @@ public class RestApiTest {
         
         System.out.println(jsonPayload);
 
-        JsonNode[] rootNodeasArray = mapper.readValue(jsonPayload, JsonNode[].class);
-        assertThat(rootNodeasArray).isNotNull();
-        assertThat(rootNodeasArray).isNotEmpty();
-
-        for (JsonNode users : rootNodeasArray) {
-            assertThat(users.get("error").asText().compareToIgnoreCase(messageError));
-        }
+        JsonNode root = mapper.readTree(jsonPayload);
+        assertThat(root.get("error").asText().compareToIgnoreCase(messageError));
     }
     
     @Test
@@ -154,9 +143,9 @@ public class RestApiTest {
         * be no conflict when creating the new sector
         */
        String firstName = "Thibaud";
-       String lastName = "Ducoud";
-       JsonNode userInfo = factory.objectNode().put("firstname", firstName)
-            .put("lastname", lastName);
+       String lastName = "Duchoud";
+       JsonNode userInfo = factory.objectNode().put("firstName", firstName)
+            .put("lastName", lastName);
        
        System.out.println(userInfo);
        
@@ -164,7 +153,7 @@ public class RestApiTest {
        /**
         * Send the POST request with the JSON payload to create a new Sector
         */
-       WebTarget target = client.target(baseUrl).path("users").queryParam("apiKey", apiKeyWithUsers);;
+       WebTarget target = client.target(baseUrl).path("users").queryParam("apiKey", apiKeyWithUsers);
        Response response = target.request().post(Entity.entity(userInfo, "application/json"));
 
        /**
@@ -172,17 +161,18 @@ public class RestApiTest {
         * Location header is there.
         */
        assertThat(response.getStatus()).isEqualTo(Response.Status.CREATED.getStatusCode());
-       assertThat(response.getHeaderString("Location")).isNotNull();
+       //assertThat(response.getHeaderString("Location")).isNotNull();
 
        /**
         * Send a GET request to retrieve the entity that was just created. If the
         * Location header is correct and if the resource has been created, we can
         * validate its state compared to what we have sent before.
         */
-       target = client.target(response.getHeaderString("Location"));
-       response = target.request().get();
+       //target = client.target(response.getHeaderString("Location"));
+       //response = target.request().get();
        String jsonPayload = response.readEntity(String.class);
        JsonNode root = mapper.readTree(jsonPayload);
-       assertThat(root.get("name").asText()).isEqualTo(userInfo);
+       assertThat(root.get("firstname").asText().compareToIgnoreCase(firstName));
+       assertThat(root.get("lastname").asText().compareToIgnoreCase(lastName));
     }
 }
