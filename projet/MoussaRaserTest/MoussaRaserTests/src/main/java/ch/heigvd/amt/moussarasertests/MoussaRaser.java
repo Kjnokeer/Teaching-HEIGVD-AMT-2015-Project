@@ -10,5 +10,5 @@ package ch.heigvd.amt.moussarasertests;
  * @author Mario Ferreira
  */
 public class MoussaRaser {
-    
+
 }

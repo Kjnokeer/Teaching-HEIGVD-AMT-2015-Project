@@ -19,14 +19,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
  */
 public class MoussaRaserTest {
 
-    private final String baseUrl = "localhost:8080/MoussaRaser/";
+    private final String baseUrl = "http://localhost:8080/MoussaRaser/";
     private WebDriver driver;
 
     @Before
     public void openBrowser() {
         driver = new FirefoxDriver();
     }
-    
+
     //--------------------------------------------------------------------------
     // Registration page
     @Test
@@ -173,7 +173,7 @@ public class MoussaRaserTest {
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
         loginPage.submitForm(HomePage.class);
-        
+
         driver.get(baseUrl + "editProfile");
         EditProfilePage editProfilePage = new EditProfilePage(driver);
         editProfilePage.typeFName("Mario");
@@ -186,7 +186,7 @@ public class MoussaRaserTest {
     @Test
     @ProbeTest(tags = "WebUI")
     public void itShouldNotBePossibleToModifyAccount2DifferentPasswords() {
-                // Create account
+        // Create account
         driver.get(baseUrl + "registrationPage");
         RegistrationPage registrationPage = new RegistrationPage(driver);
         registrationPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
@@ -200,7 +200,7 @@ public class MoussaRaserTest {
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
         loginPage.submitForm(HomePage.class);
-        
+
         driver.get(baseUrl + "editProfile");
         EditProfilePage editProfilePage = new EditProfilePage(driver);
         editProfilePage.typeFName("Mario");
@@ -213,7 +213,7 @@ public class MoussaRaserTest {
     @Test
     @ProbeTest(tags = "WebUI")
     public void itShouldNotBePossibleToModifyAccountWithoutFName() {
-                // Create account
+        // Create account
         driver.get(baseUrl + "registrationPage");
         RegistrationPage registrationPage = new RegistrationPage(driver);
         registrationPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
@@ -227,7 +227,7 @@ public class MoussaRaserTest {
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
         loginPage.submitForm(HomePage.class);
-        
+
         driver.get(baseUrl + "editProfile");
         EditProfilePage editProfilePage = new EditProfilePage(driver);
         editProfilePage.typeLName("Ferreira");
@@ -239,7 +239,7 @@ public class MoussaRaserTest {
     @Test
     @ProbeTest(tags = "WebUI")
     public void itShouldNotBePossibleToModifyAccountWithoutLName() {
-                // Create account
+        // Create account
         driver.get(baseUrl + "registrationPage");
         RegistrationPage registrationPage = new RegistrationPage(driver);
         registrationPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
@@ -253,7 +253,7 @@ public class MoussaRaserTest {
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
         loginPage.submitForm(HomePage.class);
-        
+
         driver.get(baseUrl + "editProfile");
         EditProfilePage editProfilePage = new EditProfilePage(driver);
         editProfilePage.typeFName("Mario");
@@ -265,7 +265,7 @@ public class MoussaRaserTest {
     @Test
     @ProbeTest(tags = "WebUI")
     public void itShouldNotBePossibleToModifyAccountWithoutPassword() {
-                // Create account
+        // Create account
         driver.get(baseUrl + "registrationPage");
         RegistrationPage registrationPage = new RegistrationPage(driver);
         registrationPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
@@ -279,7 +279,7 @@ public class MoussaRaserTest {
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
         loginPage.submitForm(HomePage.class);
-        
+
         driver.get(baseUrl + "editProfile");
         EditProfilePage editProfilePage = new EditProfilePage(driver);
         editProfilePage.typeFName("Mario");
@@ -287,12 +287,12 @@ public class MoussaRaserTest {
         EditProfilePage editProfilePageF = (EditProfilePage) editProfilePage.submitForm(EditProfilePage.class);
     }
 
-  //----------------------------------------------------------------------------
-  // Create App
+    //----------------------------------------------------------------------------
+    // Create App
     @Test
     @ProbeTest(tags = "WebUI")
     public void itShouldCreateApp() {
-                // Create account
+        // Create account
         driver.get(baseUrl + "registrationPage");
         RegistrationPage registrationPage = new RegistrationPage(driver);
         registrationPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
@@ -306,7 +306,7 @@ public class MoussaRaserTest {
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
         loginPage.submitForm(HomePage.class);
-        
+
         driver.get(baseUrl + "addApp");
         CreateAppPage createAppPage = new CreateAppPage(driver);
         createAppPage.typeDescription("Test Description");
@@ -317,7 +317,7 @@ public class MoussaRaserTest {
     @Test
     @ProbeTest(tags = "WebUI")
     public void itShouldNotBePossibleToCreateAppWithoutName() {
-                // Create account
+        // Create account
         driver.get(baseUrl + "registrationPage");
         RegistrationPage registrationPage = new RegistrationPage(driver);
         registrationPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
@@ -331,7 +331,7 @@ public class MoussaRaserTest {
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
         loginPage.submitForm(HomePage.class);
-        
+
         driver.get(baseUrl + "addApp");
         CreateAppPage createAppPage = new CreateAppPage(driver);
         createAppPage.typeDescription("Test Description");
@@ -343,7 +343,7 @@ public class MoussaRaserTest {
     @Test
     @ProbeTest(tags = "WebUI")
     public void itShouldModifyApp() {
-                // Create account
+        // Create account
         driver.get(baseUrl + "registrationPage");
         RegistrationPage registrationPage = new RegistrationPage(driver);
         registrationPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
@@ -357,7 +357,7 @@ public class MoussaRaserTest {
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
         loginPage.submitForm(HomePage.class);
-        
+
         driver.get(baseUrl + "editApp");
         EditAppPage editAppPage = new EditAppPage(driver);
         editAppPage.typeDescription("Test Description");
@@ -368,7 +368,7 @@ public class MoussaRaserTest {
     @Test
     @ProbeTest(tags = "WebUI")
     public void itShouldNotBePossibleToModifyAppWithoutName() {
-                // Create account
+        // Create account
         driver.get(baseUrl + "registrationPage");
         RegistrationPage registrationPage = new RegistrationPage(driver);
         registrationPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
@@ -382,7 +382,7 @@ public class MoussaRaserTest {
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
         loginPage.submitForm(HomePage.class);
-        
+
         driver.get(baseUrl + "addApp");
         EditAppPage editAppPage = new EditAppPage(driver);
         editAppPage.typeDescription("Test Description");
@@ -394,7 +394,7 @@ public class MoussaRaserTest {
     @Test
     @ProbeTest(tags = "WebUI")
     public void itShouldLogout() {
-                // Create account
+        // Create account
         driver.get(baseUrl + "registrationPage");
         RegistrationPage registrationPage = new RegistrationPage(driver);
         registrationPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
@@ -408,10 +408,10 @@ public class MoussaRaserTest {
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
         loginPage.submitForm(HomePage.class);
-        
+
         driver.get(baseUrl + "home");
         HomePage homePage = new HomePage(driver);
-        LoginPage loginPageC = (LoginPage)homePage.submitLogout(LoginPage.class);
+        LoginPage loginPageC = (LoginPage) homePage.submitLogout(LoginPage.class);
     }
 
     //--------------------------------------------------------------------------
@@ -419,7 +419,7 @@ public class MoussaRaserTest {
     @Test
     @ProbeTest(tags = "WebUI")
     public void itShouldDisplayListUsers() {
-                // Create account
+        // Create account
         driver.get(baseUrl + "registrationPage");
         RegistrationPage registrationPage = new RegistrationPage(driver);
         registrationPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
@@ -433,7 +433,7 @@ public class MoussaRaserTest {
         loginPage.typeEmailAddress("mario.ferreira@heig-vd.ch");
         loginPage.typePassword("1234");
         loginPage.submitForm(HomePage.class);
-        
+
         driver.get(baseUrl + "home");
         HomePage homePage = new HomePage(driver);
         ListUsersPage listUsersPage = (ListUsersPage) homePage.submitListUsers(ListUsersPage.class);

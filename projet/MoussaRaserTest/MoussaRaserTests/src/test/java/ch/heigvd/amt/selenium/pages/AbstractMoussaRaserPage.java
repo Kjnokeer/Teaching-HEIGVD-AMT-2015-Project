@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
  * @author Mario Ferreira
  */
 public abstract class AbstractMoussaRaserPage extends Page {
+
     public AbstractMoussaRaserPage(WebDriver driver) {
         super(driver);
     }
