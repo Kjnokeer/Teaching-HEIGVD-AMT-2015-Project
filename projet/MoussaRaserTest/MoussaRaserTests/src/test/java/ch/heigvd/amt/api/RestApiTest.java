@@ -17,35 +17,9 @@ import org.junit.Test;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.Before;
 
-/**
- * This class contains methods to test the REST API. We use Jersey Client to
- * facilitate the preparation of HTTP requests and the inspection of HTTP
- * responses (you will notice that Jersey Client provides a "fluent" API style).
- *
- * Note that on the server side, we use DTO classes and we let Jersey handle the
- * serialization and deserialization of payloads. We could have done the same
- * thing on the client side, but instead we have used the Jackson JSON library
- * and we deal with JSON trees ourselves. One reason for this choice is simply
- * that we wanted to provide an example and show what can be done.
- *
- * But another reason is to reduce the risk of introducing changes in the API
- * payloads. Indeed, if we wanted to write as little code as possible, we would
- * extract the DTO classes in a separate .jar file, which we would include both
- * in the server project and in the test project (via a maven dependency). This
- * way, when adding a property to a DTO, it would automatically be available on
- * the server and on the testing side. While this seems highly beneficial, it
- * means that the tests might sometimes fail to detect changes in the API. An
- * intermediate solution would be to have two separate DTO packages (one on the
- * server side and on the test side). In that case, if the DTO is changed on the
- * server side, then the DTO has to explicitely be changed on the test side (and
- * this is when the developer realizes that the API has changed, if he was not
- * aware yet).
- *
- * @author Olivier Liechti
- */
 public class RestApiTest {
 
-    private final String baseUrl = "http://localhost:8080/MoussaRaser/";
+    private final String baseUrl = "http://localhost:8080/MoussaRaser/api";
 
     Client client;
 
@@ -58,5 +32,116 @@ public class RestApiTest {
         client = ClientBuilder.newClient();
         mapper = new ObjectMapper();
         factory = new JsonNodeFactory(false);
+    }
+    
+    
+    // Test Get Users
+    @Test
+    @ProbeTest(tags = "REST")
+    public void sendingGetUsersWithoutApiKeyReturn401() throws IOException {
+        String emptyApiKey = "";
+        String messageError = "No API key was provided with the API request";
+        /**
+         * Send the POST request with the JSON payload to create a new Sector
+         */
+        WebTarget target = client.target(baseUrl).path("users").queryParam("apiKey", emptyApiKey);
+
+        Response response = target.request().get();
+
+        assertThat(response.getStatus()).isEqualTo(Response.Status.UNAUTHORIZED.getStatusCode());
+
+        String jsonPayload = response.readEntity(String.class);
+        assertThat(jsonPayload).isNotNull();
+        assertThat(jsonPayload).isNotEmpty();
+        
+        System.out.println(jsonPayload);
+
+        JsonNode[] rootNodeasArray = mapper.readValue(jsonPayload, JsonNode[].class);
+        assertThat(rootNodeasArray).isNotNull();
+        assertThat(rootNodeasArray).isNotEmpty();
+
+        for (JsonNode users : rootNodeasArray) {
+            assertThat(users.get("error").asText().compareToIgnoreCase(messageError));
+        }
+    }
+    
+    @Test
+    @ProbeTest(tags = "REST")
+    public void sendingGetUsersWithFakeApiKeyReturn401() throws IOException {
+        String fakeApiKey = "092abcde6ec143c0bbe132253263e34s";
+        String messageError = "An invalid API key was provided with the API request";
+        /**
+         * Send the POST request with the JSON payload to create a new Sector
+         */
+        WebTarget target = client.target(baseUrl).path("users").queryParam("apiKey", fakeApiKey);
+
+        Response response = target.request().get();
+
+        assertThat(response.getStatus()).isEqualTo(Response.Status.UNAUTHORIZED.getStatusCode());
+
+        String jsonPayload = response.readEntity(String.class);
+        assertThat(jsonPayload).isNotNull();
+        assertThat(jsonPayload).isNotEmpty();
+        
+        System.out.println(jsonPayload);
+
+        JsonNode[] rootNodeasArray = mapper.readValue(jsonPayload, JsonNode[].class);
+        assertThat(rootNodeasArray).isNotNull();
+        assertThat(rootNodeasArray).isNotEmpty();
+
+        for (JsonNode users : rootNodeasArray) {
+            assertThat(users.get("error").asText().compareToIgnoreCase(messageError));
+        }
+    }
+    
+    @Test
+    @ProbeTest(tags = "REST")
+    public void sendingGetUsersToExistingApiKeyReturnOk() throws IOException {
+        String apiKeyWithUsers = "092abcde6ec143c0bbe132253263e340";
+        /**
+         * Send the POST request with the JSON payload to create a new Sector
+         */
+        WebTarget target = client.target(baseUrl).path("users").queryParam("apiKey", apiKeyWithUsers);
+
+        Response response = target.request().get();
+
+        assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
+
+        String jsonPayload = response.readEntity(String.class);
+        assertThat(jsonPayload).isNotNull();
+        assertThat(jsonPayload).isNotEmpty();
+
+        JsonNode[] rootNodeasArray = mapper.readValue(jsonPayload, JsonNode[].class);
+        assertThat(rootNodeasArray).isNotNull();
+        assertThat(rootNodeasArray).isNotEmpty();
+
+        for (JsonNode users : rootNodeasArray) {
+            assertThat(users.get("firstname")).isNotNull();
+            assertThat(users.get("lastname")).isNotNull();
+        }
+    }
+    
+    @Test
+    @ProbeTest(tags = "REST")
+    public void sendingGetUsersEmptyToExistingApiKeyReturnOkEmpty() throws IOException {
+        String apiKeyWithoutUsers = "8def28edc4504a93b1acf88475f4d707";
+        /**
+         * Send the POST request with the JSON payload to create a new Sector
+         */
+        WebTarget target = client.target(baseUrl).path("users").queryParam("apiKey", apiKeyWithoutUsers);
+
+        Response response = target.request().get();
+
+        assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
+
+        String jsonPayload = response.readEntity(String.class);
+        assertThat(jsonPayload).isNotNull();
+        assertThat(jsonPayload).isNotEmpty();
+
+        System.out.println(jsonPayload);
+
+        JsonNode[] rootNodeasArray = mapper.readValue(jsonPayload, JsonNode[].class);
+        assertThat(rootNodeasArray).isNotNull();
+        assertThat(rootNodeasArray).isEmpty();
     }
 }
