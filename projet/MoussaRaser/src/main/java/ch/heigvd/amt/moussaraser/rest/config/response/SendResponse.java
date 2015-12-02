@@ -5,6 +5,7 @@
  */
 package ch.heigvd.amt.moussaraser.rest.config.response;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
@@ -14,16 +15,23 @@ import javax.ws.rs.core.Response;
 public class SendResponse {
 
     public static Response send200OK(Object toSend) {
-        return Response.status(200)
+        return Response.status(Response.Status.OK)
                 .entity(toSend)
-                .type("application/json")
+                .type(MediaType.APPLICATION_JSON)
                 .build();
+    }
+    
+    public static Response send201Created(Object toSend) {
+       return Response.status(Response.Status.CREATED)
+               .entity(toSend)
+               .type(MediaType.APPLICATION_JSON)
+               .build();
     }
 
     public static Response missingDataInPayload(Object toSend) {
-        return Response.status(500)
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                 .entity(toSend)
-                .type("application/json")
+                .type(MediaType.APPLICATION_JSON)
                 .build();
     }
 
