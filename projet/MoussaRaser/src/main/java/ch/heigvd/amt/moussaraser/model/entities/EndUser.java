@@ -1,9 +1,7 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
- * Date    : 09.10.2015
- * Fichier : EndUser.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date
+ * : 09.10.2015 Fichier : EndUser.java
  */
-
 package ch.heigvd.amt.moussaraser.model.entities;
 
 import java.util.List;
@@ -16,9 +14,9 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @NamedQueries({
-   @NamedQuery(name = "EndUser.getNumberOfEndUsersInApp", query = "SELECT COUNT(eu) FROM EndUser eu WHERE eu.application = :app"),
-   @NamedQuery(name = "EndUser.getEndUsersInApp", query = "SELECT eu FROM EndUser eu WHERE eu.application = :app"),
-   @NamedQuery(name = "EndUser.getEndUserByIdAndApp", query = "SELECT eu FROM EndUser eu WHERE eu.id = :id AND eu.application = :app")
+    @NamedQuery(name = "EndUser.getNumberOfEndUsersInApp", query = "SELECT COUNT(eu) FROM EndUser eu WHERE eu.application = :app"),
+    @NamedQuery(name = "EndUser.getEndUsersInApp", query = "SELECT eu FROM EndUser eu WHERE eu.application = :app"),
+    @NamedQuery(name = "EndUser.getEndUserByIdAndApp", query = "SELECT eu FROM EndUser eu WHERE eu.id = :id AND eu.application = :app")
 })
 
 /**
@@ -26,87 +24,88 @@ import javax.validation.constraints.NotNull;
  */
 public class EndUser extends AbstractDomainModelEntity<Long> {
 
-   @NotNull private String firstName;
-   @NotNull private String lastName;
-   private long score = 0;
-   
-   @ManyToOne
-   private Application application;
-   
-   @ManyToMany
-   private List<Badge> badges;
-  
-   @ManyToMany
-   private List<Reward> rewards;
+    @NotNull
+    private String firstName;
+    @NotNull
+    private String lastName;
+    private long score = 0;
 
-   public EndUser() {
-   }
+    @ManyToOne
+    private Application application;
 
-   /**
-    * @return the firstName
-    */
-   public String getFirstName() {
-      return firstName;
-   }
+    @ManyToMany
+    private List<Badge> badges;
 
-   /**
-    * @param firstName the firstName to set
-    */
-   public void setFirstName(String firstName) {
-      this.firstName = firstName;
-   }
+    @ManyToMany
+    private List<Reward> rewards;
 
-   /**
-    * @return the lastName
-    */
-   public String getLastName() {
-      return lastName;
-   }
+    public EndUser() {
+    }
 
-   /**
-    * @param lastName the lastName to set
-    */
-   public void setLastName(String lastName) {
-      this.lastName = lastName;
-   }
+    /**
+     * @return the firstName
+     */
+    public String getFirstName() {
+        return firstName;
+    }
 
-   /**
-    * @return the application
-    */
-   public Application getApplication() {
-      return application;
-   }
+    /**
+     * @param firstName the firstName to set
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-   /**
-    * @param application the application to set
-    */
-   public void setApplication(Application application) {
-      this.application = application;
-   }
+    /**
+     * @return the lastName
+     */
+    public String getLastName() {
+        return lastName;
+    }
 
-   public List<Badge> getBadges() {
-      return badges;
-   }
+    /**
+     * @param lastName the lastName to set
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-   public void setBadges(List<Badge> badges) {
-      this.badges = badges;
-   }
+    /**
+     * @return the application
+     */
+    public Application getApplication() {
+        return application;
+    }
 
-   public List<Reward> getRewards() {
-      return rewards;
-   }
+    /**
+     * @param application the application to set
+     */
+    public void setApplication(Application application) {
+        this.application = application;
+    }
 
-   public void setRewards(List<Reward> rewards) {
-      this.rewards = rewards;
-   }
+    public List<Badge> getBadges() {
+        return badges;
+    }
 
-   public long getScore() {
-      return score;
-   }
+    public void setBadges(List<Badge> badges) {
+        this.badges = badges;
+    }
 
-   public void setScore(long score) {
-      this.score = score;
-   }
-   
-   
+    public List<Reward> getRewards() {
+        return rewards;
+    }
+
+    public void setRewards(List<Reward> rewards) {
+        this.rewards = rewards;
+    }
+
+    public long getScore() {
+        return score;
+    }
+
+    public void setScore(long score) {
+        this.score = score;
+    }
+
 }

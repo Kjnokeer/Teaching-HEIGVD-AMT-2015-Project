@@ -13,12 +13,12 @@ import javax.ws.rs.core.Response;
  * @author Mathias
  */
 public class SendBadge extends SendResponse {
-   
-   public static Response errorBadgeInvalid() {
-      return Response.status(401)
+
+    public static Response errorBadgeInvalid() {
+        return Response.status(401)
                 .entity(new ErrorObject("The badge ID you requested was invalid"))
                 .type("application/json")
                 .build();
-   }
-   
+    }
+
 }

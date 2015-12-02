@@ -18,10 +18,10 @@ public class ApplicationConfig extends Application {
         addRestResourceClasses(resources);
 
         /*
-     * The following block is needed in order to use jackson as the JSON provider for
-     * Jersey. It is also required to add jersey-media-json-jackson as a dependency for
-     * this to work. Using jackson allows us to use the @JsonAnySetter annotation, so
-     * that we can handle dynamic property names.
+         * The following block is needed in order to use jackson as the JSON provider for
+         * Jersey. It is also required to add jersey-media-json-jackson as a dependency for
+         * this to work. Using jackson allows us to use the @JsonAnySetter annotation, so
+         * that we can handle dynamic property names.
          */
         Class jsonProvider;
         try {
@@ -40,11 +40,11 @@ public class ApplicationConfig extends Application {
      * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-      resources.add(ch.heigvd.amt.moussaraser.rest.config.MyObjectMapperProvider.class);
-      resources.add(ch.heigvd.amt.moussaraser.rest.resources.BadgesResource.class);
-      resources.add(ch.heigvd.amt.moussaraser.rest.resources.LeaderBoardRessource.class);
-      resources.add(ch.heigvd.amt.moussaraser.rest.resources.RewardsRessource.class);
-      resources.add(ch.heigvd.amt.moussaraser.rest.resources.UsersResource.class);
+        resources.add(ch.heigvd.amt.moussaraser.rest.config.MyObjectMapperProvider.class);
+        resources.add(ch.heigvd.amt.moussaraser.rest.resources.BadgesResource.class);
+        resources.add(ch.heigvd.amt.moussaraser.rest.resources.LeaderBoardRessource.class);
+        resources.add(ch.heigvd.amt.moussaraser.rest.resources.RewardsRessource.class);
+        resources.add(ch.heigvd.amt.moussaraser.rest.resources.UsersResource.class);
     }
 
 }

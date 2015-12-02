@@ -1,9 +1,7 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
- * Date    : 16.10.2015
- * Fichier : ApplicationDAO.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date
+ * : 16.10.2015 Fichier : ApplicationDAO.java
  */
-
 package ch.heigvd.amt.moussaraser.services.dao;
 
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
@@ -18,19 +16,19 @@ import javax.ejb.Stateless;
 @Stateless
 public class ApplicationDAO extends GenericDAO<Application, Long> implements ApplicationDAOLocal {
 
-   @Override
-   public List<Application> getAllApplicationsForUser(User u) {
-      return em.createNamedQuery("Application.findAllByUser").setParameter("user", u).getResultList();
-   }
-   
-   @Override
-   public Application getApplicationByApiKey(ApiKey apiKey) {
-      return (Application) em.createNamedQuery("Application.findByApiKey").setParameter("apiKey", apiKey).getSingleResult();
-   }
+    @Override
+    public List<Application> getAllApplicationsForUser(User u) {
+        return em.createNamedQuery("Application.findAllByUser").setParameter("user", u).getResultList();
+    }
 
-   @Override
-   public Application getManagedApplicationByApiKey(ApiKey apiKey) {
-      return createAndReturnManagedEntity(getApplicationByApiKey(apiKey));
-   }
-   
+    @Override
+    public Application getApplicationByApiKey(ApiKey apiKey) {
+        return (Application) em.createNamedQuery("Application.findByApiKey").setParameter("apiKey", apiKey).getSingleResult();
+    }
+
+    @Override
+    public Application getManagedApplicationByApiKey(ApiKey apiKey) {
+        return createAndReturnManagedEntity(getApplicationByApiKey(apiKey));
+    }
+
 }

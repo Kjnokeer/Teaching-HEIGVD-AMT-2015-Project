@@ -43,17 +43,17 @@
                     </table>
                     <nav>
                         <ul class="pagination">
-                                <c:forEach begin="1" end="${nbPagesRequired}" varStatus="loop">
-                                    <c:choose>
-                                        <c:when test="${loop.count == pageNumber}">
-                                            <li class="active"><a href='listUsers?app=${app}&page=${loop.count}'>${loop.count}</a></li>
+                            <c:forEach begin="1" end="${nbPagesRequired}" varStatus="loop">
+                                <c:choose>
+                                    <c:when test="${loop.count == pageNumber}">
+                                        <li class="active"><a href='listUsers?app=${app}&page=${loop.count}'>${loop.count}</a></li>
                                         </c:when>
                                         <c:otherwise>
-                                            <li><a href='listUsers?app=${app}&page=${loop.count}'>${loop.count}</a></li>
+                                        <li><a href='listUsers?app=${app}&page=${loop.count}'>${loop.count}</a></li>
                                         </c:otherwise>
                                     </c:choose>
-                                    
-                                </c:forEach>
+
+                            </c:forEach>
                         </ul>
                     </nav>
                 </div>

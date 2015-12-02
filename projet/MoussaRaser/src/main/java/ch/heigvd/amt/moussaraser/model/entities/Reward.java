@@ -1,9 +1,7 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
- * Date    : 09.10.2015
- * Fichier : User.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date
+ * : 09.10.2015 Fichier : User.java
  */
-
 package ch.heigvd.amt.moussaraser.model.entities;
 
 import java.util.Set;
@@ -16,8 +14,8 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @NamedQueries({
-   @NamedQuery(name = "Reward.getAllByApplication", query = "SELECT r FROM Reward r WHERE r.application = :app"),
-   @NamedQuery(name = "Reward.getByIdAndByApplication", query = "SELECT r FROM Reward r WHERE r.id = :id AND r.application = :app")
+    @NamedQuery(name = "Reward.getAllByApplication", query = "SELECT r FROM Reward r WHERE r.application = :app"),
+    @NamedQuery(name = "Reward.getByIdAndByApplication", query = "SELECT r FROM Reward r WHERE r.id = :id AND r.application = :app")
 })
 
 /**
@@ -25,54 +23,56 @@ import javax.validation.constraints.NotNull;
  */
 public class Reward extends AbstractDomainModelEntity<Long> {
 
-   @NotNull private String name;
-   @NotNull private String category;
-   private String description;
-   private String image;
-   
-   @ManyToOne
-   private Application application;
+    @NotNull
+    private String name;
+    @NotNull
+    private String category;
+    private String description;
+    private String image;
 
-   public Reward() {
-   }
+    @ManyToOne
+    private Application application;
 
-   public String getName() {
-      return name;
-   }
+    public Reward() {
+    }
 
-   public void setName(String name) {
-      this.name = name;
-   }
+    public String getName() {
+        return name;
+    }
 
-   public String getCategory() {
-      return category;
-   }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-   public void setCategory(String category) {
-      this.category = category;
-   }
+    public String getCategory() {
+        return category;
+    }
 
-   public String getDescription() {
-      return description;
-   }
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
-   public void setDescription(String description) {
-      this.description = description;
-   }
+    public String getDescription() {
+        return description;
+    }
 
-   public String getImage() {
-      return image;
-   }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-   public void setImage(String image) {
-      this.image = image;
-   }
+    public String getImage() {
+        return image;
+    }
 
-   public void setApplication(Application application) {
-      this.application = application;
-   }
+    public void setImage(String image) {
+        this.image = image;
+    }
 
-   public Application getApplication() {
-      return application;
-   }
+    public void setApplication(Application application) {
+        this.application = application;
+    }
+
+    public Application getApplication() {
+        return application;
+    }
 }

@@ -26,10 +26,10 @@ public class ListUserServlet extends HttpServlet {
 
     @EJB
     ApplicationDAOLocal applicationsDAO;
-    
+
     @EJB
     EndUserDAOLocal endUsersDAO;
-    
+
     @EJB
     ApiKeyDAOLocal apiKeyDAO;
 
@@ -46,32 +46,33 @@ public class ListUserServlet extends HttpServlet {
             throws ServletException, IOException {
 
         final int NB_ENDUSERS_PER_PAGE = 15;
-        
+
         String apiKey = request.getParameter("app");
         int pageNumber = Integer.valueOf(request.getParameter("page"));
-        
+
         Application application = applicationsDAO.getManagedApplicationByApiKey(apiKeyDAO.findByApiKeyString(
                 request.getParameter("app"))
         );
-        
+
         List<EndUser> endUsers = endUsersDAO.getEndUsersInApp(application);
         List<EndUser> effectiveEndUsers = new ArrayList<>();
-        
-        for(int i = (pageNumber - 1) * NB_ENDUSERS_PER_PAGE; i < pageNumber * NB_ENDUSERS_PER_PAGE; i++) {
-            if(i >= endUsers.size())
+
+        for (int i = (pageNumber - 1) * NB_ENDUSERS_PER_PAGE; i < pageNumber * NB_ENDUSERS_PER_PAGE; i++) {
+            if (i >= endUsers.size()) {
                 break;
-            
+            }
+
             effectiveEndUsers.add(endUsers.get(i));
         }
-        
-        int nbPagesRequired = (int)Math.ceil((double)endUsers.size() / NB_ENDUSERS_PER_PAGE);
-        
+
+        int nbPagesRequired = (int) Math.ceil((double) endUsers.size() / NB_ENDUSERS_PER_PAGE);
+
         request.setAttribute("endUsers", effectiveEndUsers);
         request.setAttribute("nbPagesRequired", nbPagesRequired);
         request.setAttribute("applicationName", application.getName());
         request.setAttribute("app", apiKey);
         request.setAttribute("pageNumber", pageNumber);
-        
+
         request.getRequestDispatcher("/WEB-INF/pages/listUsers.jsp").forward(request, response);
     }
 

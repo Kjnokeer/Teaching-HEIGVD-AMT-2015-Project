@@ -13,19 +13,19 @@ import javax.ws.rs.core.Response;
  * @author Mathias
  */
 public class SendResponse {
-   
-   public static Response send200OK(Object toSend) {
-      return Response.status(200)
-              .entity(toSend)
-              .type("application/json")
-              .build();
-   }
-   
-   public static Response missingDataInPayload(Object toSend) {
-      return Response.status(500)
-              .entity(toSend)
-              .type("application/json")
-              .build();
-   }
-   
+
+    public static Response send200OK(Object toSend) {
+        return Response.status(200)
+                .entity(toSend)
+                .type("application/json")
+                .build();
+    }
+
+    public static Response missingDataInPayload(Object toSend) {
+        return Response.status(500)
+                .entity(toSend)
+                .type("application/json")
+                .build();
+    }
+
 }

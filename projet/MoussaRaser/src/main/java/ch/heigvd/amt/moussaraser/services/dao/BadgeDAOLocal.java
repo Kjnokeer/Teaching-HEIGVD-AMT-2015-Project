@@ -1,9 +1,7 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
- * Date    : 16.10.2015
- * Fichier : ApplicationDAOLocal.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date
+ * : 16.10.2015 Fichier : ApplicationDAOLocal.java
  */
-
 package ch.heigvd.amt.moussaraser.services.dao;
 
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
@@ -16,6 +14,8 @@ import javax.ejb.Local;
  */
 @Local
 public interface BadgeDAOLocal extends IGenericDAO<Badge, Long> {
-   List<Badge> getBadgesByApiKey(ApiKey apiKey);
-   Badge getBadgeByIdAndByApiKey(Long id, ApiKey apiKey);
+
+    List<Badge> getBadgesByApiKey(ApiKey apiKey);
+
+    Badge getBadgeByIdAndByApiKey(Long id, ApiKey apiKey);
 }

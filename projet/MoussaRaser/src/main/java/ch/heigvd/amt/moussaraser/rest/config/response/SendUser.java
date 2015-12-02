@@ -13,11 +13,11 @@ import javax.ws.rs.core.Response;
  * @author Mathias
  */
 public class SendUser extends SendResponse {
-   
-   public static Response errorUserInvalid() {
-      return Response.status(401)
+
+    public static Response errorUserInvalid() {
+        return Response.status(401)
                 .entity(new ErrorObject("The user ID you requested was invalid"))
                 .type("application/json")
                 .build();
-   }
+    }
 }

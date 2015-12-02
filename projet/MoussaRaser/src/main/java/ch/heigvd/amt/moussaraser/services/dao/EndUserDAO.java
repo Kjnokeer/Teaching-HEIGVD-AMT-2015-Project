@@ -1,9 +1,7 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
- * Date    : 16.10.2015
- * Fichier : ApplicationDAO.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date
+ * : 16.10.2015 Fichier : ApplicationDAO.java
  */
-
 package ch.heigvd.amt.moussaraser.services.dao;
 
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
@@ -19,35 +17,35 @@ import javax.persistence.NoResultException;
  */
 @Stateless
 public class EndUserDAO extends GenericDAO<EndUser, Long> implements EndUserDAOLocal {
-    
+
     @EJB
     ApplicationDAOLocal applicationDAO;
-    
+
     @Override
     public Long getNumberOfEndUsersInApp(Application app) {
-        return (Long)em.createNamedQuery("EndUser.getNumberOfEndUsersInApp").setParameter("app", app).getSingleResult();
+        return (Long) em.createNamedQuery("EndUser.getNumberOfEndUsersInApp").setParameter("app", app).getSingleResult();
     }
 
     @Override
     public List<EndUser> getEndUsersInApp(Application app) {
         return em.createNamedQuery("EndUser.getEndUsersInApp").setParameter("app", app).getResultList();
     }
-    
+
     @Override
     public List<EndUser> getEndUsersByApiKey(ApiKey apiKey) {
         Application application = applicationDAO.getManagedApplicationByApiKey(apiKey);
-        
+
         return getEndUsersInApp(application);
     }
 
-   @Override
-   public EndUser getEndUserByIdAndByApiKey(Long id, ApiKey apiKey) {
-      Application app = applicationDAO.getApplicationByApiKey(apiKey);
-      
-      try {
-         return (EndUser) em.createNamedQuery("EndUser.getEndUserByIdAndApp").setParameter("id", id).setParameter("app", app).getSingleResult();
-      } catch(NoResultException e) {
-         return null;
-      }
-   }
+    @Override
+    public EndUser getEndUserByIdAndByApiKey(Long id, ApiKey apiKey) {
+        Application app = applicationDAO.getApplicationByApiKey(apiKey);
+
+        try {
+            return (EndUser) em.createNamedQuery("EndUser.getEndUserByIdAndApp").setParameter("id", id).setParameter("app", app).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }

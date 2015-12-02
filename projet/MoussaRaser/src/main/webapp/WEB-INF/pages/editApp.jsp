@@ -65,14 +65,14 @@
                                             <input class="btn btn-primary" name="action" value="Save changes" type="submit">
                                             <span></span>
                                             <a class="btn btn-default" href="${pageContext.request.contextPath}/home">Cancel</a>
-                                        </div>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
         <%@include file="includes/footer.jsp" %>
     </body>
 </html>

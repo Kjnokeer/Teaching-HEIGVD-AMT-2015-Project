@@ -33,9 +33,9 @@ import javax.ws.rs.PUT;
 @Path("/leaderboard")
 public class LeaderBoardRessource {
 
-   @GET
-   @Produces("application/json")
-   public Response getLeaderBoard() {
-      return null;
-   }  
+    @GET
+    @Produces("application/json")
+    public Response getLeaderBoard() {
+        return null;
+    }
 }

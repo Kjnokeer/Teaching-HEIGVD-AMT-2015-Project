@@ -52,8 +52,8 @@
                                             <td>
                                                 <a href="${pageContext.request.contextPath}/editApp?app=${app.getApiKey().getApiKey()}"><button type="button" class="btn btn-default">edit</button></a>
                                                 <input name="state" id="app-state" apiKey="${app.getApiKey().getApiKey()}" data-toggle="toggle" data-on="Enabled" data-off="Disabled" type="checkbox" onchange="changeState();" <c:if test="${app.isEnabled()}">checked</c:if>>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
                                         <c:set var="count" value="${count + 1}" scope="page"/>
                                     </c:forEach>
                                 </tbody>
@@ -70,8 +70,8 @@
         <script>
             function changeState() {
                 var apiKey = $('#app-state').attr('apiKey');
-                
-                $.post( "${pageContext.request.contextPath}/editApp", { action: "changeState", apiKey: apiKey } );
+
+                $.post("${pageContext.request.contextPath}/editApp", {action: "changeState", apiKey: apiKey});
             }
         </script>
         <%@include file="includes/footer.jsp" %>

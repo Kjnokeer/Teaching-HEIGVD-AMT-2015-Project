@@ -13,12 +13,12 @@ import javax.ws.rs.core.Response;
  * @author Jérôme
  */
 public class SendReward extends SendResponse {
-   
-   public static Response errorRewardInvalid() {
-      return Response.status(401)
+
+    public static Response errorRewardInvalid() {
+        return Response.status(401)
                 .entity(new ErrorObject("The reward ID you requested was invalid"))
                 .type("application/json")
                 .build();
-   }
-   
+    }
+
 }

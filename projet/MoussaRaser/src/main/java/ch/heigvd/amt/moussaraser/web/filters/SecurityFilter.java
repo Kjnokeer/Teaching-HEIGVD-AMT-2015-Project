@@ -1,7 +1,6 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
- * Date    : 09.10.2015
- * Fichier : SecurityFilter.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date
+ * : 09.10.2015 Fichier : SecurityFilter.java
  */
 package ch.heigvd.amt.moussaraser.web.filters;
 
@@ -41,8 +40,8 @@ public class SecurityFilter implements Filter {
         String path = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
 
         /*
-       * Let's apply a white list access policy. By default, we will authorize access to the target URI on
-       * if the user has been authenticated.
+         * Let's apply a white list access policy. By default, we will authorize access to the target URI on
+         * if the user has been authenticated.
          */
         boolean isTargetUrlProtected = true;
 
@@ -52,8 +51,8 @@ public class SecurityFilter implements Filter {
         }
 
         /*
-       * If the target URL is static content or if it is the authentication servlet, then we grant access event
-       * if the user has not been authenticated.
+         * If the target URL is static content or if it is the authentication servlet, then we grant access event
+         * if the user has not been authenticated.
          */
         if (path.startsWith("/static/")) {
             isTargetUrlProtected = false;
@@ -65,10 +64,10 @@ public class SecurityFilter implements Filter {
             isTargetUrlProtected = false;
         } else {
             /*
-          * Let's imagine that the user has sent a request to /MVCDemo/pages/beers before logging into the
-          * application. In that case, we want to route the user to the login page. If he provides valid
-          * credentials, then we then want to redirect the user to /MVCDemo/pages/beers. In order to do that,
-          * we need to save the target URL
+             * Let's imagine that the user has sent a request to /MVCDemo/pages/beers before logging into the
+             * application. In that case, we want to route the user to the login page. If he provides valid
+             * credentials, then we then want to redirect the user to /MVCDemo/pages/beers. In order to do that,
+             * we need to save the target URL
              */
             request.setAttribute("targetUrl", path);
 
@@ -81,27 +80,27 @@ public class SecurityFilter implements Filter {
         }
 
         /*
-       * If the user has been authenticated before, then the AuthenticationServlet has placed
-       * an object (in this case a String) in the HTTP session. We can retrieve it.
+         * If the user has been authenticated before, then the AuthenticationServlet has placed
+         * an object (in this case a String) in the HTTP session. We can retrieve it.
          */
         Long userId = (Long) httpRequest.getSession().getAttribute("userId");
         if (userId == null && isTargetUrlProtected) {
             request.setAttribute("nbUsers", usersDAO.count());
             request.setAttribute("nbApp", applicationDAO.count());
             /*
-          * The user has not been authenticated and tries to access a protected resource,
-          * we display the login page (and interrupt the request processing pipeline).
+             * The user has not been authenticated and tries to access a protected resource,
+             * we display the login page (and interrupt the request processing pipeline).
              */
             request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
         } else {
             /*
-          * We authorize the access, so we can tell the request processing pipeline to
-          * continue its work.
+             * We authorize the access, so we can tell the request processing pipeline to
+             * continue its work.
              */
             chain.doFilter(request, response);
             /*
-          * Here, we could inspect and manipulate the response and its way back to the
-          * client. In this case, we don't have anything to do.
+             * Here, we could inspect and manipulate the response and its way back to the
+             * client. In this case, we don't have anything to do.
              */
         }
     }

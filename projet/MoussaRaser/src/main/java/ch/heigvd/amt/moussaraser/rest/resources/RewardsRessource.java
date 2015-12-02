@@ -35,164 +35,164 @@ import javax.ws.rs.PUT;
 @Path("/rewards")
 public class RewardsRessource {
 
-   @EJB
-   RewardDAOLocal rewardDAO;
-   
-   @EJB
-   ApplicationDAOLocal applicationDAO;
-   
-   @EJB
-   ApiKeyDAOLocal apiKeyDAO;
+    @EJB
+    RewardDAOLocal rewardDAO;
 
-   @GET
-   @Produces("application/json")
-   public Response getRewards(@QueryParam("apiKey") String apiKey) {
-      
-      if(apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
-         return SendApiKey.errorApiKeyNotProvided();
-      }
-      
-      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
-      
-      if(key == null) {
-         return SendApiKey.errorApiKeyInvalid();
-      }
-      
-      List<Reward> rewards = rewardDAO.getRewardsByApiKey(key);
-      List<RewardDTO> rewardsDTO = new ArrayList<>();
-      
-      for(Reward reward : rewards) {
-         rewardsDTO.add(new RewardDTO(
-                 reward.getId(), 
-                 reward.getName(), 
-                 reward.getCategory(), 
-                 reward.getDescription(), 
-                 reward.getImage()
-         ));
-      }
-      
-      return SendReward.send200OK(rewardsDTO);
-   }
-   
-   @POST
-   @Consumes("application/json")
-   @Produces("application/json")
-   public Response createReward(Reward reward, @QueryParam("apiKey") String apiKey) {
-      
-      if(apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
-         return SendApiKey.errorApiKeyNotProvided();
-      }
-      
-      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
-      
-      if(key == null) {
-         return SendApiKey.errorApiKeyInvalid();
-      }
-      
-      reward.setApplication(applicationDAO.getApplicationByApiKey(key));
-      
-      rewardDAO.create(reward);
-      
-      return SendReward.send200OK(new BadgeDTO(
-              reward.getId(), 
-              reward.getName(), 
-              reward.getCategory(), 
-              reward.getDescription(), 
-              reward.getImage()
-      ));
-   }
-   
-   @GET
-   @Path("/{id}")
-   @Produces("application/json")
-   public Response getBadge(@PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
-      
-      if(apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
-         return SendApiKey.errorApiKeyNotProvided();
-      }
-      
-      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
-      
-      if(key == null) {
-         return SendApiKey.errorApiKeyInvalid();
-      }
-      
-      Reward reward = rewardDAO.getRewardByIdAndByApiKey(id, key);
-      
-      if(reward == null) {
-         return SendReward.errorRewardInvalid();
-      }
-      
-      return SendReward.send200OK(new RewardDTO(
-              reward.getId(), 
-              reward.getName(), 
-              reward.getCategory(), 
-              reward.getDescription(), 
-              reward.getImage()
-      ));
-   }
-   
-   @PUT
-   @Path("/{id}")
-   @Consumes("application/json")
-   @Produces("application/json")
-   public Response updateBadge(Reward reward, @PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
-      
-      if(apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
-         return SendApiKey.errorApiKeyNotProvided();
-      }
-      
-      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
-      
-      if(key == null) {
-         return SendApiKey.errorApiKeyInvalid();
-      }
-      
-      Reward tmp = rewardDAO.getRewardByIdAndByApiKey(id, key);
-      
-      if(tmp == null) {
-         return SendReward.errorRewardInvalid();
-      }
-      
-      Reward updateReward = rewardDAO.createAndReturnManagedEntity(tmp);
-      updateReward.setName(reward.getName());
-      updateReward.setCategory(reward.getCategory());
-      updateReward.setDescription(reward.getDescription());
-      updateReward.setImage(reward.getImage());
-      
-      return SendReward.send200OK(new RewardDTO(
-              updateReward.getId(), 
-              updateReward.getName(), 
-              updateReward.getCategory(), 
-              updateReward.getDescription(), 
-              updateReward.getImage()
-      ));
-   }
-   
-   @DELETE
-   @Path("/{id}")
-   @Produces("application/json")
-   public Response deleteBadge(@PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
-      
-      if(apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
-         return SendApiKey.errorApiKeyNotProvided();
-      }
-      
-      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
-      
-      if(key == null) {
-         return SendApiKey.errorApiKeyInvalid();
-      }
-      
-      Reward reward = rewardDAO.getRewardByIdAndByApiKey(id, key);
-      
-      if(reward == null) {
-         return SendReward.errorRewardInvalid();
-      }
-      
-      rewardDAO.delete(reward);
-      
-      return SendReward.send200OK(new InfoObject("Reward successfully deleted"));
-   }
-   
+    @EJB
+    ApplicationDAOLocal applicationDAO;
+
+    @EJB
+    ApiKeyDAOLocal apiKeyDAO;
+
+    @GET
+    @Produces("application/json")
+    public Response getRewards(@QueryParam("apiKey") String apiKey) {
+
+        if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
+            return SendApiKey.errorApiKeyNotProvided();
+        }
+
+        ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+
+        if (key == null) {
+            return SendApiKey.errorApiKeyInvalid();
+        }
+
+        List<Reward> rewards = rewardDAO.getRewardsByApiKey(key);
+        List<RewardDTO> rewardsDTO = new ArrayList<>();
+
+        for (Reward reward : rewards) {
+            rewardsDTO.add(new RewardDTO(
+                    reward.getId(),
+                    reward.getName(),
+                    reward.getCategory(),
+                    reward.getDescription(),
+                    reward.getImage()
+            ));
+        }
+
+        return SendReward.send200OK(rewardsDTO);
+    }
+
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    public Response createReward(Reward reward, @QueryParam("apiKey") String apiKey) {
+
+        if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
+            return SendApiKey.errorApiKeyNotProvided();
+        }
+
+        ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+
+        if (key == null) {
+            return SendApiKey.errorApiKeyInvalid();
+        }
+
+        reward.setApplication(applicationDAO.getApplicationByApiKey(key));
+
+        rewardDAO.create(reward);
+
+        return SendReward.send200OK(new BadgeDTO(
+                reward.getId(),
+                reward.getName(),
+                reward.getCategory(),
+                reward.getDescription(),
+                reward.getImage()
+        ));
+    }
+
+    @GET
+    @Path("/{id}")
+    @Produces("application/json")
+    public Response getBadge(@PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+
+        if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
+            return SendApiKey.errorApiKeyNotProvided();
+        }
+
+        ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+
+        if (key == null) {
+            return SendApiKey.errorApiKeyInvalid();
+        }
+
+        Reward reward = rewardDAO.getRewardByIdAndByApiKey(id, key);
+
+        if (reward == null) {
+            return SendReward.errorRewardInvalid();
+        }
+
+        return SendReward.send200OK(new RewardDTO(
+                reward.getId(),
+                reward.getName(),
+                reward.getCategory(),
+                reward.getDescription(),
+                reward.getImage()
+        ));
+    }
+
+    @PUT
+    @Path("/{id}")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public Response updateBadge(Reward reward, @PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+
+        if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
+            return SendApiKey.errorApiKeyNotProvided();
+        }
+
+        ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+
+        if (key == null) {
+            return SendApiKey.errorApiKeyInvalid();
+        }
+
+        Reward tmp = rewardDAO.getRewardByIdAndByApiKey(id, key);
+
+        if (tmp == null) {
+            return SendReward.errorRewardInvalid();
+        }
+
+        Reward updateReward = rewardDAO.createAndReturnManagedEntity(tmp);
+        updateReward.setName(reward.getName());
+        updateReward.setCategory(reward.getCategory());
+        updateReward.setDescription(reward.getDescription());
+        updateReward.setImage(reward.getImage());
+
+        return SendReward.send200OK(new RewardDTO(
+                updateReward.getId(),
+                updateReward.getName(),
+                updateReward.getCategory(),
+                updateReward.getDescription(),
+                updateReward.getImage()
+        ));
+    }
+
+    @DELETE
+    @Path("/{id}")
+    @Produces("application/json")
+    public Response deleteBadge(@PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+
+        if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
+            return SendApiKey.errorApiKeyNotProvided();
+        }
+
+        ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+
+        if (key == null) {
+            return SendApiKey.errorApiKeyInvalid();
+        }
+
+        Reward reward = rewardDAO.getRewardByIdAndByApiKey(id, key);
+
+        if (reward == null) {
+            return SendReward.errorRewardInvalid();
+        }
+
+        rewardDAO.delete(reward);
+
+        return SendReward.send200OK(new InfoObject("Reward successfully deleted"));
+    }
+
 }

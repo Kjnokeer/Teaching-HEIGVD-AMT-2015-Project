@@ -1,9 +1,7 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
- * Date    : 16.10.2015
- * Fichier : ApplicationDAO.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date
+ * : 16.10.2015 Fichier : ApplicationDAO.java
  */
-
 package ch.heigvd.amt.moussaraser.services.dao;
 
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
@@ -22,24 +20,24 @@ import javax.persistence.NoResultException;
 @Stateless
 public class RewardDAO extends GenericDAO<Reward, Long> implements RewardDAOLocal {
 
-   @EJB
-   ApplicationDAOLocal applicationDAO;
-   
-   @Override
-   public List<Reward> getRewardsByApiKey(ApiKey apiKey) {
-      Application app = applicationDAO.getApplicationByApiKey(apiKey);
-      return em.createNamedQuery("Reward.getAllByApplication").setParameter("app", app).getResultList();    
-   }
+    @EJB
+    ApplicationDAOLocal applicationDAO;
 
-   @Override
-   public Reward getRewardByIdAndByApiKey(Long id, ApiKey apiKey) {
-      Application app = applicationDAO.getApplicationByApiKey(apiKey);
-      
-      try {
-         return (Reward) em.createNamedQuery("Reward.getByIdAndByApplication").setParameter("id", id).setParameter("app", app).getSingleResult();
-      } catch(NoResultException e) {
-         return null;
-      }
-   }
+    @Override
+    public List<Reward> getRewardsByApiKey(ApiKey apiKey) {
+        Application app = applicationDAO.getApplicationByApiKey(apiKey);
+        return em.createNamedQuery("Reward.getAllByApplication").setParameter("app", app).getResultList();
+    }
+
+    @Override
+    public Reward getRewardByIdAndByApiKey(Long id, ApiKey apiKey) {
+        Application app = applicationDAO.getApplicationByApiKey(apiKey);
+
+        try {
+            return (Reward) em.createNamedQuery("Reward.getByIdAndByApplication").setParameter("id", id).setParameter("app", app).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 
 }

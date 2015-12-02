@@ -1,7 +1,6 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
- * Date    : 30.10.2015
- * Fichier : EditAppServlet.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date
+ * : 30.10.2015 Fichier : EditAppServlet.java
  */
 package ch.heigvd.amt.moussaraser.web.controllers;
 
@@ -50,8 +49,7 @@ public class EditAppServlet extends HttpServlet {
             Application application = (Application) applicationsDAO.getManagedApplicationByApiKey(apiKeyDAO.findByApiKeyString(apiKey));
             application.setEnabled(!application.isEnabled());
             applicationsDAO.update(application);
-        } 
-        else {
+        } else {
             User u = usersDAO.getUserFromId((Long) request.getSession().getAttribute("userId"));
 
             if (action != null && action.equals("Save changes")) {

@@ -1,9 +1,7 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
- * Date    : 30.10.2015
- * Fichier : AddAppServlet.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date
+ * : 30.10.2015 Fichier : AddAppServlet.java
  */
-
 package ch.heigvd.amt.moussaraser.web.controllers;
 
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
@@ -24,85 +22,85 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class AddAppServlet extends HttpServlet {
 
-   @EJB
-   ApplicationDAOLocal applicationDAO;
+    @EJB
+    ApplicationDAOLocal applicationDAO;
 
-   @EJB
-   UsersDAOLocal usersDAO;
-   
-   @EJB
-   ApiKeyDAOLocal apiKeyDAO;
+    @EJB
+    UsersDAOLocal usersDAO;
 
-   /**
-    * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-    * methods.
-    *
-    * @param request servlet request
-    * @param response servlet response
-    * @throws ServletException if a servlet-specific error occurs
-    * @throws IOException if an I/O error occurs
-    */
-   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-           throws ServletException, IOException {
+    @EJB
+    ApiKeyDAOLocal apiKeyDAO;
 
-      String action = request.getParameter("action");
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-      if (action != null && action.equals("Register")) {
-         String name = request.getParameter("name");
-         String description = request.getParameter("description");
+        String action = request.getParameter("action");
 
-         if (name != null && description != null) {
-            Application app = new Application();
-            app.setName(name);
-            app.setDescription(description);
-            app.setCreator(usersDAO.getUserFromId((long) request.getSession().getAttribute("userId")));
-            app.setApiKey(apiKeyDAO.createAndReturnManagedEntity(new ApiKey(EncryptionManager.getAPIKey())));
-            applicationDAO.create(app);
-         }
-         response.sendRedirect(request.getContextPath() + "/home");
-         return;
-      }
+        if (action != null && action.equals("Register")) {
+            String name = request.getParameter("name");
+            String description = request.getParameter("description");
 
-      request.getRequestDispatcher("/WEB-INF/pages/addApp.jsp").forward(request, response);
-   }
+            if (name != null && description != null) {
+                Application app = new Application();
+                app.setName(name);
+                app.setDescription(description);
+                app.setCreator(usersDAO.getUserFromId((long) request.getSession().getAttribute("userId")));
+                app.setApiKey(apiKeyDAO.createAndReturnManagedEntity(new ApiKey(EncryptionManager.getAPIKey())));
+                applicationDAO.create(app);
+            }
+            response.sendRedirect(request.getContextPath() + "/home");
+            return;
+        }
 
-   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-   /**
-    * Handles the HTTP <code>GET</code> method.
-    *
-    * @param request servlet request
-    * @param response servlet response
-    * @throws ServletException if a servlet-specific error occurs
-    * @throws IOException if an I/O error occurs
-    */
-   @Override
-   protected void doGet(HttpServletRequest request, HttpServletResponse response)
-           throws ServletException, IOException {
-      processRequest(request, response);
-   }
+        request.getRequestDispatcher("/WEB-INF/pages/addApp.jsp").forward(request, response);
+    }
 
-   /**
-    * Handles the HTTP <code>POST</code> method.
-    *
-    * @param request servlet request
-    * @param response servlet response
-    * @throws ServletException if a servlet-specific error occurs
-    * @throws IOException if an I/O error occurs
-    */
-   @Override
-   protected void doPost(HttpServletRequest request, HttpServletResponse response)
-           throws ServletException, IOException {
-      processRequest(request, response);
-   }
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
 
-   /**
-    * Returns a short description of the servlet.
-    *
-    * @return a String containing servlet description
-    */
-   @Override
-   public String getServletInfo() {
-      return "Short description";
-   }// </editor-fold>
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
 
 }

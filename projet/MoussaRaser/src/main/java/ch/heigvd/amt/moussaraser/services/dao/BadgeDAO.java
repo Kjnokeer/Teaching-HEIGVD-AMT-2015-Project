@@ -1,9 +1,7 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
- * Date    : 16.10.2015
- * Fichier : ApplicationDAO.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date
+ * : 16.10.2015 Fichier : ApplicationDAO.java
  */
-
 package ch.heigvd.amt.moussaraser.services.dao;
 
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
@@ -19,26 +17,26 @@ import javax.persistence.NoResultException;
  */
 @Stateless
 public class BadgeDAO extends GenericDAO<Badge, Long> implements BadgeDAOLocal {
-   
-   @EJB
-   ApplicationDAOLocal applicationDAO;
 
-   @Override
-   public List<Badge> getBadgesByApiKey(ApiKey apiKey) {
-      Application app = applicationDAO.getApplicationByApiKey(apiKey);
-      
-      return em.createNamedQuery("Badge.getAllByApplication").setParameter("app", app).getResultList();
-   }
+    @EJB
+    ApplicationDAOLocal applicationDAO;
 
-   @Override
-   public Badge getBadgeByIdAndByApiKey(Long id, ApiKey apiKey) {
-      Application app = applicationDAO.getApplicationByApiKey(apiKey);
-      
-      try {
-         return (Badge) em.createNamedQuery("Badge.getByIdAndByApplication").setParameter("id", id).setParameter("app", app).getSingleResult();
-      } catch(NoResultException e) {
-         return null;
-      }
-   }
+    @Override
+    public List<Badge> getBadgesByApiKey(ApiKey apiKey) {
+        Application app = applicationDAO.getApplicationByApiKey(apiKey);
+
+        return em.createNamedQuery("Badge.getAllByApplication").setParameter("app", app).getResultList();
+    }
+
+    @Override
+    public Badge getBadgeByIdAndByApiKey(Long id, ApiKey apiKey) {
+        Application app = applicationDAO.getApplicationByApiKey(apiKey);
+
+        try {
+            return (Badge) em.createNamedQuery("Badge.getByIdAndByApplication").setParameter("id", id).setParameter("app", app).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 
 }

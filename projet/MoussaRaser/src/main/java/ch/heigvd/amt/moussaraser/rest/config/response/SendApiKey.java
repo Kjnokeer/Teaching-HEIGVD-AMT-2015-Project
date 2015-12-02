@@ -13,19 +13,19 @@ import javax.ws.rs.core.Response;
  * @author Mathias
  */
 public class SendApiKey extends SendResponse {
-   
-   public static Response errorApiKeyNotProvided() {
-      return Response.status(401)
+
+    public static Response errorApiKeyNotProvided() {
+        return Response.status(401)
                 .entity(new ErrorObject("No API key was provided with the API request"))
                 .type("application/json")
                 .build();
-   }
-   
-   public static Response errorApiKeyInvalid() {
-      return Response.status(401)
+    }
+
+    public static Response errorApiKeyInvalid() {
+        return Response.status(401)
                 .entity(new ErrorObject("An invalid API key was provided with the API request"))
                 .type("application/json")
                 .build();
-   }
+    }
 
 }
