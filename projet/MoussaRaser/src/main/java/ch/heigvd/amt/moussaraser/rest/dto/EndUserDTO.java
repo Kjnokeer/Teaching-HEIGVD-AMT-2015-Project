@@ -11,40 +11,56 @@ package ch.heigvd.amt.moussaraser.rest.dto;
  */
 public class EndUserDTO {
 
-    private String firstname;
-    private String lastname;
+   private Long id;
+   private String firstname;
+   private String lastname;
 
-    public EndUserDTO(String firstname, String lastname) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-    }
+   public EndUserDTO(Long id, String firstname, String lastname) {
+      this.id = id;
+      this.firstname = firstname;
+      this.lastname = lastname;
+   }
 
-    /**
-     * @return the first public String getFirsname
-     */
-    public String getFirstname() {
-        return firstname;
-    }
+   /**
+    * @return the first public String getId
+    */
+   public Long getId() {
+      return id;
+   }
 
-    /**
-     * @param firstname the firstname to set
-     */
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
+   /**
+    * @param id the id to set
+    */
+   public void setId(Long id) {
+      this.id = id;
+   }
 
-    /**
-     * @return the lastname
-     */
-    public String getLastname() {
-        return lastname;
-    }
+   /**
+    * @return the first public String getFirsname
+    */
+   public String getFirstname() {
+      return firstname;
+   }
 
-    /**
-     * @param lastname the lastname to set
-     */
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
+   /**
+    * @param firstname the firstname to set
+    */
+   public void setFirstname(String firstname) {
+      this.firstname = firstname;
+   }
+
+   /**
+    * @return the lastname
+    */
+   public String getLastname() {
+      return lastname;
+   }
+
+   /**
+    * @param lastname the lastname to set
+    */
+   public void setLastname(String lastname) {
+      this.lastname = lastname;
+   }
 
 }
