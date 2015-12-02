@@ -6,6 +6,7 @@
 package ch.heigvd.amt.moussaraser.rest.config.response;
 
 import ch.heigvd.amt.moussaraser.rest.config.response.message.ErrorObject;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
@@ -15,9 +16,9 @@ import javax.ws.rs.core.Response;
 public class SendReward extends SendResponse {
 
     public static Response errorRewardInvalid() {
-        return Response.status(401)
+        return Response.status(Response.Status.UNAUTHORIZED)
                 .entity(new ErrorObject("The reward ID you requested was invalid"))
-                .type("application/json")
+                .type(MediaType.APPLICATION_JSON)
                 .build();
     }
 
