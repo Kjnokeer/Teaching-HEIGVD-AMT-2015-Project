@@ -89,7 +89,7 @@ public class RewardsRessource {
 
       rewardDAO.create(reward);
 
-      return SendReward.send201Created(new BadgeDTO(
+      return SendReward.send201Created(new RewardDTO(
               reward.getId(),
               reward.getName(),
               reward.getCategory(),
