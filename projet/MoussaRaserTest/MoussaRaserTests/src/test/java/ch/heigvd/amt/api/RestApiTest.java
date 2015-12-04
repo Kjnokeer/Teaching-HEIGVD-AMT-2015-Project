@@ -26,6 +26,8 @@ public class RestApiTest {
     private final String idUserToModify = "1";
     // Id utilisateur à modifier
     private final String idUserToDisplay = "2";
+    // Id utilisateur à supprimer
+    private final String idUserToDelete = "3";
 
     private Client client;
     private ObjectMapper mapper;
@@ -269,5 +271,35 @@ public class RestApiTest {
         JsonNode root = mapper.readTree(jsonPayload);
         assertThat(root.get("firstname").asText().compareToIgnoreCase(firstName));
         assertThat(root.get("lastname").asText().compareToIgnoreCase(lastName));
+    }
+    
+    @Test
+    @ProbeTest(tags = "REST")
+    public void itShouldByPossibleToDeleteAnEndUser() throws IOException {        
+        String messageInfo = "User successfully deleted";
+        /**
+         * Requête GET à l'api pour récupérer liste d'utilisateurs d'une
+         * application
+         */
+        WebTarget target = client.target(baseUrl).path("users").path(idUserToDelete).queryParam("apiKey", apiKeyWithUsers);
+        Response response = target.request().delete();
+
+        /**
+         * L'api doit renvoyer un code 200
+         */
+        assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
+
+        /**
+         * Récupérer la réponse et contrôler qu'elle n'est pas vide
+         */
+        String jsonPayload = response.readEntity(String.class);
+        assertThat(jsonPayload).isNotNull();
+        assertThat(jsonPayload).isNotEmpty();
+
+        /**
+         * L'api doit renvoyer le bon message
+         */
+        JsonNode root = mapper.readTree(jsonPayload);
+        assertThat(root.get("information").asText().compareToIgnoreCase(messageInfo));
     }
 }
