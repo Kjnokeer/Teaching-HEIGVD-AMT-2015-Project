@@ -695,7 +695,7 @@ public class RestApiTest {
         assertThat(root.get("description").asText().compareToIgnoreCase(description));
         assertThat(root.get("image").asText().compareToIgnoreCase(image));
     }
-    
+
     /**
      * Tester l'api pour les fonctionnalités "Badges"
      */
