@@ -7,6 +7,7 @@ package ch.heigvd.amt.moussaraser.services.dao;
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
 import ch.heigvd.amt.moussaraser.model.entities.Application;
 import ch.heigvd.amt.moussaraser.model.entities.EndUser;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -48,4 +49,9 @@ public class EndUserDAO extends GenericDAO<EndUser, Long> implements EndUserDAOL
             return null;
         }
     }
+
+   @Override
+   public Long getNumberEndUserRegisteredLast30Days() {
+      return (Long) em.createNamedQuery("EndUser.getNumberEndUserRegisteredLast30Days").setParameter("date", new Date(System.currentTimeMillis() - 30L*24L*60L*60L*1000L)).getSingleResult();
+   }
 }
