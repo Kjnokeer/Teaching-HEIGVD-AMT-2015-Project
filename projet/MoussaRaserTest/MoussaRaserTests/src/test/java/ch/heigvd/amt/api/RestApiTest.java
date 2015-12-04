@@ -324,8 +324,7 @@ public class RestApiTest {
          * Suppression de l'utilisateur
          */
         /**
-         * Requête GET à l'api pour récupérer liste d'utilisateurs d'une
-         * application
+         * Requête DELETE pour supprimer un utilisateur
          */
         target = client.target(baseUrl).path("users").path(idUserToDelete).queryParam("apiKey", apiKeyWithUsers);
         response = target.request().delete();
@@ -354,8 +353,7 @@ public class RestApiTest {
     public void itShouldNotBePossibleToDeleteANotExistantEndUser() throws IOException {
         String messageError = "The user ID you requested was invalid";
         /**
-         * Requête GET à l'api pour récupérer liste d'utilisateurs d'une
-         * application
+         * Requête DELETE pour supprimer un utilisateur
          */
         WebTarget target = client.target(baseUrl).path("users").path(idFakeUser).queryParam("apiKey", apiKeyWithUsers);
         Response response = target.request().delete();
@@ -383,8 +381,8 @@ public class RestApiTest {
     @ProbeTest(tags = "REST")
     public void sendingGetBadgesOfUserEmptyToExistingApiKeyReturnOkEmpty() throws IOException {
         /**
-         * Requête GET à l'api pour récupérer liste d'utilisateurs d'une
-         * application
+         * Requête GET à l'api pour récupérer liste de badges d'un utilisateur
+         * d'une application
          */
         WebTarget target = client.target(baseUrl).path("users").path(idUserWithoutBadges).path("badges").queryParam("apiKey", apiKeyWithUsers);
         Response response = target.request().get();
@@ -416,8 +414,8 @@ public class RestApiTest {
     @ProbeTest(tags = "REST")
     public void sendingGetBadgesOfUserToExistingApiKeyReturnOk() throws IOException {
         /**
-         * Requête GET à l'api pour récupérer liste d'utilisateurs d'une
-         * application
+         * Requête GET à l'api pour récupérer liste de badges d'un utilisateur
+         * d'une application
          */
         WebTarget target = client.target(baseUrl).path("users").path(idUserWithBadges).path("badges").queryParam("apiKey", apiKeyWithUsers);
         Response response = target.request().get();
@@ -457,8 +455,8 @@ public class RestApiTest {
     @ProbeTest(tags = "REST")
     public void sendingGetRewardOfUserEmptyToExistingApiKeyReturnOkEmpty() throws IOException {
         /**
-         * Requête GET à l'api pour récupérer liste d'utilisateurs d'une
-         * application
+         * Requête GET à l'api pour récupérer liste des rewards d'un utilisateur
+         * d'une application
          */
         WebTarget target = client.target(baseUrl).path("users").path(idUserWithoutRewards).path("rewards").queryParam("apiKey", apiKeyWithUsers);
         Response response = target.request().get();
@@ -490,8 +488,8 @@ public class RestApiTest {
     @ProbeTest(tags = "REST")
     public void sendingGetRewardOfUserToExistingApiKeyReturnOk() throws IOException {
         /**
-         * Requête GET à l'api pour récupérer liste d'utilisateurs d'une
-         * application
+         * Requête GET à l'api pour récupérer liste de rewards reward d'un
+         * utilisateur d'une application
          */
         WebTarget target = client.target(baseUrl).path("users").path(idUserWithRewards).path("rewards").queryParam("apiKey", apiKeyWithUsers);
         Response response = target.request().get();
@@ -544,8 +542,8 @@ public class RestApiTest {
                 .put("image", image);
 
         /**
-         * Requête POST à l'api pour ajouter l'utilisateur créé auparavant à
-         * l'application
+         * Requête POST à l'api pour ajouter un badge à un utilisateur créé
+         * auparavant à l'application
          */
         WebTarget target = client.target(baseUrl).path("users").path(idUserWithRewards).path("badges").queryParam("apiKey", apiKeyWithUsers);
         Response response = target.request().post(Entity.entity(badgeInfo, "application/json"));
@@ -586,8 +584,8 @@ public class RestApiTest {
                 .put("image", image);
 
         /**
-         * Requête POST à l'api pour ajouter l'utilisateur créé auparavant à
-         * l'application
+         * Requête POST à l'api pour ajouter un reward à un utilisateur créé
+         * auparavant à l'application
          */
         WebTarget target = client.target(baseUrl).path("users").path(idUserWithBadges).path("rewards").queryParam("apiKey", apiKeyWithUsers);
         Response response = target.request().post(Entity.entity(badgeInfo, "application/json"));
@@ -696,6 +694,5 @@ public class RestApiTest {
         assertThat(root.get("category").asText().compareToIgnoreCase(category));
         assertThat(root.get("description").asText().compareToIgnoreCase(description));
         assertThat(root.get("image").asText().compareToIgnoreCase(image));
-
     }
 }

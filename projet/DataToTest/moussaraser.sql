@@ -16,6 +16,8 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
+SET foreign_key_checks = 0;
+
 --
 -- Base de données :  `moussaraser`
 --
@@ -81,6 +83,7 @@ INSERT INTO `reward` (`ID`, `CATEGORY`, `DESCRIPTION`, `IMAGE`, `NAME`, `APPLICA
 
 INSERT INTO `user` (`ID`, `EMAIL`, `FIRSTNAME`, `LASTNAME`, `PASSWORD`) VALUES
 (1, 'mario.ferreira@heig-vd.ch', 'Mario', 'Ferreira', '3ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4');
+SET foreign_key_checks = 1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
