@@ -5,7 +5,6 @@ import ch.heigvd.amt.moussaraser.model.entities.Reward;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendApiKey;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendReward;
 import ch.heigvd.amt.moussaraser.rest.config.response.message.InfoObject;
-import ch.heigvd.amt.moussaraser.rest.dto.BadgeDTO;
 import ch.heigvd.amt.moussaraser.rest.dto.RewardDTO;
 import ch.heigvd.amt.moussaraser.services.dao.ApiKeyDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;

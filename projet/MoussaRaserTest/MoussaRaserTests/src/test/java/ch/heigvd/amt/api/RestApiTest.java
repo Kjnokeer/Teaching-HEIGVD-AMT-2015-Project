@@ -48,7 +48,10 @@ public class RestApiTest {
         factory = new JsonNodeFactory(false);
     }
 
-    // Test Get Users
+    /**
+     * Tester l'api pour les fonctionnalités "Users"
+     */
+    
     @Test
     @ProbeTest(tags = "REST")
     public void sendingGetUsersWithoutApiKeyReturn401() throws IOException {
@@ -607,5 +610,93 @@ public class RestApiTest {
          */
         JsonNode root = mapper.readTree(jsonPayload);
         assertThat(root.get("information").asText().compareToIgnoreCase(messageInfo));
+    }
+    
+    /**
+     * Tester l'api pour les fonctionnalités "Rewards"
+     */
+    
+    @Test
+    @ProbeTest(tags = "REST")
+    public void sendingGetRewardsToExistingApiKeyReturnOk() throws IOException {
+        /**
+         * Requête GET à l'api pour récupérer la liste de rewards d'une application
+         */
+        WebTarget target = client.target(baseUrl).path("rewards").queryParam("apiKey", apiKeyWithUsers);
+        Response response = target.request().get();
+
+        /**
+         * L'api doit renvoyer un code 200
+         */
+        assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
+
+        /**
+         * Récupérer la réponse et contrôler qu'elle n'est pas vide
+         */
+        String jsonPayload = response.readEntity(String.class);
+        assertThat(jsonPayload).isNotNull();
+        assertThat(jsonPayload).isNotEmpty();
+
+        /**
+         * Formater au format JSON
+         */
+        JsonNode[] rootNodeasArray = mapper.readValue(jsonPayload, JsonNode[].class);
+        assertThat(rootNodeasArray).isNotNull();
+        assertThat(rootNodeasArray).isNotEmpty();
+
+        /**
+         * L'api doit renvoyer les informations suivantes
+         */
+        for (JsonNode users : rootNodeasArray) {
+            assertThat(users.get("id")).isNotNull();
+            assertThat(users.get("name")).isNotNull();
+            assertThat(users.get("category")).isNotNull();
+            assertThat(users.get("description")).isNotNull();
+            assertThat(users.get("image")).isNotNull();
+        }
+    }
+    
+    @Test
+    @ProbeTest(tags = "REST")
+    public void itShouldBePossibleToCreateAReward() throws IOException {
+        /**
+         * Création du reward au format JSON
+         */
+        String name = "Reward Test";
+        String category = "Reward Test";
+        String description = "Reward Test";
+        String image = "http://www.pokepedia.fr/images/5/50/Badge_Cascade_Kanto.png";
+        JsonNode badgeInfo = factory.objectNode().put("name", name)
+                .put("category", category)
+                .put("description", description)
+                .put("image", image);
+        
+        /**
+         * Requête POST à l'api pour créer un reward dans l'application
+         */
+        WebTarget target = client.target(baseUrl).path("rewards").queryParam("apiKey", apiKeyWithUsers);
+        Response response = target.request().post(Entity.entity(badgeInfo, "application/json"));
+
+        /**
+         * L'api doit renvoyer un code 201
+         */
+        assertThat(response.getStatus()).isEqualTo(Response.Status.CREATED.getStatusCode());
+
+        /**
+         * Récupérer la réponse et contrôler qu'elle n'est pas vide
+         */
+        String jsonPayload = response.readEntity(String.class);
+        assertThat(jsonPayload).isNotNull();
+        assertThat(jsonPayload).isNotEmpty();
+
+        /**
+         * L'api doit renvoyer les informations suivantes
+         */        
+        JsonNode root = mapper.readTree(jsonPayload);
+        assertThat(root.get("name").asText().compareToIgnoreCase(name));
+        assertThat(root.get("category").asText().compareToIgnoreCase(category));
+        assertThat(root.get("description").asText().compareToIgnoreCase(description));
+        assertThat(root.get("image").asText().compareToIgnoreCase(image));
+
     }
 }
