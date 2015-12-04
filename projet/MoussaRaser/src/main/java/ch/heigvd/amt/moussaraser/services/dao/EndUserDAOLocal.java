@@ -23,4 +23,6 @@ public interface EndUserDAOLocal extends IGenericDAO<EndUser, Long> {
     List<EndUser> getEndUsersByApiKey(ApiKey apiKey);
 
     EndUser getEndUserByIdAndByApiKey(Long id, ApiKey apiKey);
+    
+    List<EndUser> getLeaderboard(ApiKey apiKey);
 }

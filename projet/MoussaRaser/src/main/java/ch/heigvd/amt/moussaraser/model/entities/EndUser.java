@@ -28,7 +28,8 @@ public class EndUser extends AbstractDomainModelEntity<Long> {
     private String firstName;
     @NotNull
     private String lastName;
-    //private long score = 0;
+    
+    private long score = 0;
 
     @ManyToOne
     private Application application;
@@ -100,12 +101,12 @@ public class EndUser extends AbstractDomainModelEntity<Long> {
         this.rewards = rewards;
     }
 
-    /*public long getScore() {
+    public long getScore() {
         return score;
     }
 
     public void setScore(long score) {
         this.score = score;
-    }*/
+    }
 
 }

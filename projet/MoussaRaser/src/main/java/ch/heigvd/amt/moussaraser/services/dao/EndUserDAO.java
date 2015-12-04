@@ -7,6 +7,8 @@ package ch.heigvd.amt.moussaraser.services.dao;
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
 import ch.heigvd.amt.moussaraser.model.entities.Application;
 import ch.heigvd.amt.moussaraser.model.entities.EndUser;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -48,4 +50,23 @@ public class EndUserDAO extends GenericDAO<EndUser, Long> implements EndUserDAOL
             return null;
         }
     }
+
+    @Override
+    public List<EndUser> getLeaderboard(ApiKey apiKey) {
+        Application application = applicationDAO.getManagedApplicationByApiKey(apiKey);
+        
+        List<EndUser> endUsers = getEndUsersInApp(application);
+
+        Collections.sort(endUsers, new Comparator<EndUser>() {
+            public int compare(EndUser o1, EndUser o2) {
+                if (o1.getScore() == o2.getScore() ) {
+                    return 0;
+                }
+                return o1.getScore() < o2.getScore() ? 1 : -1;
+            }
+        });
+
+        return endUsers;
+    }
+
 }
