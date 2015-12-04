@@ -19,7 +19,7 @@ public class RestApiTest {
     // Clé api avec le bon format mais qui n'existe pas dans la base de données
     private final String fakeApiKey = "092abcde6ec143c0bbe132253263e34s";
     // Clé api d'une application existante sans utilisateurs finaux
-    private final String apiKeyWithUsers = "092abcde6ec143c0bbe132253263e340";
+    private final String apiKeyWithUsers = "a2f62188c9d74a3d82fa508ffa0cae6a";
     // Clé api d'une application existante avec utilisateurs finaux
     private final String apiKeyWithoutUsers = "8def28edc4504a93b1acf88475f4d707";
     // Id utilisateur à modifier
@@ -28,6 +28,14 @@ public class RestApiTest {
     private final String idUserToDisplay = "2";
     // Id utilisateur à supprimer
     private final String idUserToDelete = "3";
+    // Id utilisateur sans badges
+    private final String idUserWithoutBadges = "1";
+    // Id utilisateur sans rewards
+    private final String idUserWithoutRewards = "1";
+    // Id utilisateur avec badges
+    private final String idUserWithBadges = "2";
+    // Id utilisateur avec rewards
+    private final String idUserWithRewards = "2";
 
     private Client client;
     private ObjectMapper mapper;
@@ -310,7 +318,81 @@ public class RestApiTest {
          * Requête GET à l'api pour récupérer liste d'utilisateurs d'une
          * application
          */
-        WebTarget target = client.target(baseUrl).path(idUserToDisplay).path("badges").queryParam("apiKey", apiKeyWithUsers);
+        WebTarget target = client.target(baseUrl).path(idUserWithoutBadges).path("badges").queryParam("apiKey", apiKeyWithUsers);
+        Response response = target.request().get();
+
+        /**
+         * L'api doit renvoyer un code 200
+         */
+        assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
+
+        /**
+         * Récupérer la réponse et contrôler qu'elle n'est pas vide
+         */
+        String jsonPayload = response.readEntity(String.class);
+        assertThat(jsonPayload).isNotNull();
+        assertThat(jsonPayload).isNotEmpty();
+
+        /**
+         * Formater au format JSON
+         */
+        JsonNode[] rootNodeasArray = mapper.readValue(jsonPayload, JsonNode[].class);
+        /**
+         * L'api doit renvoyer une valeur non null, mais vide
+         */
+        assertThat(rootNodeasArray).isNotNull();
+        assertThat(rootNodeasArray).isEmpty();
+    }
+    
+    @Test
+    @ProbeTest(tags = "REST")
+    public void sendingGetBadgesOfUserToExistingApiKeyReturnOk() throws IOException {
+        /**
+         * Requête GET à l'api pour récupérer liste d'utilisateurs d'une
+         * application
+         */
+        WebTarget target = client.target(baseUrl).path(idUserWithBadges).path("badges").queryParam("apiKey", apiKeyWithUsers);
+        Response response = target.request().get();
+
+        /**
+         * L'api doit renvoyer un code 200
+         */
+        assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
+
+        /**
+         * Récupérer la réponse et contrôler qu'elle n'est pas vide
+         */
+        String jsonPayload = response.readEntity(String.class);
+        assertThat(jsonPayload).isNotNull();
+        assertThat(jsonPayload).isNotEmpty();
+
+        /**
+         * Formater au format JSON
+         */
+        JsonNode[] rootNodeasArray = mapper.readValue(jsonPayload, JsonNode[].class);
+        assertThat(rootNodeasArray).isNotNull();
+        assertThat(rootNodeasArray).isNotEmpty();
+
+        /**
+         * L'api doit renvoyer les informations suivantes
+         */
+        for (JsonNode badges : rootNodeasArray) {
+            assertThat(badges.get("id")).isNotNull();
+            assertThat(badges.get("name")).isNotNull();
+            assertThat(badges.get("category")).isNotNull();
+            assertThat(badges.get("description")).isNotNull();
+            assertThat(badges.get("image")).isNotNull();
+        }
+    }
+    
+    @Test
+    @ProbeTest(tags = "REST")
+    public void sendingGetRewardOfUserEmptyToExistingApiKeyReturnOkEmpty() throws IOException {
+        /**
+         * Requête GET à l'api pour récupérer liste d'utilisateurs d'une
+         * application
+         */
+        WebTarget target = client.target(baseUrl).path(idUserWithRewards).path("rewards").queryParam("apiKey", apiKeyWithUsers);
         Response response = target.request().get();
 
         /**
