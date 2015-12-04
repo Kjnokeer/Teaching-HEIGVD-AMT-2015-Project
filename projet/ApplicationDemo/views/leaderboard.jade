@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  h1(style="text-align: center")= title
+  hr
+  br
+    
+  h2 Leaderboard
+  table.table.table-striped.table-responsive
+    thead
+      th #
+      th Firstname
+      th Lastname
+      th Score
+    tbody
+
+  script.
+      $.ajax({
+         type: 'GET',
+         url: 'http://localhost:8080/MoussaRaser/api/leaderboard/?apiKey=0d969d5771ea42888b70db4fb44f9e67'
+      })
+      .success(function(data) {
+        $.each(data, function(i, item) {
+              $('<tr>').append(
+                  $('<td>').text(item.id),
+                  $('<td>').text(item.firstname),
+                  $('<td>').text(item.lastname),
+                  $('<td>').text(item.score)
+              ).appendTo('tbody');
+          });
+      })
+      .error(function(data, status) {
+         alert("Error ajax request");
+      });
