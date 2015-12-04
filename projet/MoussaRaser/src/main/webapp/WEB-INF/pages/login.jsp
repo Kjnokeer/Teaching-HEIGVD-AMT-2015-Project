@@ -55,7 +55,7 @@
             </div>
 
             <div class="alert alert-info">
-               <p><%= request.getAttribute("nbEndUserLast30Days") %> user(s) created by applications during the last 30 days</p>
+                <p><%= request.getAttribute("nbEndUserLast30Days") %> user(s) created by applications during the last 30 days</p>
             </div>
         </div>
     </body>

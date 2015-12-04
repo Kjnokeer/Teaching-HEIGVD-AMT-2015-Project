@@ -30,7 +30,7 @@ public class SecurityFilter implements Filter {
 
     @EJB
     ApplicationDAOLocal applicationDAO;
-    
+
     @EJB
     EndUserDAOLocal endUserDAO;
 
@@ -92,7 +92,7 @@ public class SecurityFilter implements Filter {
             request.setAttribute("nbUsers", usersDAO.count());
             request.setAttribute("nbApp", applicationDAO.count());
             request.setAttribute("nbEndUserLast30Days", endUserDAO.getNumberEndUserRegisteredLast30Days());
-            
+
             /*
              * The user has not been authenticated and tries to access a protected resource,
              * we display the login page (and interrupt the request processing pipeline).

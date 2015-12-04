@@ -47,9 +47,9 @@ public class LeaderBoardRessource {
 
         for (EndUser endUser : endUsers) {
             endUsersDTO.add(new EndUserDTO(
-                    endUser.getId(), 
-                    endUser.getFirstName(), 
-                    endUser.getLastName(), 
+                    endUser.getId(),
+                    endUser.getFirstName(),
+                    endUser.getLastName(),
                     endUser.getScore()));
         }
 

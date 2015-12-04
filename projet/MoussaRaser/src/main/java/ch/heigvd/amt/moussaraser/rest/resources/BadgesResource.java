@@ -9,179 +9,179 @@ import ch.heigvd.amt.moussaraser.rest.dto.BadgeDTO;
 import ch.heigvd.amt.moussaraser.services.dao.ApiKeyDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.BadgeDAOLocal;
+import ch.heigvd.amt.moussaraser.web.utils.EncryptionManager;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
-import ch.heigvd.amt.moussaraser.web.utils.EncryptionManager;
-import java.util.ArrayList;
-import java.util.List;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Stateless
 @Path("/badges")
 public class BadgesResource {
 
-   @EJB
-   BadgeDAOLocal badgeDAO;
+    @EJB
+    BadgeDAOLocal badgeDAO;
 
-   @EJB
-   ApplicationDAOLocal applicationDAO;
+    @EJB
+    ApplicationDAOLocal applicationDAO;
 
-   @EJB
-   ApiKeyDAOLocal apiKeyDAO;
+    @EJB
+    ApiKeyDAOLocal apiKeyDAO;
 
-   @GET
-   @Produces(MediaType.APPLICATION_JSON)
-   public Response getBadges(@QueryParam("apiKey") String apiKey) {
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getBadges(@QueryParam("apiKey") String apiKey) {
 
-      if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
-         return SendApiKey.errorApiKeyNotProvided();
-      }
+        if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
+            return SendApiKey.errorApiKeyNotProvided();
+        }
 
-      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+        ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
 
-      if (key == null) {
-         return SendApiKey.errorApiKeyInvalid();
-      }
+        if (key == null) {
+            return SendApiKey.errorApiKeyInvalid();
+        }
 
-      List<Badge> badges = badgeDAO.getBadgesByApiKey(key);
-      List<BadgeDTO> badgesDTO = new ArrayList<>();
+        List<Badge> badges = badgeDAO.getBadgesByApiKey(key);
+        List<BadgeDTO> badgesDTO = new ArrayList<>();
 
-      for (Badge badge : badges) {
-         badgesDTO.add(new BadgeDTO(badge.getId(), badge.getName(), badge.getCategory(), badge.getDescription(), badge.getImage()));
-      }
+        for (Badge badge : badges) {
+            badgesDTO.add(new BadgeDTO(badge.getId(), badge.getName(), badge.getCategory(), badge.getDescription(), badge.getImage()));
+        }
 
-      return SendBadge.send200OK(badgesDTO);
-   }
+        return SendBadge.send200OK(badgesDTO);
+    }
 
-   @POST
-   @Consumes(MediaType.APPLICATION_JSON)
-   @Produces(MediaType.APPLICATION_JSON)
-   public Response createBadge(Badge b, @QueryParam("apiKey") String apiKey) {
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createBadge(Badge b, @QueryParam("apiKey") String apiKey) {
 
-      if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
-         return SendApiKey.errorApiKeyNotProvided();
-      }
+        if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
+            return SendApiKey.errorApiKeyNotProvided();
+        }
 
-      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+        ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
 
-      if (key == null) {
-         return SendApiKey.errorApiKeyInvalid();
-      }
+        if (key == null) {
+            return SendApiKey.errorApiKeyInvalid();
+        }
 
-      b.setApplication(applicationDAO.getApplicationByApiKey(key));
+        b.setApplication(applicationDAO.getApplicationByApiKey(key));
 
-      badgeDAO.create(b);
+        badgeDAO.create(b);
 
-      return SendBadge.send201Created(new BadgeDTO(
-              b.getId(),
-              b.getName(),
-              b.getCategory(),
-              b.getDescription(),
-              b.getImage()
-      ));
-   }
+        return SendBadge.send201Created(new BadgeDTO(
+                b.getId(),
+                b.getName(),
+                b.getCategory(),
+                b.getDescription(),
+                b.getImage()
+        ));
+    }
 
-   @GET
-   @Path("/{id}")
-   @Produces(MediaType.APPLICATION_JSON)
-   public Response getBadge(@PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getBadge(@PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
 
-      if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
-         return SendApiKey.errorApiKeyNotProvided();
-      }
+        if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
+            return SendApiKey.errorApiKeyNotProvided();
+        }
 
-      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+        ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
 
-      if (key == null) {
-         return SendApiKey.errorApiKeyInvalid();
-      }
+        if (key == null) {
+            return SendApiKey.errorApiKeyInvalid();
+        }
 
-      Badge b = badgeDAO.getBadgeByIdAndByApiKey(id, key);
+        Badge b = badgeDAO.getBadgeByIdAndByApiKey(id, key);
 
-      if (b == null) {
-         return SendBadge.errorBadgeInvalid();
-      }
+        if (b == null) {
+            return SendBadge.errorBadgeInvalid();
+        }
 
-      return SendBadge.send200OK(new BadgeDTO(
-              b.getId(),
-              b.getName(),
-              b.getCategory(),
-              b.getDescription(),
-              b.getImage()
-      ));
-   }
+        return SendBadge.send200OK(new BadgeDTO(
+                b.getId(),
+                b.getName(),
+                b.getCategory(),
+                b.getDescription(),
+                b.getImage()
+        ));
+    }
 
-   @PUT
-   @Path("/{id}")
-   @Consumes(MediaType.APPLICATION_JSON)
-   @Produces(MediaType.APPLICATION_JSON)
-   public Response updateBadge(Badge b, @PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateBadge(Badge b, @PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
 
-      if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
-         return SendApiKey.errorApiKeyNotProvided();
-      }
+        if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
+            return SendApiKey.errorApiKeyNotProvided();
+        }
 
-      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+        ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
 
-      if (key == null) {
-         return SendApiKey.errorApiKeyInvalid();
-      }
+        if (key == null) {
+            return SendApiKey.errorApiKeyInvalid();
+        }
 
-      Badge tmp = badgeDAO.getBadgeByIdAndByApiKey(id, key);
+        Badge tmp = badgeDAO.getBadgeByIdAndByApiKey(id, key);
 
-      if (tmp == null) {
-         return SendBadge.errorBadgeInvalid();
-      }
+        if (tmp == null) {
+            return SendBadge.errorBadgeInvalid();
+        }
 
-      Badge badge = badgeDAO.createAndReturnManagedEntity(tmp);
-      badge.setName(b.getName());
-      badge.setCategory(b.getCategory());
-      badge.setDescription(b.getDescription());
-      badge.setImage(b.getImage());
+        Badge badge = badgeDAO.createAndReturnManagedEntity(tmp);
+        badge.setName(b.getName());
+        badge.setCategory(b.getCategory());
+        badge.setDescription(b.getDescription());
+        badge.setImage(b.getImage());
 
-      return SendBadge.send200OK(new BadgeDTO(
-              b.getId(),
-              b.getName(),
-              b.getCategory(),
-              b.getDescription(),
-              b.getImage()
-      ));
-   }
+        return SendBadge.send200OK(new BadgeDTO(
+                b.getId(),
+                b.getName(),
+                b.getCategory(),
+                b.getDescription(),
+                b.getImage()
+        ));
+    }
 
-   @DELETE
-   @Path("/{id}")
-   @Produces(MediaType.APPLICATION_JSON)
-   public Response deleteBadge(@PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+    @DELETE
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteBadge(@PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
 
-      if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
-         return SendApiKey.errorApiKeyNotProvided();
-      }
+        if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
+            return SendApiKey.errorApiKeyNotProvided();
+        }
 
-      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+        ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
 
-      if (key == null) {
-         return SendApiKey.errorApiKeyInvalid();
-      }
+        if (key == null) {
+            return SendApiKey.errorApiKeyInvalid();
+        }
 
-      Badge badge = badgeDAO.getBadgeByIdAndByApiKey(id, key);
+        Badge badge = badgeDAO.getBadgeByIdAndByApiKey(id, key);
 
-      if (badge == null) {
-         return SendBadge.errorBadgeInvalid();
-      }
+        if (badge == null) {
+            return SendBadge.errorBadgeInvalid();
+        }
 
-      badgeDAO.delete(badge);
+        badgeDAO.delete(badge);
 
-      return SendBadge.send200OK(new InfoObject("Badge successfully deleted"));
-   }
+        return SendBadge.send200OK(new InfoObject("Badge successfully deleted"));
+    }
 
 }

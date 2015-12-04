@@ -1,6 +1,6 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date :
- * 09.10.2015 Fichier : EndUser.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date
+ * : 09.10.2015 Fichier : EndUser.java
  */
 package ch.heigvd.amt.moussaraser.model.entities;
 
@@ -17,10 +17,10 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @NamedQueries({
-   @NamedQuery(name = "EndUser.getNumberOfEndUsersInApp", query = "SELECT COUNT(eu) FROM EndUser eu WHERE eu.application = :app"),
-   @NamedQuery(name = "EndUser.getEndUsersInApp", query = "SELECT eu FROM EndUser eu WHERE eu.application = :app"),
-   @NamedQuery(name = "EndUser.getEndUserByIdAndApp", query = "SELECT eu FROM EndUser eu WHERE eu.id = :id AND eu.application = :app"),
-   @NamedQuery(name = "EndUser.getNumberEndUserRegisteredLast30Days", query = "SELECT COUNT(eu) FROM EndUser eu WHERE eu.registrationDate >= :date")
+    @NamedQuery(name = "EndUser.getNumberOfEndUsersInApp", query = "SELECT COUNT(eu) FROM EndUser eu WHERE eu.application = :app"),
+    @NamedQuery(name = "EndUser.getEndUsersInApp", query = "SELECT eu FROM EndUser eu WHERE eu.application = :app"),
+    @NamedQuery(name = "EndUser.getEndUserByIdAndApp", query = "SELECT eu FROM EndUser eu WHERE eu.id = :id AND eu.application = :app"),
+    @NamedQuery(name = "EndUser.getNumberEndUserRegisteredLast30Days", query = "SELECT COUNT(eu) FROM EndUser eu WHERE eu.registrationDate >= :date")
 })
 
 /**
@@ -28,107 +28,107 @@ import javax.validation.constraints.NotNull;
  */
 public class EndUser extends AbstractDomainModelEntity<Long> {
 
-   @NotNull
-   private String firstName;
-   @NotNull
-   private String lastName;
+    @NotNull
+    private String firstName;
+    @NotNull
+    private String lastName;
 
-   private long score = 0;
+    private long score = 0;
 
-   @ManyToOne
-   private Application application;
+    @ManyToOne
+    private Application application;
 
-   @ManyToMany
-   private List<Badge> badges;
+    @ManyToMany
+    private List<Badge> badges;
 
-   @ManyToMany
-   private List<Reward> rewards;
+    @ManyToMany
+    private List<Reward> rewards;
 
-   @NotNull
-   @Temporal(TemporalType.TIMESTAMP)
-   private Date registrationDate = new Date();
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date registrationDate = new Date();
 
-   public EndUser() {
-   }
+    public EndUser() {
+    }
 
-   /**
-    * @return the firstName
-    */
-   public String getFirstName() {
-      return firstName;
-   }
+    /**
+     * @return the firstName
+     */
+    public String getFirstName() {
+        return firstName;
+    }
 
-   /**
-    * @param firstName the firstName to set
-    */
-   public void setFirstName(String firstName) {
-      this.firstName = firstName;
-   }
+    /**
+     * @param firstName the firstName to set
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-   /**
-    * @return the lastName
-    */
-   public String getLastName() {
-      return lastName;
-   }
+    /**
+     * @return the lastName
+     */
+    public String getLastName() {
+        return lastName;
+    }
 
-   /**
-    * @param lastName the lastName to set
-    */
-   public void setLastName(String lastName) {
-      this.lastName = lastName;
-   }
+    /**
+     * @param lastName the lastName to set
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-   /**
-    * @return the the registration date
-    */
-   public Date getRegistrationDate() {
-      return registrationDate;
-   }
+    /**
+     * @return the the registration date
+     */
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
 
-   /**
-    * @param registrationDate the registration date to set
-    */
-   public void setRegistrationDate(Date registrationDate) {
-      this.registrationDate = registrationDate;
-   }
+    /**
+     * @param registrationDate the registration date to set
+     */
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
+    }
 
-   /**
-    * @return the application
-    */
-   public Application getApplication() {
-      return application;
-   }
+    /**
+     * @return the application
+     */
+    public Application getApplication() {
+        return application;
+    }
 
-   /**
-    * @param application the application to set
-    */
-   public void setApplication(Application application) {
-      this.application = application;
-   }
+    /**
+     * @param application the application to set
+     */
+    public void setApplication(Application application) {
+        this.application = application;
+    }
 
-   public List<Badge> getBadges() {
-      return badges;
-   }
+    public List<Badge> getBadges() {
+        return badges;
+    }
 
-   public void setBadges(List<Badge> badges) {
-      this.badges = badges;
-   }
+    public void setBadges(List<Badge> badges) {
+        this.badges = badges;
+    }
 
-   public List<Reward> getRewards() {
-      return rewards;
-   }
+    public List<Reward> getRewards() {
+        return rewards;
+    }
 
-   public void setRewards(List<Reward> rewards) {
-      this.rewards = rewards;
-   }
-   
-   public long getScore() {
-      return score;
-   }
+    public void setRewards(List<Reward> rewards) {
+        this.rewards = rewards;
+    }
 
-   public void setScore(long score) {
-      this.score = score;
-   }
+    public long getScore() {
+        return score;
+    }
+
+    public void setScore(long score) {
+        this.score = score;
+    }
 
 }

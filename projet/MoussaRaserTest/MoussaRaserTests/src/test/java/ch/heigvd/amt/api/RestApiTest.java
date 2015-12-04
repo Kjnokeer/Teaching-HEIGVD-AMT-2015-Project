@@ -15,6 +15,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.Before;
 
 public class RestApiTest {
+
     private final String baseUrl = "http://localhost:8080/MoussaRaser/api";
     // Clé api avec le bon format mais qui n'existe pas dans la base de données
     private final String fakeApiKey = "092abcde6ec143c0bbe132253263e34s";
@@ -51,7 +52,6 @@ public class RestApiTest {
     /**
      * Tester l'api pour les fonctionnalités "Users"
      */
-    
     @Test
     @ProbeTest(tags = "REST")
     public void sendingGetUsersWithoutApiKeyReturn401() throws IOException {
@@ -218,7 +218,7 @@ public class RestApiTest {
         assertThat(root.get("firstname").asText().compareToIgnoreCase(firstName));
         assertThat(root.get("lastname").asText().compareToIgnoreCase(lastName));
     }
-    
+
     @Test
     @ProbeTest(tags = "REST")
     public void itShouldBePossibleToModifyAnEndUser() throws IOException {
@@ -251,10 +251,10 @@ public class RestApiTest {
         assertThat(root.get("firstname").asText().compareToIgnoreCase(firstName));
         assertThat(root.get("lastname").asText().compareToIgnoreCase(lastName));
     }
-    
+
     @Test
     @ProbeTest(tags = "REST")
-    public void itShouldBePossibleToDisplayAnEndUser() throws IOException {        
+    public void itShouldBePossibleToDisplayAnEndUser() throws IOException {
         String firstName = "Thibaud";
         String lastName = "Duchoud";
         /**
@@ -283,7 +283,7 @@ public class RestApiTest {
         assertThat(root.get("firstname").asText().compareToIgnoreCase(firstName));
         assertThat(root.get("lastname").asText().compareToIgnoreCase(lastName));
     }
-    
+
     @Test
     @ProbeTest(tags = "REST")
     public void itShouldBePossibleToDeleteAnEndUser() throws IOException {
@@ -292,7 +292,7 @@ public class RestApiTest {
         /**
          * Création de l'utilisateur à supprimer
          */
-        
+
         /**
          * Création de l'utilisateur au format JSON
          */
@@ -319,11 +319,10 @@ public class RestApiTest {
         String jsonPayload = response.readEntity(String.class);
         JsonNode root = mapper.readTree(jsonPayload);
         idUserToDelete = String.valueOf(root.get("id"));
-        
+
         /**
          * Suppression de l'utilisateur
          */
-        
         /**
          * Requête GET à l'api pour récupérer liste d'utilisateurs d'une
          * application
@@ -349,7 +348,7 @@ public class RestApiTest {
         root = mapper.readTree(jsonPayload);
         assertThat(root.get("information").asText().compareToIgnoreCase(messageInfo));
     }
-    
+
     @Test
     @ProbeTest(tags = "REST")
     public void itShouldNotBePossibleToDeleteANotExistantEndUser() throws IOException {
@@ -379,7 +378,7 @@ public class RestApiTest {
         JsonNode root = mapper.readTree(jsonPayload);
         assertThat(root.get("error").asText().compareToIgnoreCase(messageError));
     }
-    
+
     @Test
     @ProbeTest(tags = "REST")
     public void sendingGetBadgesOfUserEmptyToExistingApiKeyReturnOkEmpty() throws IOException {
@@ -412,7 +411,7 @@ public class RestApiTest {
         assertThat(rootNodeasArray).isNotNull();
         assertThat(rootNodeasArray).isEmpty();
     }
-    
+
     @Test
     @ProbeTest(tags = "REST")
     public void sendingGetBadgesOfUserToExistingApiKeyReturnOk() throws IOException {
@@ -453,7 +452,7 @@ public class RestApiTest {
             assertThat(badges.get("image")).isNotNull();
         }
     }
-    
+
     @Test
     @ProbeTest(tags = "REST")
     public void sendingGetRewardOfUserEmptyToExistingApiKeyReturnOkEmpty() throws IOException {
@@ -486,7 +485,7 @@ public class RestApiTest {
         assertThat(rootNodeasArray).isNotNull();
         assertThat(rootNodeasArray).isEmpty();
     }
-    
+
     @Test
     @ProbeTest(tags = "REST")
     public void sendingGetRewardOfUserToExistingApiKeyReturnOk() throws IOException {
@@ -509,7 +508,7 @@ public class RestApiTest {
         assertThat(jsonPayload).isNotNull();
         assertThat(jsonPayload).isNotEmpty();
 
-       /**
+        /**
          * Formater au format JSON
          */
         JsonNode[] rootNodeasArray = mapper.readValue(jsonPayload, JsonNode[].class);
@@ -527,10 +526,10 @@ public class RestApiTest {
             assertThat(badges.get("image")).isNotNull();
         }
     }
-    
+
     @Test
     @ProbeTest(tags = "REST")
-    public void itShouldBePossibleToAddABadgeToAnUser() throws IOException {       
+    public void itShouldBePossibleToAddABadgeToAnUser() throws IOException {
         String messageInfo = "New badge successfully added";
         /**
          * Création du badge au format JSON
@@ -562,17 +561,17 @@ public class RestApiTest {
         String jsonPayload = response.readEntity(String.class);
         assertThat(jsonPayload).isNotNull();
         assertThat(jsonPayload).isNotEmpty();
-        
+
         /**
          * L'api doit renvoyer le bon message
          */
         JsonNode root = mapper.readTree(jsonPayload);
         assertThat(root.get("information").asText().compareToIgnoreCase(messageInfo));
     }
-    
+
     @Test
     @ProbeTest(tags = "REST")
-    public void itShouldBePossibleToAddARewardToAnUser() throws IOException {       
+    public void itShouldBePossibleToAddARewardToAnUser() throws IOException {
         String messageInfo = "New reward successfully added";
         /**
          * Création du reward au format JSON
@@ -604,23 +603,23 @@ public class RestApiTest {
         String jsonPayload = response.readEntity(String.class);
         assertThat(jsonPayload).isNotNull();
         assertThat(jsonPayload).isNotEmpty();
-        
+
         /**
          * L'api doit renvoyer le bon message
          */
         JsonNode root = mapper.readTree(jsonPayload);
         assertThat(root.get("information").asText().compareToIgnoreCase(messageInfo));
     }
-    
+
     /**
      * Tester l'api pour les fonctionnalités "Rewards"
      */
-    
     @Test
     @ProbeTest(tags = "REST")
     public void sendingGetRewardsToExistingApiKeyReturnOk() throws IOException {
         /**
-         * Requête GET à l'api pour récupérer la liste de rewards d'une application
+         * Requête GET à l'api pour récupérer la liste de rewards d'une
+         * application
          */
         WebTarget target = client.target(baseUrl).path("rewards").queryParam("apiKey", apiKeyWithUsers);
         Response response = target.request().get();
@@ -655,7 +654,7 @@ public class RestApiTest {
             assertThat(users.get("image")).isNotNull();
         }
     }
-    
+
     @Test
     @ProbeTest(tags = "REST")
     public void itShouldBePossibleToCreateAReward() throws IOException {
@@ -670,7 +669,7 @@ public class RestApiTest {
                 .put("category", category)
                 .put("description", description)
                 .put("image", image);
-        
+
         /**
          * Requête POST à l'api pour créer un reward dans l'application
          */
@@ -691,7 +690,7 @@ public class RestApiTest {
 
         /**
          * L'api doit renvoyer les informations suivantes
-         */        
+         */
         JsonNode root = mapper.readTree(jsonPayload);
         assertThat(root.get("name").asText().compareToIgnoreCase(name));
         assertThat(root.get("category").asText().compareToIgnoreCase(category));
