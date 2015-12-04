@@ -21,21 +21,21 @@ public class RestApiTest {
     // Clé api d'une application existante sans utilisateurs finaux
     private final String apiKeyWithUsers = "a2f62188c9d74a3d82fa508ffa0cae6a";
     // Clé api d'une application existante avec utilisateurs finaux
-    private final String apiKeyWithoutUsers = "8def28edc4504a93b1acf88475f4d707";
+    private final String apiKeyWithoutUsers = "93073845311d4b678e6ce04f8933067f";
+    // Id utilisateur inexistant    
+    private final String idFakeUser = "222222222";
     // Id utilisateur à modifier
     private final String idUserToModify = "1";
-    // Id utilisateur à modifier
+    // Id utilisateur à afficher
     private final String idUserToDisplay = "2";
-    // Id utilisateur à supprimer
-    private final String idUserToDelete = "3";
     // Id utilisateur sans badges
-    private final String idUserWithoutBadges = "1";
+    private final String idUserWithoutBadges = "2";
     // Id utilisateur sans rewards
-    private final String idUserWithoutRewards = "1";
+    private final String idUserWithoutRewards = "2";
     // Id utilisateur avec badges
-    private final String idUserWithBadges = "2";
+    private final String idUserWithBadges = "1";
     // Id utilisateur avec rewards
-    private final String idUserWithRewards = "2";
+    private final String idUserWithRewards = "1";
 
     private Client client;
     private ObjectMapper mapper;
@@ -251,7 +251,7 @@ public class RestApiTest {
     
     @Test
     @ProbeTest(tags = "REST")
-    public void itShouldByPossibleToDisplayAnEndUser() throws IOException {        
+    public void itShouldBePossibleToDisplayAnEndUser() throws IOException {        
         String firstName = "Thibaud";
         String lastName = "Duchoud";
         /**
@@ -283,14 +283,50 @@ public class RestApiTest {
     
     @Test
     @ProbeTest(tags = "REST")
-    public void itShouldByPossibleToDeleteAnEndUser() throws IOException {        
+    public void itShouldBePossibleToDeleteAnEndUser() throws IOException {
+        String idUserToDelete;
         String messageInfo = "User successfully deleted";
+        /**
+         * Création de l'utilisateur à supprimer
+         */
+        
+        /**
+         * Création de l'utilisateur au format JSON
+         */
+        String firstName = "Thibaud";
+        String lastName = "Duchoud";
+        JsonNode userInfo = factory.objectNode().put("firstName", firstName)
+                .put("lastName", lastName);
+
+        /**
+         * Requête POST à l'api pour ajouter l'utilisateur créé auparavant à
+         * l'application
+         */
+        WebTarget target = client.target(baseUrl).path("users").queryParam("apiKey", apiKeyWithUsers);
+        Response response = target.request().post(Entity.entity(userInfo, "application/json"));
+
+        /**
+         * L'api doit renvoyer un code 201
+         */
+        assertThat(response.getStatus()).isEqualTo(Response.Status.CREATED.getStatusCode());
+
+        /**
+         * L'api doit renvoyer les informations de l'utilisateur correctes
+         */
+        String jsonPayload = response.readEntity(String.class);
+        JsonNode root = mapper.readTree(jsonPayload);
+        idUserToDelete = String.valueOf(root.get("id"));
+        
+        /**
+         * Suppression de l'utilisateur
+         */
+        
         /**
          * Requête GET à l'api pour récupérer liste d'utilisateurs d'une
          * application
          */
-        WebTarget target = client.target(baseUrl).path("users").path(idUserToDelete).queryParam("apiKey", apiKeyWithUsers);
-        Response response = target.request().delete();
+        target = client.target(baseUrl).path("users").path(idUserToDelete).queryParam("apiKey", apiKeyWithUsers);
+        response = target.request().delete();
 
         /**
          * L'api doit renvoyer un code 200
@@ -300,15 +336,45 @@ public class RestApiTest {
         /**
          * Récupérer la réponse et contrôler qu'elle n'est pas vide
          */
-        String jsonPayload = response.readEntity(String.class);
+        jsonPayload = response.readEntity(String.class);
         assertThat(jsonPayload).isNotNull();
         assertThat(jsonPayload).isNotEmpty();
 
         /**
          * L'api doit renvoyer le bon message
          */
-        JsonNode root = mapper.readTree(jsonPayload);
+        root = mapper.readTree(jsonPayload);
         assertThat(root.get("information").asText().compareToIgnoreCase(messageInfo));
+    }
+    
+    @Test
+    @ProbeTest(tags = "REST")
+    public void itShouldNotBePossibleToDeleteANotExistantEndUser() throws IOException {
+        String messageError = "The user ID you requested was invalid";
+        /**
+         * Requête GET à l'api pour récupérer liste d'utilisateurs d'une
+         * application
+         */
+        WebTarget target = client.target(baseUrl).path("users").path(idFakeUser).queryParam("apiKey", apiKeyWithUsers);
+        Response response = target.request().delete();
+
+        /**
+         * L'api doit renvoyer un code 401
+         */
+        assertThat(response.getStatus()).isEqualTo(Response.Status.UNAUTHORIZED.getStatusCode());
+
+        /**
+         * Récupérer la réponse et contrôler qu'elle n'est pas vide
+         */
+        String jsonPayload = response.readEntity(String.class);
+        assertThat(jsonPayload).isNotNull();
+        assertThat(jsonPayload).isNotEmpty();
+
+        /**
+         * L'api doit renvoyer le bon code d'erreur
+         */
+        JsonNode root = mapper.readTree(jsonPayload);
+        assertThat(root.get("error").asText().compareToIgnoreCase(messageError));
     }
     
     @Test
@@ -318,7 +384,7 @@ public class RestApiTest {
          * Requête GET à l'api pour récupérer liste d'utilisateurs d'une
          * application
          */
-        WebTarget target = client.target(baseUrl).path(idUserWithoutBadges).path("badges").queryParam("apiKey", apiKeyWithUsers);
+        WebTarget target = client.target(baseUrl).path("users").path(idUserWithoutBadges).path("badges").queryParam("apiKey", apiKeyWithUsers);
         Response response = target.request().get();
 
         /**
@@ -351,7 +417,7 @@ public class RestApiTest {
          * Requête GET à l'api pour récupérer liste d'utilisateurs d'une
          * application
          */
-        WebTarget target = client.target(baseUrl).path(idUserWithBadges).path("badges").queryParam("apiKey", apiKeyWithUsers);
+        WebTarget target = client.target(baseUrl).path("users").path(idUserWithBadges).path("badges").queryParam("apiKey", apiKeyWithUsers);
         Response response = target.request().get();
 
         /**
@@ -392,7 +458,7 @@ public class RestApiTest {
          * Requête GET à l'api pour récupérer liste d'utilisateurs d'une
          * application
          */
-        WebTarget target = client.target(baseUrl).path(idUserWithRewards).path("rewards").queryParam("apiKey", apiKeyWithUsers);
+        WebTarget target = client.target(baseUrl).path("users").path(idUserWithoutRewards).path("rewards").queryParam("apiKey", apiKeyWithUsers);
         Response response = target.request().get();
 
         /**
@@ -416,5 +482,130 @@ public class RestApiTest {
          */
         assertThat(rootNodeasArray).isNotNull();
         assertThat(rootNodeasArray).isEmpty();
+    }
+    
+    @Test
+    @ProbeTest(tags = "REST")
+    public void sendingGetRewardOfUserToExistingApiKeyReturnOk() throws IOException {
+        /**
+         * Requête GET à l'api pour récupérer liste d'utilisateurs d'une
+         * application
+         */
+        WebTarget target = client.target(baseUrl).path("users").path(idUserWithRewards).path("rewards").queryParam("apiKey", apiKeyWithUsers);
+        Response response = target.request().get();
+
+        /**
+         * L'api doit renvoyer un code 200
+         */
+        assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
+
+        /**
+         * Récupérer la réponse et contrôler qu'elle n'est pas vide
+         */
+        String jsonPayload = response.readEntity(String.class);
+        assertThat(jsonPayload).isNotNull();
+        assertThat(jsonPayload).isNotEmpty();
+
+       /**
+         * Formater au format JSON
+         */
+        JsonNode[] rootNodeasArray = mapper.readValue(jsonPayload, JsonNode[].class);
+        assertThat(rootNodeasArray).isNotNull();
+        assertThat(rootNodeasArray).isNotEmpty();
+
+        /**
+         * L'api doit renvoyer les informations suivantes
+         */
+        for (JsonNode badges : rootNodeasArray) {
+            assertThat(badges.get("id")).isNotNull();
+            assertThat(badges.get("name")).isNotNull();
+            assertThat(badges.get("category")).isNotNull();
+            assertThat(badges.get("description")).isNotNull();
+            assertThat(badges.get("image")).isNotNull();
+        }
+    }
+    
+    @Test
+    @ProbeTest(tags = "REST")
+    public void itShouldBePossibleToAddABadgeToAnUser() throws IOException {       
+        String messageInfo = "New badge successfully added";
+        /**
+         * Création du badge au format JSON
+         */
+        String name = "Badge Test";
+        String category = "Badge Test";
+        String description = "Badge Test";
+        String image = "http://www.pokepedia.fr/images/5/50/Badge_Cascade_Kanto.png";
+        JsonNode badgeInfo = factory.objectNode().put("name", name)
+                .put("category", category)
+                .put("description", description)
+                .put("image", image);
+
+        /**
+         * Requête POST à l'api pour ajouter l'utilisateur créé auparavant à
+         * l'application
+         */
+        WebTarget target = client.target(baseUrl).path("users").path(idUserWithRewards).path("badges").queryParam("apiKey", apiKeyWithUsers);
+        Response response = target.request().post(Entity.entity(badgeInfo, "application/json"));
+
+        /**
+         * L'api doit renvoyer un code 201
+         */
+        assertThat(response.getStatus()).isEqualTo(Response.Status.CREATED.getStatusCode());
+
+        /**
+         * Récupérer la réponse et contrôler qu'elle n'est pas vide
+         */
+        String jsonPayload = response.readEntity(String.class);
+        assertThat(jsonPayload).isNotNull();
+        assertThat(jsonPayload).isNotEmpty();
+        
+        /**
+         * L'api doit renvoyer le bon message
+         */
+        JsonNode root = mapper.readTree(jsonPayload);
+        assertThat(root.get("information").asText().compareToIgnoreCase(messageInfo));
+    }
+    
+    @Test
+    @ProbeTest(tags = "REST")
+    public void itShouldBePossibleToAddARewardToAnUser() throws IOException {       
+        String messageInfo = "New reward successfully added";
+        /**
+         * Création du reward au format JSON
+         */
+        String name = "Reward Test";
+        String category = "Reward Test";
+        String description = "Reward Test";
+        String image = "http://www.pokepedia.fr/images/5/50/Badge_Cascade_Kanto.png";
+        JsonNode badgeInfo = factory.objectNode().put("name", name)
+                .put("category", category)
+                .put("description", description)
+                .put("image", image);
+
+        /**
+         * Requête POST à l'api pour ajouter l'utilisateur créé auparavant à
+         * l'application
+         */
+        WebTarget target = client.target(baseUrl).path("users").path(idUserWithBadges).path("rewards").queryParam("apiKey", apiKeyWithUsers);
+        Response response = target.request().post(Entity.entity(badgeInfo, "application/json"));
+
+        /**
+         * L'api doit renvoyer un code 201
+         */
+        assertThat(response.getStatus()).isEqualTo(Response.Status.CREATED.getStatusCode());
+
+        /**
+         * Récupérer la réponse et contrôler qu'elle n'est pas vide
+         */
+        String jsonPayload = response.readEntity(String.class);
+        assertThat(jsonPayload).isNotNull();
+        assertThat(jsonPayload).isNotEmpty();
+        
+        /**
+         * L'api doit renvoyer le bon message
+         */
+        JsonNode root = mapper.readTree(jsonPayload);
+        assertThat(root.get("information").asText().compareToIgnoreCase(messageInfo));
     }
 }
