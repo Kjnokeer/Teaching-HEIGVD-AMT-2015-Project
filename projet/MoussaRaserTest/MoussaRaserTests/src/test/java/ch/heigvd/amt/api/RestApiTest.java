@@ -302,4 +302,37 @@ public class RestApiTest {
         JsonNode root = mapper.readTree(jsonPayload);
         assertThat(root.get("information").asText().compareToIgnoreCase(messageInfo));
     }
+    
+    @Test
+    @ProbeTest(tags = "REST")
+    public void sendingGetBadgesOfUserEmptyToExistingApiKeyReturnOkEmpty() throws IOException {
+        /**
+         * Requête GET à l'api pour récupérer liste d'utilisateurs d'une
+         * application
+         */
+        WebTarget target = client.target(baseUrl).path(idUserToDisplay).path("badges").queryParam("apiKey", apiKeyWithUsers);
+        Response response = target.request().get();
+
+        /**
+         * L'api doit renvoyer un code 200
+         */
+        assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
+
+        /**
+         * Récupérer la réponse et contrôler qu'elle n'est pas vide
+         */
+        String jsonPayload = response.readEntity(String.class);
+        assertThat(jsonPayload).isNotNull();
+        assertThat(jsonPayload).isNotEmpty();
+
+        /**
+         * Formater au format JSON
+         */
+        JsonNode[] rootNodeasArray = mapper.readValue(jsonPayload, JsonNode[].class);
+        /**
+         * L'api doit renvoyer une valeur non null, mais vide
+         */
+        assertThat(rootNodeasArray).isNotNull();
+        assertThat(rootNodeasArray).isEmpty();
+    }
 }
