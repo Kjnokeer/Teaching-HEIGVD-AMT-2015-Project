@@ -74,15 +74,28 @@ Vous pouvez également enregister une nouvelle application à l'aide du bouton `
 ![](img/accountPage.png)
 
 #### JUnit
-Pour les tests unitaires il faut tout d'abord il faut lancer le serveur web.
+Pour les tests unitaires, il faut tout d'abord il faut lancer le serveur web.
 
 Ensuite, ouvrir le projet "MoussaRaserTests" dans NetBeans et faire un "Clean and Build".
 
 Pour finir, il faut simplement appuyer sur la touche "F6" (Tests).
 
 #### JMeter
-Dans le cas des tests de charge il faut simplement ouvrir les fichier "MoussaRaser Pool.jmx" et appuyer sur le bouton "Play".
+Dans le cas des tests de charge, il faut simplement ouvrir les fichier "MoussaRaser Pool.jmx" et appuyer sur le bouton "Play".
 
+#### JUnit (Jersey)
+Pour les tests unitaires, il faut tout d'abord il faut lancer le serveur web et importer le fichier "moussaraser.sql" (projet/DataToTest).
+
+Ensuite, ouvrir le projet "MoussaRaserTests" dans NetBeans et faire un "Clean and Build".
+
+Pour finir, il faut simplement sélectionner le fichier "RestApiTest.java" et appuyer sur la touche "F6" (Tests).
+
+#### Concurrency (Node.js)
+Pour les tests de concurrence, il faut tout d'abord il faut lancer le serveur web et importer le fichier "moussaraser.sql" (projet/DataToTest).
+
+Ensuite, ouvrir une console (projet/MoussaRaserApiTest) et taper les commandes suivantes:
+1. npm install
+2. node client.js
 
 ## Design
 
@@ -101,13 +114,42 @@ Dans le cas des tests de charge il faut simplement ouvrir les fichier "MoussaRas
 
 ## Testing and validation
 ### Tools
+Pour tester la partie 2 de notre projet nous avons utilisé 2 "méthodes":
+
+- Pour le fonctionnement de notre API nous avons utilisé des tests unitaires à l'aide de Jersey Client.
+- Pour la concurrence de notre API nous avons utilisé un code en Node.js en s'inspirant de l'exemple vu en pendant les cours théoriques.
 
 ### Procedures
+#### Fonctionnement ####
+Pour les tests unitaires nous nous sommes inspirés de l'exemple vu en classe, nous avons créé une classe RestApiTest.java.
+![](img/tests_struct.png)
 
+#### Concurrence ####
+Pour les tests de concurrence nous avons crée une application en Node.js en s'inspirant de l'exemple du cours pour tester la concurrence d'attribution de rewards à un utilisateur.
 
 ### Results
 
+#### Fonctionnement ####
+![](img/jersey_tests.png)
 
+Comme vous pouvez le constater dans l'image au-dessus, tous les tests passent sans problème.
+Nous avons réalisé plusieurs tests:
+- Lister les utilisateur d'une application.
+- Supprimer un utilisateur d'une application.
+- Ajouter un utilisateur à une application.
+- Lister de badges d'un utilisateur.
+- Supprimer un badge d'un utilisateur.
+- Ajouter un badge à un utilisateur.
+- Lister les rewards d'un utilisateur.
+- Supprimer un reward d'un utilisateur.
+- Ajouter un reward à un utilisateur.
+- Lister les badges d'une application.
+- Lister les rewards d'une appliaction.
+
+#### Concurrence ####
+![](img/concurrency_tests.png)
+
+Comme vous pouvez le constater dans l'image au-dessus le nombre de rewards créé est le même sur le serveur et le client.
 
 ## Known Issues
 

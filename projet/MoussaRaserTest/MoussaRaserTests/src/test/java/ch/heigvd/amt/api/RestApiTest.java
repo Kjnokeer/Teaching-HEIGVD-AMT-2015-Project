@@ -695,4 +695,91 @@ public class RestApiTest {
         assertThat(root.get("description").asText().compareToIgnoreCase(description));
         assertThat(root.get("image").asText().compareToIgnoreCase(image));
     }
+    
+    /**
+     * Tester l'api pour les fonctionnalités "Badges"
+     */
+    @Test
+    @ProbeTest(tags = "REST")
+    public void sendingGetBadgesToExistingApiKeyReturnOk() throws IOException {
+        /**
+         * Requête GET à l'api pour récupérer la liste de badges d'une
+         * application
+         */
+        WebTarget target = client.target(baseUrl).path("badges").queryParam("apiKey", apiKeyWithUsers);
+        Response response = target.request().get();
+
+        /**
+         * L'api doit renvoyer un code 200
+         */
+        assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
+
+        /**
+         * Récupérer la réponse et contrôler qu'elle n'est pas vide
+         */
+        String jsonPayload = response.readEntity(String.class);
+        assertThat(jsonPayload).isNotNull();
+        assertThat(jsonPayload).isNotEmpty();
+
+        /**
+         * Formater au format JSON
+         */
+        JsonNode[] rootNodeasArray = mapper.readValue(jsonPayload, JsonNode[].class);
+        assertThat(rootNodeasArray).isNotNull();
+        assertThat(rootNodeasArray).isNotEmpty();
+
+        /**
+         * L'api doit renvoyer les informations suivantes
+         */
+        for (JsonNode users : rootNodeasArray) {
+            assertThat(users.get("id")).isNotNull();
+            assertThat(users.get("name")).isNotNull();
+            assertThat(users.get("category")).isNotNull();
+            assertThat(users.get("description")).isNotNull();
+            assertThat(users.get("image")).isNotNull();
+        }
+    }
+
+    @Test
+    @ProbeTest(tags = "REST")
+    public void itShouldBePossibleToCreateABadge() throws IOException {
+        /**
+         * Création du reward au format JSON
+         */
+        String name = "Badge Test";
+        String category = "Badge Test";
+        String description = "Badge Test";
+        String image = "http://www.pokepedia.fr/images/5/50/Badge_Cascade_Kanto.png";
+        JsonNode badgeInfo = factory.objectNode().put("name", name)
+                .put("category", category)
+                .put("description", description)
+                .put("image", image);
+
+        /**
+         * Requête POST à l'api pour créer un badge dans l'application
+         */
+        WebTarget target = client.target(baseUrl).path("badges").queryParam("apiKey", apiKeyWithUsers);
+        Response response = target.request().post(Entity.entity(badgeInfo, "application/json"));
+
+        /**
+         * L'api doit renvoyer un code 201
+         */
+        assertThat(response.getStatus()).isEqualTo(Response.Status.CREATED.getStatusCode());
+
+        /**
+         * Récupérer la réponse et contrôler qu'elle n'est pas vide
+         */
+        String jsonPayload = response.readEntity(String.class);
+        assertThat(jsonPayload).isNotNull();
+        assertThat(jsonPayload).isNotEmpty();
+
+        /**
+         * L'api doit renvoyer les informations suivantes
+         */
+        JsonNode root = mapper.readTree(jsonPayload);
+        assertThat(root.get("name").asText().compareToIgnoreCase(name));
+        assertThat(root.get("category").asText().compareToIgnoreCase(category));
+        assertThat(root.get("description").asText().compareToIgnoreCase(description));
+        assertThat(root.get("image").asText().compareToIgnoreCase(image));
+    }
 }

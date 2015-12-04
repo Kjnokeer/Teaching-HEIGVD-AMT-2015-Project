@@ -15,7 +15,7 @@ http.globalAgent.maxSockets = 5;
 /*
  * This parameters are used to control the experiments and specify how much data we want to create.
  */
-var numberOfAccounts = 5;
+var numberOfAccounts = 2;
 var numberOfTransactionsPerAccount = 10;
 
 /*
@@ -45,10 +45,10 @@ function getTransactionPOSTRequestFunction(accountId) {
 				"Content-Type": "application/json"
 			},
 			data: {
-				'name': 'Merde' + accountId,
-				'category': 'Null à chier',
-				'description': 'Null à pisser',
-				'image': 'merde'
+				'name': 'Test Concurrency' + accountId,
+				'category': 'Test Concurrency',
+				'description': 'Test Concurrency',
+				'image': 'Test Concurrency'
 			},
 			requestConfig:{
 				'timeout' : 10000,
@@ -61,7 +61,7 @@ function getTransactionPOSTRequestFunction(accountId) {
 		
 		console.log("POST /users/ " + requestData.data.name + ":" + requestData.data.category);
 		
-			var req = client.post("http://localhost:8080/MoussaRaser/api/users/" + (accountId + 78) + "/rewards?apiKey=b2f8844d50c44ff9837a91a118ba469e", requestData, function(data, response) {
+			var req = client.post("http://localhost:8080/MoussaRaser/api/users/" + (accountId) + "/rewards?apiKey=a2f62188c9d74a3d82fa508ffa0cae6a", requestData, function(data, response) {
 			var error = null;
 			var result = {
 				requestData: requestData,
@@ -144,7 +144,7 @@ function checkValues(callback) {
 			"Accept": "application/json"
 		}
 	};
-	client.get("http://localhost:8080/MoussaRaser/api/rewards?apiKey=b2f8844d50c44ff9837a91a118ba469e", requestData, function(data, response) {
+	client.get("http://localhost:8080/MoussaRaser/api/rewards?apiKey=a2f62188c9d74a3d82fa508ffa0cae6a", requestData, function(data, response) {
 		var numberOfErrors = 0;
 		var clientSideAccounts = submittedStats;
 		var serverSideAccounts = data.length;
