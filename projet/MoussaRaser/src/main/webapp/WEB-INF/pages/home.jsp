@@ -51,7 +51,7 @@
                                                 </c:choose>
                                             <td>
                                                 <a href="${pageContext.request.contextPath}/editApp?app=${app.getApiKey().getApiKey()}"><button type="button" class="btn btn-default">edit</button></a>
-                                                <input name="state" id="app-state" apiKey="${app.getApiKey().getApiKey()}" data-toggle="toggle" data-on="Enabled" data-off="Disabled" type="checkbox" onchange="changeState();" <c:if test="${app.isEnabled()}">checked</c:if>>
+                                                <input name="state" id="app-state" apiKey="${app.getApiKey().getApiKey()}" data-toggle="toggle" data-on="Enabled" data-off="Disabled" type="checkbox" onchange="changeState(this);" <c:if test="${app.isEnabled()}">checked</c:if>>
                                                 </td>
                                             </tr>
                                         <c:set var="count" value="${count + 1}" scope="page"/>
@@ -68,8 +68,8 @@
             </div>
         </div>
         <script>
-            function changeState() {
-                var apiKey = $('#app-state').attr('apiKey');
+            function changeState(elem) {
+                var apiKey = $(elem).attr('apiKey');
 
                 $.post("${pageContext.request.contextPath}/editApp", {action: "changeState", apiKey: apiKey});
             }

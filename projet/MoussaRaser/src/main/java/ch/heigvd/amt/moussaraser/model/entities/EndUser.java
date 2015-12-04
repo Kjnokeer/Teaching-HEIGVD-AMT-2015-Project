@@ -30,14 +30,10 @@ public class EndUser extends AbstractDomainModelEntity<Long> {
 
    @NotNull
    private String firstName;
-
    @NotNull
    private String lastName;
-    //private long score = 0;
 
-   @NotNull
-   @Temporal(TemporalType.TIMESTAMP)
-   private Date registrationDate = new Date();
+   private long score = 0;
 
    @ManyToOne
    private Application application;
@@ -47,6 +43,10 @@ public class EndUser extends AbstractDomainModelEntity<Long> {
 
    @ManyToMany
    private List<Reward> rewards;
+
+   @NotNull
+   @Temporal(TemporalType.TIMESTAMP)
+   private Date registrationDate = new Date();
 
    public EndUser() {
    }
@@ -122,12 +122,13 @@ public class EndUser extends AbstractDomainModelEntity<Long> {
    public void setRewards(List<Reward> rewards) {
       this.rewards = rewards;
    }
+   
+   public long getScore() {
+      return score;
+   }
 
-   /*public long getScore() {
-    return score;
-    }
+   public void setScore(long score) {
+      this.score = score;
+   }
 
-    public void setScore(long score) {
-    this.score = score;
-    }*/
 }

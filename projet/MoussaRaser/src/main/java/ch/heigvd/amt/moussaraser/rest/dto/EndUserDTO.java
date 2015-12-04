@@ -14,11 +14,13 @@ public class EndUserDTO {
    private Long id;
    private String firstname;
    private String lastname;
+   private Long score;
 
-   public EndUserDTO(Long id, String firstname, String lastname) {
+   public EndUserDTO(Long id, String firstname, String lastname, Long score) {
       this.id = id;
       this.firstname = firstname;
       this.lastname = lastname;
+      this.score = score;
    }
 
    /**
@@ -62,5 +64,19 @@ public class EndUserDTO {
    public void setLastname(String lastname) {
       this.lastname = lastname;
    }
+
+    /**
+     * @return the score
+     */
+    public Long getScore() {
+        return score;
+    }
+
+    /**
+     * @param score the score to set
+     */
+    public void setScore(Long score) {
+        this.score = score;
+    }
 
 }
