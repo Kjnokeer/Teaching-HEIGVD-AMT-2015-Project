@@ -24,23 +24,13 @@ block content
       th Score
       th Actions
     tbody
-
-  script.
-      $.ajax({
-         type: 'GET',
-         url: 'http://localhost:8080/MoussaRaser/api/users/?apiKey=0d969d5771ea42888b70db4fb44f9e67'
-      })
-      .success(function(data) {
-        $.each(data, function(i, item) {
-              $('<tr>').append(
-                  $('<td>').text(item.id),
-                  $('<td>').text(item.firstname),
-                  $('<td>').text(item.lastname),
-                  $('<td>').text(item.score),
-                  $('<td>').append('<a href="#">Badges</a> - <a href="#">Rewards</a>')
-              ).appendTo('tbody');
-          });
-      })
-      .error(function(data, status) {
-         alert("Error ajax request");
-      });
+      each endUser in endUsers
+        tr
+          td= endUser.id
+          td= endUser.firstname
+          td= endUser.lastname
+          td= endUser.score
+          td
+            a(href="#") Badges
+            span  - 
+            a(href="#") rewards

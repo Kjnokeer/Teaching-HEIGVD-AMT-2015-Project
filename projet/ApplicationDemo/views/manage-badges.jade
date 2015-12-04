@@ -15,26 +15,15 @@ block content
       th Category
       th Actions
     tbody
-
-  script.
-      $.ajax({
-         type: 'GET',
-         url: 'http://localhost:8080/MoussaRaser/api/badges/?apiKey=0d969d5771ea42888b70db4fb44f9e67'
-      })
-      .success(function(data) {
-        console.log(data);
-
-        $.each(data, function(i, item) {
-              $('<tr>').append(
-                  $('<td>').text(item.id),
-                  $('<td>').text(item.name),
-                  $('<td>').text(item.description),
-                  $('<td>').append('<img width="50px" src="'+item.image+'"></src>'),
-                  $('<td>').text(item.category),
-                  $('<td>').append('<a href="#">Edit</a> - <a href="#">Delete</a>')
-              ).appendTo('tbody');
-          });
-      })
-      .error(function(data, status) {
-         alert("Error ajax request");
-      });
+      each badge in badges
+        tr
+          td= badge.id
+          td= badge.name
+          td= badge.description
+          td
+            img(src="#{badge.image}", width="50px")
+          td= badge.category
+          td
+            a(href="#") Edit
+            span  -  
+            a(href="#") Delete  
