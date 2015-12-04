@@ -5,6 +5,7 @@
 package ch.heigvd.amt.moussaraser.web.filters;
 
 import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;
+import ch.heigvd.amt.moussaraser.services.dao.EndUserDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.UsersDAOLocal;
 import java.io.IOException;
 import javax.ejb.EJB;
@@ -29,6 +30,9 @@ public class SecurityFilter implements Filter {
 
     @EJB
     ApplicationDAOLocal applicationDAO;
+    
+    @EJB
+    EndUserDAOLocal endUserDAO;
 
     @Override
     public void init(FilterConfig fc) throws ServletException {
@@ -87,6 +91,8 @@ public class SecurityFilter implements Filter {
         if (userId == null && isTargetUrlProtected) {
             request.setAttribute("nbUsers", usersDAO.count());
             request.setAttribute("nbApp", applicationDAO.count());
+            request.setAttribute("nbEndUserLast30Days", endUserDAO.getNumberEndUserRegisteredLast30Days());
+            
             /*
              * The user has not been authenticated and tries to access a protected resource,
              * we display the login page (and interrupt the request processing pipeline).

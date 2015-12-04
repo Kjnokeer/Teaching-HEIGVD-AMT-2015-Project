@@ -14,14 +14,14 @@ public class BadgeDTO {
     private Long id;
     private String name;
     private String category;
-    private String descritpion;
+    private String description;
     private String image;
 
-    public BadgeDTO(Long id, String name, String category, String descritpion, String image) {
+    public BadgeDTO(Long id, String name, String category, String description, String image) {
         this.id = id;
         this.name = name;
         this.category = category;
-        this.descritpion = descritpion;
+        this.description = description;
         this.image = image;
     }
 
@@ -49,12 +49,12 @@ public class BadgeDTO {
         this.category = category;
     }
 
-    public String getDescritpion() {
-        return descritpion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescritpion(String descritpion) {
-        this.descritpion = descritpion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getImage() {

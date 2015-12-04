@@ -1,20 +1,46 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1(style="text-align: center")= title
+  hr
+  br
 
-  p List of end users
-  p(class="test")
+  .btn-group.btn-group-justified(role='group', aria-label='...')
+    .btn-group(role='group')
+      a.btn.btn-default(type='button', href="/manageBadges") Manage badges
+    .btn-group(role='group')
+      a.btn.btn-default(type='button', href="/manageRewards") Manage rewards
+    .btn-group(role='group')
+      a.btn.btn-default(type='button', href="/showLeaderboard") Show leaderboard
+
+  br
+    
+  h2 List of end users
+  table.table.table-striped.table-responsive
+    thead
+      th #
+      th Firstname
+      th Lastname
+      th Score
+      th Actions
+    tbody
 
   script.
       $.ajax({
          type: 'GET',
-         url: 'http://localhost:8080/MoussaRaser/api/users/?apiKey=68ad24accdbc4e13a8513e861ed72539'
+         url: 'http://localhost:8080/MoussaRaser/api/users/?apiKey=0d969d5771ea42888b70db4fb44f9e67'
       })
       .success(function(data) {
-         $('.test').append(JSON.stringify(data));
+        $.each(data, function(i, item) {
+              $('<tr>').append(
+                  $('<td>').text(item.id),
+                  $('<td>').text(item.firstname),
+                  $('<td>').text(item.lastname),
+                  $('<td>').text(item.score),
+                  $('<td>').append('<a href="#">Badges</a> - <a href="#">Rewards</a>')
+              ).appendTo('tbody');
+          });
       })
       .error(function(data, status) {
-         $('.test').append('<b>' + status + '</b> : ' + JSON.stringify(data));
+         alert("Error ajax request");
       });

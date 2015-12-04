@@ -80,7 +80,7 @@ public class UsersResource {
       List<EndUserDTO> endUsersDTO = new ArrayList<>();
 
       for (EndUser endUser : endUsers) {
-         endUsersDTO.add(new EndUserDTO(endUser.getId(), endUser.getFirstName(), endUser.getLastName()));
+         endUsersDTO.add(new EndUserDTO(endUser.getId(), endUser.getFirstName(), endUser.getLastName(), endUser.getScore()));
       }
 
       return SendUser.send200OK(endUsersDTO);
@@ -108,7 +108,8 @@ public class UsersResource {
       return SendUser.send201Created(new EndUserDTO(
               endUser.getId(),
               endUser.getFirstName(),
-              endUser.getLastName()
+              endUser.getLastName(),
+              endUser.getScore()
       ));
    }
 
@@ -136,7 +137,8 @@ public class UsersResource {
       return SendUser.send200OK(new EndUserDTO(
               endUser.getId(),
               endUser.getFirstName(),
-              endUser.getLastName()
+              endUser.getLastName(),
+              endUser.getScore()
       ));
    }
 
@@ -174,7 +176,8 @@ public class UsersResource {
       return SendUser.send200OK(new EndUserDTO(
               endUser.getId(),
               endUserUpdate.getFirstName(),
-              endUserUpdate.getLastName()
+              endUserUpdate.getLastName(),
+              endUser.getScore()
       ));
    }
 
