@@ -73,6 +73,9 @@ Vous pouvez également enregister une nouvelle application à l'aide du bouton `
 ##### My account page
 ![](img/accountPage.png)
 
+#### API REST
+Une documentation auto-generée par Enunciate peut être consultée ici : [Documentation API REST](apiDocs/index.html)
+
 #### JUnit
 Pour les tests unitaires, il faut tout d'abord il faut lancer le serveur web.
 
@@ -96,21 +99,6 @@ Pour les tests de concurrence, il faut tout d'abord il faut lancer le serveur we
 Ensuite, ouvrir une console (projet/MoussaRaserApiTest) et taper les commandes suivantes:
 1. npm install
 2. node client.js
-
-## Design
-
-### System overview
-### Gamification features
-### User interface
-### REST API
-### Design patterns
-
-
-## Implementation
-
-### Package structure
-### Selected aspects
-
 
 ## Testing and validation
 ### Tools
@@ -150,10 +138,4 @@ Nous avons réalisé plusieurs tests:
 ![](img/concurrency_tests.png)
 
 Comme vous pouvez le constater dans l'image au-dessus le nombre de rewards créé est le même sur le serveur et le client.
-
-## Known Issues
-
-## Conclusion
-
-## Appending A: Auto Evaluation
 

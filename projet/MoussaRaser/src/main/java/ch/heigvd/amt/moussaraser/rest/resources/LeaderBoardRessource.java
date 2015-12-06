@@ -1,5 +1,5 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Auteurs : JÃ©rÃ´me Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
  * Date : 29.11.2015
  * Fichier : LeaderBoardRessource.java
  */
@@ -25,8 +25,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * Classe resprésentant une ressource REST LeaderBoard et l'action pour certaines
- * méthodes HTTP :
+ * Classe resprÃ©sentant une ressource REST LeaderBoard et l'action pour certaines
+ * mÃ©thodes HTTP :
  * - GET /leaderboard
  * @author jermoret
  */
@@ -41,9 +41,9 @@ public class LeaderBoardRessource {
     EndUserDAOLocal endUsersDAO;
 
     /**
-     * Récupère le leaderboard actuel
-     * @param apiKey clé de l'application
-     * @return réponse JAX-RS
+     * RÃ©cupÃ¨re le leaderboard actuel
+     * @param apiKey clÃ© de l'application
+     * @return rÃ©ponse JAX-RS
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -69,7 +69,7 @@ public class LeaderBoardRessource {
                     endUser.getScore()));
         }
 
-        // Renvoie une liste de end users triée par ordre décroissant
+        // Renvoie une liste de end users triÃ©e par ordre dÃ©croissant
         return SendUser.send200OK(endUsersDTO);
     }
 }

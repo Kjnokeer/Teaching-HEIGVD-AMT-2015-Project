@@ -1,5 +1,5 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Auteurs : JÃ©rÃ´me Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
  * Date : 29.11.2015
  * Fichier : UsersRessource.java
  */
@@ -40,8 +40,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * Classe resprésentant une ressource REST User (EndUser) et l'action pour certaines
- * méthodes HTTP :
+ * Classe resprÃ©sentant une ressource REST User (EndUser) et l'action pour certaines
+ * mÃ©thodes HTTP :
  * - GET /users
  * - POST /users
  *
@@ -78,10 +78,10 @@ public class UsersResource {
     RewardDAOLocal rewardDAO;
 
     /**
-     * Récupère la liste de tous les utilisateurs finaux de l'application
+     * RÃ©cupÃ¨re la liste de tous les utilisateurs finaux de l'application
      *
-     * @param apiKey clé de l'application
-     * @return réponse JAX-RS
+     * @param apiKey clÃ© de l'application
+     * @return rÃ©ponse JAX-RS
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -108,11 +108,11 @@ public class UsersResource {
     }
 
     /**
-     * Créer un utilisateur final
+     * CrÃ©er un utilisateur final
      *
      * @param b Payload JSON de l'utilisateur
-     * @param apiKey clé de l'application
-     * @return Réponse JAX-RS
+     * @param apiKey clÃ© de l'application
+     * @return RÃ©ponse JAX-RS
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -142,11 +142,11 @@ public class UsersResource {
     }
 
     /**
-     * Récupère un certain utilisateur final selon un id
+     * RÃ©cupÃ¨re un certain utilisateur final selon un id
      *
      * @param id id badge
-     * @param apiKey clé de l'application
-     * @return réponse Jax-RS
+     * @param apiKey clÃ© de l'application
+     * @return rÃ©ponse Jax-RS
      */
     @GET
     @Path("/{id}")
@@ -182,8 +182,8 @@ public class UsersResource {
      *
      * @param b Payload JSON de l'utilisateur
      * @param id id du badge
-     * @param apiKey clé de l'application
-     * @return réponse JAX-RS
+     * @param apiKey clÃ© de l'application
+     * @return rÃ©ponse JAX-RS
      */
     @PUT
     @Path("/{id}")
@@ -227,8 +227,8 @@ public class UsersResource {
      * Supprime un certain badge
      *
      * @param id id du badge
-     * @param apiKey clé de l'application
-     * @return réponse JAX-RS
+     * @param apiKey clÃ© de l'application
+     * @return rÃ©ponse JAX-RS
      */
     @DELETE
     @Path("/{id}")
@@ -259,10 +259,10 @@ public class UsersResource {
     }
 
     /**
-     * Récupére tous les badges d'un certain utilisateur final
+     * RÃ©cupÃ©re tous les badges d'un certain utilisateur final
      * @param id id de l'utilisateur
-     * @param apiKey clé de l'application
-     * @return réspone JAX-RS
+     * @param apiKey clÃ© de l'application
+     * @return rÃ©spone JAX-RS
      */
     @GET
     @Path("/{id}/badges")
@@ -301,11 +301,11 @@ public class UsersResource {
     }
 
     /**
-     * Créer un badge pour un certain utilisateur final
-     * @param badge badge à créer
+     * CrÃ©er un badge pour un certain utilisateur final
+     * @param badge badge Ã  crÃ©er
      * @param id id de l'utilisateur final
-     * @param apiKey clé de l'application
-     * @return réponse JAX-RS
+     * @param apiKey clÃ© de l'application
+     * @return rÃ©ponse JAX-RS
      */
     @POST
     @Path("/{id}/badges")
@@ -340,8 +340,8 @@ public class UsersResource {
      * Supprime un certain badge d'un certain utilisateur final
      * @param idUser id de l'utilisateur final
      * @param idBadge id du badge
-     * @param apiKey clé de l'application
-     * @return réponse JAX-RS
+     * @param apiKey clÃ© de l'application
+     * @return rÃ©ponse JAX-RS
      */
     @DELETE
     @Path("/{idUser}/badges/{idBadge}")
@@ -383,10 +383,10 @@ public class UsersResource {
     }
 
     /**
-     * Récupére tous les prix d'un certain utilisateur final
+     * RÃ©cupÃ©re tous les prix d'un certain utilisateur final
      * @param id id de l'utilisateur
-     * @param apiKey clé de l'application
-     * @return réspone JAX-RS
+     * @param apiKey clÃ© de l'application
+     * @return rÃ©spone JAX-RS
      */
     @GET
     @Path("/{id}/rewards")
@@ -425,11 +425,11 @@ public class UsersResource {
     }
 
     /**
-     * Créer un prix pour un certain utilisateur final
-     * @param reward prix à créer
+     * CrÃ©er un prix pour un certain utilisateur final
+     * @param reward prix Ã  crÃ©er
      * @param id id de l'utilisateur final
-     * @param apiKey clé de l'application
-     * @return réponse JAX-RS
+     * @param apiKey clÃ© de l'application
+     * @return rÃ©ponse JAX-RS
      */
     @POST
     @Path("/{id}/rewards")
@@ -464,8 +464,8 @@ public class UsersResource {
      * Supprime un certain prix d'un certain utilisateur final
      * @param idUser id de l'utilisateur final
      * @param idReward id du prix
-     * @param apiKey clé de l'application
-     * @return réponse JAX-RS
+     * @param apiKey clÃ© de l'application
+     * @return rÃ©ponse JAX-RS
      */
     @DELETE
     @Path("/{idUser}/rewards/{idReward}")

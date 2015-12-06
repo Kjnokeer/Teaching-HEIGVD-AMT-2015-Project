@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * Cette classe est un JPA, elle représente l'entité (table) ApiKey.
+ * @author jermoret
  */
 public class ApiKey extends AbstractDomainModelEntity<Long> {
 

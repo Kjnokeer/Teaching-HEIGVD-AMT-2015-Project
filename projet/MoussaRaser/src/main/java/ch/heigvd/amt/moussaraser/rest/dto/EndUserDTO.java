@@ -1,12 +1,12 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Auteurs : JÃ©rÃ´me Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
  * Date : 29.11.2015
  * Fichier : EndUserDTO.java
  */
 package ch.heigvd.amt.moussaraser.rest.dto;
 
 /**
- * Classe représentant un DTO de l'entité EndUser
+ * Classe reprÃ©sentant un DTO de l'entitÃ© EndUser
  * @author thibaud
  */
 public class EndUserDTO {

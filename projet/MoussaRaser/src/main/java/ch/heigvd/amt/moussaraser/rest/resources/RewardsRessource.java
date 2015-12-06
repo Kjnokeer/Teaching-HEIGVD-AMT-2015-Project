@@ -1,5 +1,5 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Auteurs : JÃ©rÃ´me Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
  * Date : 29.11.2015
  * Fichier : RewardsRessource.java
  */
@@ -32,8 +32,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * Classe resprésentant une ressource REST LeaderBoard et l'action pour certaines
- * méthodes HTTP :
+ * Classe resprÃ©sentant une ressource REST LeaderBoard et l'action pour certaines
+ * mÃ©thodes HTTP :
  * - GET /rewards
  * - POST /rewards
  * - GET /rewards/{id}
@@ -55,10 +55,10 @@ public class RewardsRessource {
     ApiKeyDAOLocal apiKeyDAO;
 
     /**
-     * Récupère la liste de tous les prix
+     * RÃ©cupÃ¨re la liste de tous les prix
      *
-     * @param apiKey clé de l'application
-     * @return réponse JAX-RS
+     * @param apiKey clÃ© de l'application
+     * @return rÃ©ponse JAX-RS
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -91,11 +91,11 @@ public class RewardsRessource {
     }
 
     /**
-     * Créer un prix
+     * CrÃ©er un prix
      *
      * @param b Payload JSON de l'utilisateur
-     * @param apiKey clé de l'application
-     * @return Réponse JAX-RS
+     * @param apiKey clÃ© de l'application
+     * @return RÃ©ponse JAX-RS
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -126,11 +126,11 @@ public class RewardsRessource {
     }
 
     /**
-     * Récupère un certain prix selon un id
+     * RÃ©cupÃ¨re un certain prix selon un id
      *
      * @param id id badge
-     * @param apiKey clé de l'application
-     * @return réponse Jax-RS
+     * @param apiKey clÃ© de l'application
+     * @return rÃ©ponse Jax-RS
      */
     @GET
     @Path("/{id}")
@@ -167,8 +167,8 @@ public class RewardsRessource {
      *
      * @param b Payload JSON de l'utilisateur
      * @param id id du badge
-     * @param apiKey clé de l'application
-     * @return réponse JAX-RS
+     * @param apiKey clÃ© de l'application
+     * @return rÃ©ponse JAX-RS
      */
     @PUT
     @Path("/{id}")
@@ -211,8 +211,8 @@ public class RewardsRessource {
      * Supprime un certain prix
      *
      * @param id id du badge
-     * @param apiKey clé de l'application
-     * @return réponse JAX-RS
+     * @param apiKey clÃ© de l'application
+     * @return rÃ©ponse JAX-RS
      */
     @DELETE
     @Path("/{id}")
