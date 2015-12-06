@@ -1,7 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 29.11.2015
+ * Fichier : UsersRessource.java
  */
 package ch.heigvd.amt.moussaraser.rest.resources;
 
@@ -40,8 +40,23 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
+ * Classe resprésentant une ressource REST User (EndUser) et l'action pour certaines
+ * méthodes HTTP :
+ * - GET /users
+ * - POST /users
  *
- * @author Olivier Liechti (olivier.liechti@heig-vd.ch)
+ * - GET /users/{id}
+ * - PUT /users/{id}
+ * - DELETE /users/{id}
+ *
+ * - GET /users/{id}/badges
+ * - POST /users/{id}/badges
+ * - DELETE /users/{id}/badges/{id}
+ *
+ * - GET /users/{id}/rewards
+ * - POST /users/{id}/rewards
+ * - DELETE /users/{id}/rewards/{id}
+ * @author jermoret
  */
 @Stateless
 @Path("/users")
@@ -62,6 +77,12 @@ public class UsersResource {
     @EJB
     RewardDAOLocal rewardDAO;
 
+    /**
+     * Récupère la liste de tous les utilisateurs finaux de l'application
+     *
+     * @param apiKey clé de l'application
+     * @return réponse JAX-RS
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getEndUsers(@QueryParam("apiKey") String apiKey) {
@@ -86,6 +107,13 @@ public class UsersResource {
         return SendUser.send200OK(endUsersDTO);
     }
 
+    /**
+     * Créer un utilisateur final
+     *
+     * @param b Payload JSON de l'utilisateur
+     * @param apiKey clé de l'application
+     * @return Réponse JAX-RS
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -113,6 +141,13 @@ public class UsersResource {
         ));
     }
 
+    /**
+     * Récupère un certain utilisateur final selon un id
+     *
+     * @param id id badge
+     * @param apiKey clé de l'application
+     * @return réponse Jax-RS
+     */
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -142,6 +177,14 @@ public class UsersResource {
         ));
     }
 
+    /**
+     * Modifie un certain utilisateur final
+     *
+     * @param b Payload JSON de l'utilisateur
+     * @param id id du badge
+     * @param apiKey clé de l'application
+     * @return réponse JAX-RS
+     */
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -171,7 +214,6 @@ public class UsersResource {
         endUserUpdate.setApplication(tmp.getApplication());
         endUserUpdate.setBadges(tmp.getBadges());
         endUserUpdate.setRewards(tmp.getRewards());
-        //endUserUpdate.setScore(tmp.getScore());
 
         return SendUser.send200OK(new EndUserDTO(
                 endUser.getId(),
@@ -181,6 +223,13 @@ public class UsersResource {
         ));
     }
 
+    /**
+     * Supprime un certain badge
+     *
+     * @param id id du badge
+     * @param apiKey clé de l'application
+     * @return réponse JAX-RS
+     */
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -209,6 +258,12 @@ public class UsersResource {
         ));
     }
 
+    /**
+     * Récupére tous les badges d'un certain utilisateur final
+     * @param id id de l'utilisateur
+     * @param apiKey clé de l'application
+     * @return réspone JAX-RS
+     */
     @GET
     @Path("/{id}/badges")
     @Produces(MediaType.APPLICATION_JSON)
@@ -245,6 +300,13 @@ public class UsersResource {
         return SendUser.send200OK(badgesDTO);
     }
 
+    /**
+     * Créer un badge pour un certain utilisateur final
+     * @param badge badge à créer
+     * @param id id de l'utilisateur final
+     * @param apiKey clé de l'application
+     * @return réponse JAX-RS
+     */
     @POST
     @Path("/{id}/badges")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -274,6 +336,13 @@ public class UsersResource {
         return SendUser.send201Created(new InfoObject("New badge successfully added"));
     }
 
+    /**
+     * Supprime un certain badge d'un certain utilisateur final
+     * @param idUser id de l'utilisateur final
+     * @param idBadge id du badge
+     * @param apiKey clé de l'application
+     * @return réponse JAX-RS
+     */
     @DELETE
     @Path("/{idUser}/badges/{idBadge}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -313,6 +382,12 @@ public class UsersResource {
         return SendUser.send200OK(new InfoObject(infoMsg));
     }
 
+    /**
+     * Récupére tous les prix d'un certain utilisateur final
+     * @param id id de l'utilisateur
+     * @param apiKey clé de l'application
+     * @return réspone JAX-RS
+     */
     @GET
     @Path("/{id}/rewards")
     @Produces(MediaType.APPLICATION_JSON)
@@ -349,6 +424,13 @@ public class UsersResource {
         return SendUser.send200OK(rewardsDTO);
     }
 
+    /**
+     * Créer un prix pour un certain utilisateur final
+     * @param reward prix à créer
+     * @param id id de l'utilisateur final
+     * @param apiKey clé de l'application
+     * @return réponse JAX-RS
+     */
     @POST
     @Path("/{id}/rewards")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -378,13 +460,21 @@ public class UsersResource {
         return SendUser.send201Created(new InfoObject("New reward successfully added"));
     }
 
+    /**
+     * Supprime un certain prix d'un certain utilisateur final
+     * @param idUser id de l'utilisateur final
+     * @param idReward id du prix
+     * @param apiKey clé de l'application
+     * @return réponse JAX-RS
+     */
     @DELETE
-    @Path("/{idUser}/rewards/{idBadge}")
+    @Path("/{idUser}/rewards/{idReward}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteRewardOfUser(
             @PathParam("idUser") long idUser,
-            @PathParam("idBadge") long idBadge,
-            @QueryParam("apiKey") String apiKey) {
+            @PathParam("idReward") long idReward,
+            @QueryParam("apiKey") String apiKey)
+    {
         if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
             return SendApiKey.errorApiKeyNotProvided();
         }
@@ -401,7 +491,7 @@ public class UsersResource {
             return SendUser.errorUserInvalid();
         }
 
-        Reward reward = rewardDAO.getRewardByIdAndByApiKey(idBadge, key);
+        Reward reward = rewardDAO.getRewardByIdAndByApiKey(idReward, key);
 
         if (reward == null) {
             return SendReward.errorRewardInvalid();

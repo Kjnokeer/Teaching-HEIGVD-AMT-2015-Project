@@ -1,6 +1,7 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date
- * : 09.10.2015 Fichier : User.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 09.10.2015
+ * Fichier : User.java
  */
 package ch.heigvd.amt.moussaraser.model.entities;
 
@@ -11,8 +12,9 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "User.findByEmailAndPassword", query = "SELECT u FROM User u WHERE u.email = :email AND u.password = :pass"),
-    @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),})
+        @NamedQuery(name = "User.findByEmailAndPassword", query = "SELECT u FROM User u WHERE u.email = :email AND u.password = :pass"),
+        @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id")
+})
 
 /**
  * Cette classe est un JPA, elle représente l'entité (table) User.
@@ -28,6 +30,9 @@ public class User extends AbstractDomainModelEntity<Long> {
     @NotNull
     private String password;
 
+    /**
+     * Constructeur vide
+     */
     public User() {
     }
 

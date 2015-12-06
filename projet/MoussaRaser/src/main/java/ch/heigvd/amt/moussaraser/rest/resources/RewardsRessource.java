@@ -1,3 +1,8 @@
+/**
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 29.11.2015
+ * Fichier : RewardsRessource.java
+ */
 package ch.heigvd.amt.moussaraser.rest.resources;
 
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
@@ -26,6 +31,16 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+/**
+ * Classe resprésentant une ressource REST LeaderBoard et l'action pour certaines
+ * méthodes HTTP :
+ * - GET /rewards
+ * - POST /rewards
+ * - GET /rewards/{id}
+ * - PUT /rewards/{id}
+ * - DELETE /rewards/{id}
+ * @author jermoret
+ */
 @Stateless
 @Path("/rewards")
 public class RewardsRessource {
@@ -39,6 +54,12 @@ public class RewardsRessource {
     @EJB
     ApiKeyDAOLocal apiKeyDAO;
 
+    /**
+     * Récupère la liste de tous les prix
+     *
+     * @param apiKey clé de l'application
+     * @return réponse JAX-RS
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getRewards(@QueryParam("apiKey") String apiKey) {
@@ -69,6 +90,13 @@ public class RewardsRessource {
         return SendReward.send200OK(rewardsDTO);
     }
 
+    /**
+     * Créer un prix
+     *
+     * @param b Payload JSON de l'utilisateur
+     * @param apiKey clé de l'application
+     * @return Réponse JAX-RS
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -97,6 +125,13 @@ public class RewardsRessource {
         ));
     }
 
+    /**
+     * Récupère un certain prix selon un id
+     *
+     * @param id id badge
+     * @param apiKey clé de l'application
+     * @return réponse Jax-RS
+     */
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -127,6 +162,14 @@ public class RewardsRessource {
         ));
     }
 
+    /**
+     * Modifie un certain prix
+     *
+     * @param b Payload JSON de l'utilisateur
+     * @param id id du badge
+     * @param apiKey clé de l'application
+     * @return réponse JAX-RS
+     */
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -164,6 +207,13 @@ public class RewardsRessource {
         ));
     }
 
+    /**
+     * Supprime un certain prix
+     *
+     * @param id id du badge
+     * @param apiKey clé de l'application
+     * @return réponse JAX-RS
+     */
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)

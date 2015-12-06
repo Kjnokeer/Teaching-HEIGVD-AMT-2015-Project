@@ -1,12 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 29.11.2015
+ * Fichier : EndUserDTO.java
  */
 package ch.heigvd.amt.moussaraser.rest.dto;
 
 /**
- *
+ * Classe représentant un DTO de l'entité EndUser
  * @author thibaud
  */
 public class EndUserDTO {

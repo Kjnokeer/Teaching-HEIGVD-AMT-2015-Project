@@ -1,6 +1,7 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date
- * : 09.10.2015 Fichier : Application.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 09.10.2015
+ * Fichier : ApiKey.java
  */
 package ch.heigvd.amt.moussaraser.model.entities;
 
@@ -11,7 +12,8 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "ApiKey.findByApiKeyStr", query = "SELECT k FROM ApiKey k WHERE k.apiKey = :apiKey"),})
+        @NamedQuery(name = "ApiKey.findByApiKeyStr", query = "SELECT k FROM ApiKey k WHERE k.apiKey = :apiKey")
+})
 
 /**
  * Cette classe est un JPA, elle représente l'entité (table) ApiKey.
@@ -19,11 +21,19 @@ import javax.validation.constraints.NotNull;
 public class ApiKey extends AbstractDomainModelEntity<Long> {
 
     @NotNull
-    private String apiKey;
+    private String apiKey; // Champ obligatoire
 
+    /**
+     * Constructeur vide
+     */
     public ApiKey() {
     }
 
+    /**
+     * Constructeur avec clé de l'API
+     *
+     * @param apiKey
+     */
     public ApiKey(String apiKey) {
         this.apiKey = apiKey;
     }

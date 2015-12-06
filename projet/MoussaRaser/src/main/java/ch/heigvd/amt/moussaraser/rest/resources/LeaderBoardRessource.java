@@ -1,3 +1,8 @@
+/**
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 29.11.2015
+ * Fichier : LeaderBoardRessource.java
+ */
 package ch.heigvd.amt.moussaraser.rest.resources;
 
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
@@ -19,6 +24,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+/**
+ * Classe resprésentant une ressource REST LeaderBoard et l'action pour certaines
+ * méthodes HTTP :
+ * - GET /leaderboard
+ * @author jermoret
+ */
 @Stateless
 @Path("/leaderboard")
 public class LeaderBoardRessource {
@@ -29,6 +40,11 @@ public class LeaderBoardRessource {
     @EJB
     EndUserDAOLocal endUsersDAO;
 
+    /**
+     * Récupère le leaderboard actuel
+     * @param apiKey clé de l'application
+     * @return réponse JAX-RS
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getLeaderBoard(@QueryParam("apiKey") String apiKey) {
@@ -53,6 +69,7 @@ public class LeaderBoardRessource {
                     endUser.getScore()));
         }
 
+        // Renvoie une liste de end users triée par ordre décroissant
         return SendUser.send200OK(endUsersDTO);
     }
 }
