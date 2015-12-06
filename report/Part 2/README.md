@@ -139,3 +139,10 @@ Nous avons réalisé plusieurs tests:
 
 Comme vous pouvez le constater dans l'image au-dessus le nombre de rewards créé est le même sur le serveur et le client.
 
+## Remarque concerant le projet ##
+
+Nous avons remarqué que vendredi, après discussion avec M. Liechti, que nous n'avions pas implémenter le système d'events demandé dans la spécification 2.
+
+Avec le temps qu'il nous restait (2.5 jours environ) et la difficulté à le mettre en place (comparé au reste des spécifications), nous n'avons malheureusement pas pu le mettre en place.
+
+Nous sommes partis au début dans l'idée que c'était au site (stackoverflow par exemple) de faire les requêtes GET, POST, ... vers notre moteur de gamification afin d'attribuer les badges, augmentation/diminution du score et autres actions et nous avons implémenter notre API REST dans ce sens. Malheureusement ce n'est pas comme ça que ça aurait du être fait.
