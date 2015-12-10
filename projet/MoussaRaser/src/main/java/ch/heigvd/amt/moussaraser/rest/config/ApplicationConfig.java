@@ -40,11 +40,12 @@ public class ApplicationConfig extends Application {
      * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(ch.heigvd.amt.moussaraser.rest.config.CORSFilter.class);
         resources.add(ch.heigvd.amt.moussaraser.rest.config.MyObjectMapperProvider.class);
         resources.add(ch.heigvd.amt.moussaraser.rest.resources.BadgesResource.class);
         resources.add(ch.heigvd.amt.moussaraser.rest.resources.LeaderBoardRessource.class);
         resources.add(ch.heigvd.amt.moussaraser.rest.resources.RewardsRessource.class);
-        resources.add(ch.heigvd.amt.moussaraser.rest.resources.UsersResource.class);
+      resources.add(ch.heigvd.amt.moussaraser.rest.resources.UsersResource.class);
     }
 
 }
