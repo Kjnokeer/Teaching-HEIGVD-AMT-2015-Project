@@ -2,13 +2,14 @@ var express = require('express');
 var router = express.Router();
 var request = require("request");
 
+var API_KEY = "0d969d5771ea42888b70db4fb44f9e67";
 
 
 /* GET home page. */
 
 router.get('/', function(req, res) {
    request({
-      uri: "http://localhost:8080/MoussaRaser/api/users/?apiKey=0d969d5771ea42888b70db4fb44f9e67",
+      uri: "http://localhost:8080/MoussaRaser/api/users/?apiKey=" + API_KEY,
       method: "GET",
       timeout: 10000,
       followRedirect: true,
@@ -23,7 +24,7 @@ router.get('/', function(req, res) {
 
 router.get('/manageBadges', function(req, res) {
    request({
-      uri: "http://localhost:8080/MoussaRaser/api/badges/?apiKey=0d969d5771ea42888b70db4fb44f9e67",
+      uri: "http://localhost:8080/MoussaRaser/api/badges/?apiKey=" + API_KEY,
       method: "GET",
       timeout: 10000,
       followRedirect: true,
@@ -38,7 +39,7 @@ router.get('/manageBadges', function(req, res) {
 
 router.get('/manageRewards', function(req, res) {
    request({
-      uri: "http://localhost:8080/MoussaRaser/api/rewards/?apiKey=0d969d5771ea42888b70db4fb44f9e67",
+      uri: "http://localhost:8080/MoussaRaser/api/rewards/?apiKey=" + API_KEY,
       method: "GET",
       timeout: 10000,
       followRedirect: true,
@@ -54,7 +55,7 @@ router.get('/manageRewards', function(req, res) {
 
 router.get('/showLeaderboard', function(req, res) {
    request({
-      uri: "http://localhost:8080/MoussaRaser/api/leaderboard/?apiKey=0d969d5771ea42888b70db4fb44f9e67",
+      uri: "http://localhost:8080/MoussaRaser/api/leaderboard/?apiKey=" + API_KEY,
       method: "GET",
       timeout: 10000,
       followRedirect: true,
@@ -64,6 +65,30 @@ router.get('/showLeaderboard', function(req, res) {
          title: 'Leaderboard',
          leaderboard: JSON.parse(body)
       });
+   });
+});
+
+router.get('/badge/:id/delete', function(req, res) {
+   request({
+      uri: "http://localhost:8080/MoussaRaser/api/badges/" + req.params.id + "/?apiKey=" + API_KEY,
+      method: "DELETE",
+      timeout: 10000,
+      followRedirect: true,
+      maxRedirects: 10
+   }, function(error, response, body) {
+      res.redirect('/manageBadges');
+   });
+});
+
+router.get('/reward/:id/delete', function(req, res) {
+   request({
+      uri: "http://localhost:8080/MoussaRaser/api/rewards/" + req.params.id + "/?apiKey=" + API_KEY,
+      method: "DELETE",
+      timeout: 10000,
+      followRedirect: true,
+      maxRedirects: 10
+   }, function(error, response, body) {
+      res.redirect('/manageRewards');
    });
 });
 

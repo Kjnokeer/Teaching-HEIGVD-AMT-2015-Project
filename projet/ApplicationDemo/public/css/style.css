@@ -6,3 +6,43 @@ body {
 a {
   color: #00B7FF;
 }
+
+.table-hover tr {
+   cursor: pointer;
+}
+
+ul {
+   margin: auto;
+   text-align: center;
+}
+
+li
+{
+   display: inline;
+   list-style-type: none;
+   padding-right: 20px;
+}
+
+ul img {
+   width: 200px;
+}
+
+.strong {
+   opacity: 1;
+}
+
+.weak {
+   opacity: 0.2;
+}
+
+.weak:hover {
+   opacity: 1;
+}
+
+.strong:hover {
+   opacity: 0.2;
+}
+
+li:hover {
+   cursor: pointer;
+}

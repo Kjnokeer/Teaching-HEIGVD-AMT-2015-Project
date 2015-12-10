@@ -4,6 +4,16 @@ block content
   h1(style="text-align: center")= title
   hr
   br
+
+  .btn-group.btn-group-justified(role='group', aria-label='...')
+    .btn-group(role='group')
+      a.btn.btn-default(type='button', href="/") Manage users
+    .btn-group(role='group')
+      a.btn.btn-default(type='button', href="/manageBadges") Manage badges
+    .btn-group(role='group')
+      a.btn.btn-default(type='button', href="/manageRewards") Manage rewards
+    .btn-group(role='group')
+      a.btn.btn-default(type='button', href="/showLeaderboard") Show leaderboard
     
   h2 Badges
   table.table.table-striped.table-responsive
@@ -24,6 +34,110 @@ block content
             img(src="#{badge.image}", width="50px")
           td= badge.category
           td
-            a(href="#") Edit
+            a(href="#" onclick="edit(#{badge.id})") Edit
             span  -  
-            a(href="#") Delete  
+            a(href="/badge/#{badge.id}/delete") Delete
+
+  br
+  img(id="test" style="float:left; width: 200px; margin-left: 450px; margin-top: 70px;" src="https://git.reviewboard.kde.org/media/uploaded/files/2015/07/18/a70d8ab6-1bbf-4dcc-b11f-524c2f56b14a__picture_default_cover.jpg")
+  form#testform(style="width: 600px; margin: auto")
+    .form-group
+      label(for='name') Name
+      input#name.form-control(type='text', placeholder='Name')
+    .form-group
+      label(for='description') Description
+      input#description.form-control(type='text', placeholder='Description')
+    .form-group
+      label(for='image') Image
+      input#image.form-control(type='text', placeholder='Image url')
+    .form-group
+      label(for='category') Category
+      input#category.form-control(type='text', placeholder='Category')
+    a#submit.btn.btn-default(type='submit' onclick="submit()") Add
+    span  
+    a#cancel.btn.btn-default(type='submit' style="display:none;" onclick="ResetForm()") Cancel
+
+  script.
+    var API_KEY = "0d969d5771ea42888b70db4fb44f9e67";
+
+    var isEdition;
+    var badgeId;
+
+    ResetForm();
+
+    function IsValidImageUrl(url) {
+        if(url === "")
+          url = "no-url-valid";
+
+        $("<img>", {
+            src: url,
+            error: function() { 
+              $('#test').attr('src', 'https://git.reviewboard.kde.org/media/uploaded/files/2015/07/18/a70d8ab6-1bbf-4dcc-b11f-524c2f56b14a__picture_default_cover.jpg');
+            },
+            load: function() { 
+              $('#test').attr('src', url);
+            }
+        });
+    }
+
+    function ResetForm() {
+        $('#name').val("");
+        $('#description').val("");
+        $('#image').val("");
+        IsValidImageUrl("no-url");
+        $('#category').val("");
+        $('#cancel').hide();
+        $('#submit').text('Add');
+
+        isEdition = false;
+    }
+
+    function submit() {
+      var name = $('#name').val();
+      var description = $('#description').val();
+      var image = $('#image').val();
+      var category = $('#category').val();
+
+      var dataTest = {
+            name: "saisjia",
+            description: "aisjiajs",
+            image: "aisjias",
+            category: "aaa"
+          };
+
+      $.ajax({
+        type: (isEdition ? "PUT" : "POST"),
+        url: "http://localhost:8080/MoussaRaser/api/badges/?apiKey=" + API_KEY,
+        contentType:"application/json; charset=utf-8",
+        dataType:"json",
+        data: $('#testform').serialize(),
+        success: function(data) {
+          alert('success');
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert('error');
+        }
+      });
+
+       //$.post("http://localhost:8080/MoussaRaser/api/badges/?apiKey=" + API_KEY, $('#testform').serialize());
+    }
+
+    $('#image').focusout(function() {
+      var url = $(this).val();
+
+      IsValidImageUrl(url);
+    });
+
+    function edit(id) {
+      $.get("http://localhost:8080/MoussaRaser/api/badges/" + id + "/?apiKey=" + API_KEY, function(data) {
+        $('#name').val(data.name);
+        $('#description').val(data.description);
+        $('#image').val(data.image);
+        IsValidImageUrl(data.image);
+        $('#category').val(data.category);
+        $('#submit').text('Save changes');
+        $('#cancel').show();
+        isEdition = true;
+        badgeId = id;
+      });
+    }

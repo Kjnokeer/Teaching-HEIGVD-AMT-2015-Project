@@ -7,6 +7,8 @@ block content
 
   .btn-group.btn-group-justified(role='group', aria-label='...')
     .btn-group(role='group')
+      a.btn.btn-default(type='button', href="/") Manage users
+    .btn-group(role='group')
       a.btn.btn-default(type='button', href="/manageBadges") Manage badges
     .btn-group(role='group')
       a.btn.btn-default(type='button', href="/manageRewards") Manage rewards
@@ -16,21 +18,117 @@ block content
   br
     
   h2 List of end users
-  table.table.table-striped.table-responsive
+  table.table.table-striped.table-responsive.table-hover
     thead
       th #
       th Firstname
       th Lastname
       th Score
-      th Actions
     tbody
       each endUser in endUsers
-        tr
+        tr(end-user-id="#{endUser.id}")
           td= endUser.id
           td= endUser.firstname
           td= endUser.lastname
           td= endUser.score
-          td
-            a(href="#") Badges
-            span  - 
-            a(href="#") rewards
+
+  br
+  ul#badges(style="display: none")
+
+  br
+  ul#rewards(style="display: none")
+
+
+  script(type='text/javascript').
+    var API_KEY = "0d969d5771ea42888b70db4fb44f9e67";
+
+
+    function BadgeReward(id, name, image) {
+      this.id = id;
+      this.name = name;
+      this.image = image;
+    }
+
+    var animationIsInProgress = false;
+
+    $('table').on('click', 'tr', function() {
+      if(!animationIsInProgress) {
+        animationIsInProgress = true;
+
+        var endUserId = $(this).attr('end-user-id');
+        var badges = [];
+        var rewards = [];
+        var opacity = "weak";
+
+
+        $('#badges').fadeOut("slow", function() {
+
+          $('#badges').empty();
+
+          $.get("http://localhost:8080/MoussaRaser/api/badges/?apiKey=" + API_KEY, function(data) {
+            for(var i in data) {
+              badges.push(new BadgeReward(data[i].id, data[i].name, data[i].image));
+            }
+
+            $.get("http://localhost:8080/MoussaRaser/api/users/" + endUserId + "/badges/?apiKey=" + API_KEY, function(data) {
+              for(var i in badges) {
+                for(var j in data) {
+                  if(data[j].id === badges[i].id) {
+                    opacity = "strong";
+                    break;
+                  }
+                  else {
+                    opacity = "weak";
+                  }
+                }
+                $('#badges').append('<li class="' + opacity + '"><img alt="' + badges[i].name +'" src="' + badges[i].image + '"></li>');
+              }
+              
+              $('#badges').fadeIn("slow");
+
+              animationIsInProgress = false;
+            });
+          });
+        });
+
+        $('#rewards').fadeOut("slow", function() {
+
+          $('#rewards').empty();
+
+          $.get("http://localhost:8080/MoussaRaser/api/rewards/?apiKey=" + API_KEY, function(data) {
+            for(var i in data) {
+              rewards.push(new BadgeReward(data[i].id, data[i].name, data[i].image));
+            }
+            
+            $.get("http://localhost:8080/MoussaRaser/api/users/" + endUserId + "/rewards/?apiKey=" + API_KEY, function(data) {
+              for(var i in rewards) {
+                for(var j in data) {
+                  if(data[j].id === rewards[i].id) {
+                    opacity = "strong";
+                    break;
+                  }
+                  else {
+                    opacity = "weak";
+                  }
+                }
+                $('#rewards').append('<li class="' + opacity + '"><img alt="' + rewards[i].name +'" src="' + rewards[i].image + '"></li>');
+              }
+              
+              $('#rewards').fadeIn("slow");
+            });
+          });
+        });
+      }
+    });
+
+
+    $('ul').on('click', 'li', function() {
+      var opacity = $(this).attr('class');
+
+      if(opacity === "weak") {
+
+      }
+      else {
+
+      }
+    });
