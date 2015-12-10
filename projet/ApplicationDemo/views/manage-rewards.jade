@@ -40,8 +40,8 @@ block content
 
 
   br
-  img(id="test" style="float:left; width: 200px; margin-left: 450px; margin-top: 70px;" src="https://git.reviewboard.kde.org/media/uploaded/files/2015/07/18/a70d8ab6-1bbf-4dcc-b11f-524c2f56b14a__picture_default_cover.jpg")
-  form#testform(style="width: 600px; margin: auto")
+  img(id="test" class="col-md-2 col-md-offset-2" src="https://git.reviewboard.kde.org/media/uploaded/files/2015/07/18/a70d8ab6-1bbf-4dcc-b11f-524c2f56b14a__picture_default_cover.jpg")
+  form#testform(class="col-md-5")
     .form-group
       label(for='name') Name
       input#name.form-control(type='text', placeholder='Name')
@@ -59,8 +59,6 @@ block content
     a#cancel.btn.btn-default(type='submit' style="display:none;" onclick="ResetForm()") Cancel
 
   script.
-    var API_KEY = "0d969d5771ea42888b70db4fb44f9e67";
-
     var isEdition;
     var rewardId;
 
@@ -100,10 +98,10 @@ block content
       var category = $('#category').val();
 
       var dataTest = {
-            name: "saisjia",
-            description: "aisjiajs",
-            image: "aisjias",
-            category: "aaa"
+            name: name,
+            description: description,
+            image: image,
+            category: category
           };
 
       $.ajax({
@@ -111,16 +109,14 @@ block content
         url: "http://localhost:8080/MoussaRaser/api/rewards/?apiKey=" + API_KEY,
         contentType:"application/json; charset=utf-8",
         dataType:"json",
-        data: $('#testform').serialize(),
+        data: JSON.stringify(dataTest),
         success: function(data) {
-          alert('success');
+          window.location.reload();
         },
         error: function(jqXHR, textStatus, errorThrown) {
-          alert('error');
+          window.location.reload();
         }
       });
-
-       //$.post("http://localhost:8080/MoussaRaser/api/rewards/?apiKey=" + API_KEY, $('#testform').serialize());
     }
 
     $('#image').focusout(function() {

@@ -39,7 +39,7 @@ block content
             a(href="/badge/#{badge.id}/delete") Delete
 
   br
-  img(id="test" class="col-md-3 col-md-offset-2" src="https://git.reviewboard.kde.org/media/uploaded/files/2015/07/18/a70d8ab6-1bbf-4dcc-b11f-524c2f56b14a__picture_default_cover.jpg")
+  img(id="test" class="col-md-2 col-md-offset-2" src="https://git.reviewboard.kde.org/media/uploaded/files/2015/07/18/a70d8ab6-1bbf-4dcc-b11f-524c2f56b14a__picture_default_cover.jpg")
   form#testform(class="col-md-5")
     .form-group
       label(for='name') Name
@@ -61,8 +61,6 @@ block content
     br
 
   script.
-    var API_KEY = "0d969d5771ea42888b70db4fb44f9e67";
-
     var isEdition;
     var badgeId;
 
@@ -121,8 +119,6 @@ block content
           window.location.reload();
         }
       });
-      
-       //$.post("http://localhost:8080/MoussaRaser/api/badges/?apiKey=" + API_KEY, $('#testform').serialize());
     }
 
     $('#image').focusout(function() {

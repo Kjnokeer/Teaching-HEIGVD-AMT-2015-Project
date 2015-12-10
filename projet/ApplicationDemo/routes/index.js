@@ -1,11 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var request = require("request");
-
-var API_KEY = "0d969d5771ea42888b70db4fb44f9e67";
-
-
-/* GET home page. */
+var API_KEY = require("../public/js/apikey");
 
 router.get('/', function(req, res) {
    request({
