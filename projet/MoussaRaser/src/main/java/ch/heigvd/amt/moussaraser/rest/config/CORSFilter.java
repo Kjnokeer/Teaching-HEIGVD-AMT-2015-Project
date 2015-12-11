@@ -18,7 +18,7 @@ public class CORSFilter implements ContainerResponseFilter {
       cresc.getHeaders().add("Access-Control-Allow-Origin", "*");
       cresc.getHeaders().add("Access-Control-Allow-Headers", "origin, content-type, accept, authorization");
       cresc.getHeaders().add("Access-Control-Allow-Credentials", "true");
-      cresc.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+      cresc.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD");
       cresc.getHeaders().add("Access-Control-Max-Age", String.valueOf(60 * 60 * 24 * 14)); // 14 days
    }
 

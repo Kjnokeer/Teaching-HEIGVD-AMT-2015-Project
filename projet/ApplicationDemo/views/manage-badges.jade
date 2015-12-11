@@ -108,15 +108,15 @@ block content
 
       $.ajax({
         type: (isEdition ? "PUT" : "POST"),
-        url: "http://localhost:8080/MoussaRaser/api/badges/?apiKey=" + API_KEY,
+        url: "http://localhost:8080/MoussaRaser/api/badges/" + (isEdition ? badgeId : "") + "/?apiKey=" + API_KEY,
         contentType:"application/json; charset=utf-8",
         dataType:"json",
         data: JSON.stringify(dataTest),
         success: function(data) {
-          //window.location.reload();
+          window.location.reload();
         },
         error: function(jqXHR, textStatus, errorThrown) {
-          //window.location.reload();
+          window.location.reload();
         }
       });
     }

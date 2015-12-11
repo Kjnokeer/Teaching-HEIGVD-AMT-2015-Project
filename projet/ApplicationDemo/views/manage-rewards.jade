@@ -106,7 +106,7 @@ block content
 
       $.ajax({
         type: (isEdition ? "PUT" : "POST"),
-        url: "http://localhost:8080/MoussaRaser/api/rewards/?apiKey=" + API_KEY,
+        url: "http://localhost:8080/MoussaRaser/api/badges/" + (isEdition ? rewardId : "") + "/?apiKey=" + API_KEY,
         contentType:"application/json; charset=utf-8",
         dataType:"json",
         data: JSON.stringify(dataTest),
