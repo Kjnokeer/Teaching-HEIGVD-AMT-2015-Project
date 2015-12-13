@@ -15,10 +15,10 @@ import javax.ws.rs.core.Response;
  */
 public class SendUser extends SendResponse {
 
-    public static Response errorUserInvalid() {
-        return Response.status(Response.Status.UNAUTHORIZED)
-                .entity(new ErrorObject("The user ID you requested was invalid"))
-                .type(MediaType.APPLICATION_JSON)
-                .build();
-    }
+   public static Response errorUserInvalid() {
+      return Response.status(Response.Status.UNAUTHORIZED)
+              .entity(new ErrorObject("The user ID you requested was invalid"))
+              .type(MediaType.APPLICATION_JSON)
+              .build();
+   }
 }

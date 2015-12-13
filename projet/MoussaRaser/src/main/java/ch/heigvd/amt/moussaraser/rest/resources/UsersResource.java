@@ -12,6 +12,7 @@ import ch.heigvd.amt.moussaraser.rest.config.response.SendBadge;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendReward;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendUser;
 import ch.heigvd.amt.moussaraser.rest.config.response.message.InfoObject;
+import ch.heigvd.amt.moussaraser.rest.dto.ApplicationDTO;
 import ch.heigvd.amt.moussaraser.rest.dto.BadgeDTO;
 import ch.heigvd.amt.moussaraser.rest.dto.EndUserDTO;
 import ch.heigvd.amt.moussaraser.rest.dto.RewardDTO;
@@ -72,8 +73,8 @@ public class UsersResource {
    /**
     * Récupère la liste de tous les utilisateurs finaux de l'application
     *
-    * @param apiKey clé de l'application
-    * @return réponse JAX-RS
+    * @param apiKey Clé de l'application
+    * @return Réponse JAX-RS
     */
    @GET
    @Produces(MediaType.APPLICATION_JSON)
@@ -93,106 +94,104 @@ public class UsersResource {
    /**
     * Créer un utilisateur final
     *
-    * @param b Payload JSON de l'utilisateur
-    * @param apiKey clé de l'application
+    * @param apiKey Clé de l'application
+    * @param endUserDTO Payload JSON de l'utilisateur
     * @return Réponse JAX-RS
     */
    @POST
    @Consumes(MediaType.APPLICATION_JSON)
    @Produces(MediaType.APPLICATION_JSON)
-   public Response createUser(EndUser endUser, @QueryParam("apiKey") String apiKey) {
+   public Response createNewUser(@QueryParam("apiKey") String apiKey, EndUserDTO endUserDTO) {
       ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
 
-      endUser.setApplication(applicationDAO.getApplicationByApiKey(key));
+      if (endUserDTO == null || endUserDTO.getFirstName() == null || endUserDTO.getLastName() == null) {
+         return SendUser.missingDataInPayload();
+      }
 
-      endUsersDAO.create(endUser);
+      EndUser newEndUser = new EndUser();
+      newEndUser.setFirstName(endUserDTO.getFirstName());
+      newEndUser.setLastName(endUserDTO.getLastName());
+      newEndUser.setScore(endUserDTO.getScore());
+      newEndUser.setApplication(applicationDAO.getApplicationByApiKey(key));
 
-      return SendUser.send201Created(new EndUserDTO(
-              endUser.getId(),
-              endUser.getFirstName(),
-              endUser.getLastName(),
-              endUser.getScore()
-      ));
+      endUsersDAO.create(newEndUser);
+
+      return userDetails(newEndUser);
    }
 
    /**
     * Récupère un certain utilisateur final selon un id
     *
-    * @param id id badge
-    * @param apiKey clé de l'application
-    * @return réponse Jax-RS
+    * @param userId ID de l'utilisateur final
+    * @param apiKey Clé de l'application
+    * @return Réponse JAX-RS
     */
    @GET
-   @Path("/{id}")
+   @Path("/{userId}")
    @Produces(MediaType.APPLICATION_JSON)
-   public Response getEndUser(@PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+   public Response getDetailsUser(@PathParam("userId") long userId, @QueryParam("apiKey") String apiKey) {
       ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
 
-      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(id, key);
+      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(userId, key);
 
       if (endUser == null) {
          return SendUser.errorUserInvalid();
       }
 
-      return SendUser.send200OK(new EndUserDTO(
-              endUser.getId(),
-              endUser.getFirstName(),
-              endUser.getLastName(),
-              endUser.getScore()
-      ));
+      return userDetails(endUser);
    }
 
    /**
-    * Modifie un certain utilisateur final
+    * Modifie un utilisateur final
     *
-    * @param b Payload JSON de l'utilisateur
-    * @param id id du badge
-    * @param apiKey clé de l'application
-    * @return réponse JAX-RS
+    * @param userId ID de l'utilisateur final
+    * @param apiKey Clé de l'application
+    * @param endUserDTO Payload JSON de l'utilisateur
+    * @return Réponse JAX-RS
     */
    @PUT
-   @Path("/{id}")
+   @Path("/{userId}")
    @Consumes(MediaType.APPLICATION_JSON)
    @Produces(MediaType.APPLICATION_JSON)
-   public Response updateUser(EndUser endUser, @PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+   public Response updateUser(@PathParam("userId") long userId, @QueryParam("apiKey") String apiKey, EndUserDTO endUserDTO) {
       ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
 
-      EndUser tmp = endUsersDAO.getEndUserByIdAndByApiKey(id, key);
+      if (endUserDTO == null || endUserDTO.getFirstName() == null || endUserDTO.getLastName() == null) {
+         return SendUser.missingDataInPayload();
+      }
 
-      if (tmp == null) {
+      EndUser endUserToUpdate = endUsersDAO.getEndUserByIdAndByApiKey(userId, key);
+
+      if (endUserToUpdate == null) {
          return SendUser.errorUserInvalid();
       }
 
-      EndUser endUserUpdate = endUsersDAO.createAndReturnManagedEntity(tmp);
+      endUserToUpdate = endUsersDAO.createAndReturnManagedEntity(endUserToUpdate);
 
-      endUserUpdate.setFirstName(endUser.getFirstName());
-      endUserUpdate.setLastName(endUser.getLastName());
-      endUserUpdate.setApplication(tmp.getApplication());
-      endUserUpdate.setBadges(tmp.getBadges());
-      endUserUpdate.setRewards(tmp.getRewards());
+      endUserToUpdate.setFirstName(endUserDTO.getFirstName());
+      endUserToUpdate.setLastName(endUserDTO.getLastName());
 
-      return SendUser.send200OK(new EndUserDTO(
-              endUser.getId(),
-              endUserUpdate.getFirstName(),
-              endUserUpdate.getLastName(),
-              endUser.getScore()
-      ));
+      if (endUserDTO.getScore() != null) {
+         endUserToUpdate.setScore(endUserDTO.getScore());
+      }
+
+      return userDetails(endUserToUpdate);
    }
 
    /**
-    * Supprime un certain badge
+    * Supprime un utilisateur final
     *
-    * @param id id du badge
-    * @param apiKey clé de l'application
-    * @return réponse JAX-RS
+    * @param userId ID de l'utilisateur final
+    * @param apiKey Clé de l'application
+    * @return Réponse JAX-RS
     */
    @DELETE
-   @Path("/{id}")
+   @Path("/{userId}")
    @Produces(MediaType.APPLICATION_JSON)
-   public Response deleteUser(@PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+   public Response deleteUser(@PathParam("userId") long userId, @QueryParam("apiKey") String apiKey) {
       ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
 
-      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(id, key);
+      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(userId, key);
 
       if (endUser == null) {
          return SendUser.errorUserInvalid();
@@ -200,30 +199,186 @@ public class UsersResource {
 
       endUsersDAO.delete(endUser);
 
-      return SendUser.send200OK(new InfoObject(
-              "User successfully deleted"
-      ));
+      return SendUser.send200OK(new InfoObject("User successfully deleted"));
    }
 
    /**
-    * Récupére tous les badges d'un certain utilisateur final
+    * Récupére tous les badges d'un utilisateur final
     *
-    * @param id id de l'utilisateur
-    * @param apiKey clé de l'application
-    * @return réspone JAX-RS
+    * @param userId ID de l'utilisateur final
+    * @param apiKey Clé de l'application
+    * @return Réponse JAX-RS
     */
    @GET
-   @Path("/{id}/badges")
+   @Path("/{userId}/badges")
    @Produces(MediaType.APPLICATION_JSON)
-   public Response getBadgesOfUser(@PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+   public Response getBadgesForUser(@PathParam("userId") long userId, @QueryParam("apiKey") String apiKey) {
       ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
 
-      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(id, key);
+      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(userId, key);
 
       if (endUser == null) {
          return SendUser.errorUserInvalid();
       }
 
+      return SendUser.send200OK(getBadgesDTO(endUser));
+   }
+
+   /**
+    * Assigne un badge pour un utilisateur final
+    *
+    * @param userId ID de l'utilisateur final
+    * @param apiKey Clé de l'application
+    * @param badgeId ID du badge à ajouter à l'utilisateur final
+    * @return Réponse JAX-RS
+    */
+   @POST
+   @Path("/{userId}/badges")
+   @Consumes(MediaType.APPLICATION_JSON)
+   @Produces(MediaType.APPLICATION_JSON)
+   public Response assignBadgeToUser(@PathParam("userId") long userId, @QueryParam("apiKey") String apiKey, long badgeId) {
+      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+
+      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(userId, key);
+
+      if (endUser == null) {
+         return SendUser.errorUserInvalid();
+      }
+
+      Badge badge = badgeDAO.getBadgeByIdAndByApiKey(badgeId, key);
+
+      if (badge == null) {
+         return SendBadge.errorBadgeInvalid();
+      }
+
+      endUser.addBadge(badge);
+
+      return userDetails(endUser);
+   }
+
+   /**
+    * Retire un badge d'un utilisateur final
+    *
+    * @param userId ID de l'utilisateur final
+    * @param badgeId ID du badge à retirer à l'utilisateur final
+    * @param apiKey Clé de l'application
+    * @return Réponse JAX-RS
+    */
+   @DELETE
+   @Path("/{userId}/badges/{badgeId}")
+   @Produces(MediaType.APPLICATION_JSON)
+   public Response removeBadgeForUser(@PathParam("userId") long userId, @PathParam("badgeId") long badgeId, @QueryParam("apiKey") String apiKey) {
+      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+
+      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(userId, key);
+
+      if (endUser == null) {
+         return SendUser.errorUserInvalid();
+      }
+
+      Badge badge = badgeDAO.getBadgeByIdAndByApiKey(badgeId, key);
+
+      if (badge == null) {
+         return SendBadge.errorBadgeInvalid();
+      }
+
+      endUser.removeBadge(badge);
+
+      return userDetails(endUser);
+   }
+
+   /**
+    * Récupére tous les prix d'un utilisateur final
+    *
+    * @param userId ID de l'utilisateur final
+    * @param apiKey Clé de l'application
+    * @return Réponse JAX-RS
+    */
+   @GET
+   @Path("/{userId}/rewards")
+   @Produces(MediaType.APPLICATION_JSON)
+   public Response getRewardsOfUser(@PathParam("userId") long userId, @QueryParam("apiKey") String apiKey) {
+      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+
+      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(userId, key);
+
+      if (endUser == null) {
+         return SendUser.errorUserInvalid();
+      }
+
+      return SendUser.send200OK(getRewardsDTO(endUser));
+   }
+
+   /**
+    * Créer un prix pour un certain utilisateur final
+    *
+    * @param userId ID de l'utilisateur final
+    * @param apiKey Clé de l'application
+    * @param rewardId ID du prix à ajouter à l'utilisateur final
+    * @return Réponse JAX-RS
+    */
+   @POST
+   @Path("/{userId}/rewards")
+   @Consumes(MediaType.APPLICATION_JSON)
+   @Produces(MediaType.APPLICATION_JSON)
+   public Response assignRewardToUser(@PathParam("userId") long userId, @QueryParam("apiKey") String apiKey, long rewardId) {
+      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+
+      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(userId, key);
+
+      if (endUser == null) {
+         return SendUser.errorUserInvalid();
+      }
+
+      Reward reward = rewardDAO.getRewardByIdAndByApiKey(rewardId, key);
+
+      if (reward == null) {
+         return SendReward.errorRewardInvalid();
+      }
+
+      endUser.addReward(reward);
+
+      return userDetails(endUser);
+   }
+
+   /**
+    * Supprime un certain prix d'un certain utilisateur final
+    *
+    * @param userId ID de l'utilisateur final
+    * @param rewardId ID du prix à ajouter à l'utilisateur final
+    * @param apiKey Clé de l'application
+    * @return Réponse JAX-RS
+    */
+   @DELETE
+   @Path("/{userId}/rewards/{rewardId}")
+   @Produces(MediaType.APPLICATION_JSON)
+   public Response deleteRewardOfUser(@PathParam("userId") long userId, @PathParam("rewardId") long rewardId, @QueryParam("apiKey") String apiKey) {
+      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+
+      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(userId, key);
+
+      if (endUser == null) {
+         return SendUser.errorUserInvalid();
+      }
+
+      Reward reward = rewardDAO.getRewardByIdAndByApiKey(rewardId, key);
+
+      if (reward == null) {
+         return SendReward.errorRewardInvalid();
+      }
+
+      endUser.removeReward(reward);
+
+      return userDetails(endUser);
+   }
+
+   /**
+    * Récupère une liste des badges de l'utilisateur final
+    *
+    * @param endUser L'utilisateur final
+    * @return Une liste des badges de l'utilisateur final
+    */
+   private List<BadgeDTO> getBadgesDTO(EndUser endUser) {
       List<Badge> badges = endUser.getBadges();
       ArrayList<BadgeDTO> badgesDTO = new ArrayList<>();
 
@@ -237,93 +392,16 @@ public class UsersResource {
          ));
       }
 
-      return SendUser.send200OK(badgesDTO);
+      return badgesDTO;
    }
 
    /**
-    * Créer un badge pour un certain utilisateur final
-    *
-    * @param badge badge à créer
-    * @param id id de l'utilisateur final
-    * @param apiKey clé de l'application
-    * @return réponse JAX-RS
+    * Récupère une liste des prix de l'utilisateur final
+    * 
+    * @param endUser L'utilisateur final
+    * @return Une liste des prix de l'utilisateur final
     */
-   @POST
-   @Path("/{id}/badges")
-   @Consumes(MediaType.APPLICATION_JSON)
-   @Produces(MediaType.APPLICATION_JSON)
-   public Response createBadgeOfUser(Badge badge, @PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
-      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
-
-      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(id, key);
-
-      if (endUser == null) {
-         return SendUser.errorUserInvalid();
-      }
-
-      Badge managedBadge = badgeDAO.createAndReturnManagedEntity(badge);
-      managedBadge.setApplication(applicationDAO.getApplicationByApiKey(key));
-      endUser.getBadges().add(managedBadge);
-      endUsersDAO.update(endUser);
-
-      return SendUser.send201Created(new InfoObject("New badge successfully added"));
-   }
-
-   /**
-    * Supprime un certain badge d'un certain utilisateur final
-    *
-    * @param idUser id de l'utilisateur final
-    * @param idBadge id du badge
-    * @param apiKey clé de l'application
-    * @return réponse JAX-RS
-    */
-   @DELETE
-   @Path("/{idUser}/badges/{idBadge}")
-   @Produces(MediaType.APPLICATION_JSON)
-   public Response deleteBadgeOfUser(@PathParam("idUser") long idUser, @PathParam("idBadge") long idBadge, @QueryParam("apiKey") String apiKey) {
-      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
-
-      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(idUser, key);
-
-      if (endUser == null) {
-         return SendUser.errorUserInvalid();
-      }
-
-      Badge badge = badgeDAO.getBadgeByIdAndByApiKey(idBadge, key);
-
-      if (badge == null) {
-         return SendBadge.errorBadgeInvalid();
-      }
-
-      String infoMsg = "Badge successfully deleted";
-      if (!endUser.getBadges().remove(badge)) {
-         infoMsg = "Nothing deleted, the user doesn't have this badge.";
-      }
-
-      endUsersDAO.update(endUser);
-
-      return SendUser.send200OK(new InfoObject(infoMsg));
-   }
-
-   /**
-    * Récupére tous les prix d'un certain utilisateur final
-    *
-    * @param id id de l'utilisateur
-    * @param apiKey clé de l'application
-    * @return réspone JAX-RS
-    */
-   @GET
-   @Path("/{id}/rewards")
-   @Produces(MediaType.APPLICATION_JSON)
-   public Response getRewardsOfUser(@PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
-      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
-
-      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(id, key);
-
-      if (endUser == null) {
-         return SendUser.errorUserInvalid();
-      }
-
+   private List<RewardDTO> getRewardsDTO(EndUser endUser) {
       List<Reward> rewards = endUser.getRewards();
       ArrayList<RewardDTO> rewardsDTO = new ArrayList<>();
 
@@ -337,72 +415,29 @@ public class UsersResource {
          ));
       }
 
-      return SendUser.send200OK(rewardsDTO);
+      return rewardsDTO;
    }
 
    /**
-    * Créer un prix pour un certain utilisateur final
-    *
-    * @param reward prix à créer
-    * @param id id de l'utilisateur final
-    * @param apiKey clé de l'application
-    * @return réponse JAX-RS
+    * Récupère les détails d'un utilisateur
+    * 
+    * @param endUser L'utilisateur final
+    * @return Réponse JAX-RS
     */
-   @POST
-   @Path("/{id}/rewards")
-   @Consumes(MediaType.APPLICATION_JSON)
-   @Produces(MediaType.APPLICATION_JSON)
-   public Response createRewardOfUser(Reward reward, @PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
-      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+   private Response userDetails(EndUser endUser) {
+      List<BadgeDTO> badgesDTO = getBadgesDTO(endUser);
+      List<RewardDTO> rewardsDTO = getRewardsDTO(endUser);
 
-      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(id, key);
-
-      if (endUser == null) {
-         return SendUser.errorUserInvalid();
-      }
-
-      Reward managedReward = rewardDAO.createAndReturnManagedEntity(reward);
-      managedReward.setApplication(applicationDAO.getApplicationByApiKey(key));
-      endUser.getRewards().add(managedReward);
-      endUsersDAO.update(endUser);
-
-      return SendUser.send201Created(new InfoObject("New reward successfully added"));
-   }
-
-   /**
-    * Supprime un certain prix d'un certain utilisateur final
-    *
-    * @param idUser id de l'utilisateur final
-    * @param idReward id du prix
-    * @param apiKey clé de l'application
-    * @return réponse JAX-RS
-    */
-   @DELETE
-   @Path("/{idUser}/rewards/{idReward}")
-   @Produces(MediaType.APPLICATION_JSON)
-   public Response deleteRewardOfUser(@PathParam("idUser") long idUser, @PathParam("idReward") long idReward, @QueryParam("apiKey") String apiKey) {
-      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
-
-      EndUser endUser = endUsersDAO.getEndUserByIdAndByApiKey(idUser, key);
-
-      if (endUser == null) {
-         return SendUser.errorUserInvalid();
-      }
-
-      Reward reward = rewardDAO.getRewardByIdAndByApiKey(idReward, key);
-
-      if (reward == null) {
-         return SendReward.errorRewardInvalid();
-      }
-
-      String infoMsg = "Reward successfully deleted";
-      if (!endUser.getRewards().remove(reward)) {
-         infoMsg = "Nothing deleted, the user doesn't have this reward.";
-      }
-
-      endUsersDAO.update(endUser);
-
-      return SendUser.send200OK(new InfoObject(infoMsg));
+      return SendUser.send200OK(new EndUserDTO(
+              endUser.getId(),
+              endUser.getFirstName(),
+              endUser.getLastName(),
+              endUser.getScore(),
+              new ApplicationDTO(endUser.getApplication().getName(), endUser.getApplication().getDescription(), endUser.getApplication().isEnabled()),
+              badgesDTO,
+              rewardsDTO,
+              endUser.getRegistrationDate()
+      ));
    }
 
 }

@@ -17,7 +17,7 @@ public class SendBadge extends SendResponse {
 
     public static Response errorBadgeInvalid() {
         return Response.status(Response.Status.UNAUTHORIZED)
-                .entity(new ErrorObject("The badge ID you requested was invalid"))
+                .entity(new ErrorObject("The badge ID is invalid"))
                 .type(MediaType.APPLICATION_JSON)
                 .build();
     }

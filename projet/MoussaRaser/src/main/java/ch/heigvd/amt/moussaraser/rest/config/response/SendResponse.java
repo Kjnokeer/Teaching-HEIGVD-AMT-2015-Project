@@ -5,6 +5,7 @@
  */
 package ch.heigvd.amt.moussaraser.rest.config.response;
 
+import ch.heigvd.amt.moussaraser.rest.config.response.message.ErrorObject;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -28,9 +29,9 @@ public class SendResponse {
                 .build();
     }
 
-    public static Response missingDataInPayload(Object toSend) {
+    public static Response missingDataInPayload() {
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity(toSend)
+                .entity(new ErrorObject("Missing payload or an invalid payload was provided"))
                 .type(MediaType.APPLICATION_JSON)
                 .build();
     }
