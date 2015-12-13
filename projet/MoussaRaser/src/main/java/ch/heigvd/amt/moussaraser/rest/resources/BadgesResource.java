@@ -1,20 +1,17 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
- * Date : 29.11.2015
- * Fichier : BadgesRessource.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date :
+ * 29.11.2015 Fichier : BadgesRessource.java
  */
 package ch.heigvd.amt.moussaraser.rest.resources;
 
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
 import ch.heigvd.amt.moussaraser.model.entities.Badge;
-import ch.heigvd.amt.moussaraser.rest.config.response.SendApiKey;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendBadge;
 import ch.heigvd.amt.moussaraser.rest.config.response.message.InfoObject;
 import ch.heigvd.amt.moussaraser.rest.dto.BadgeDTO;
 import ch.heigvd.amt.moussaraser.services.dao.ApiKeyDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.BadgeDAOLocal;
-import ch.heigvd.amt.moussaraser.web.utils.EncryptionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,210 +30,160 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * Classe resprésentant une ressource REST Badge et l'action pour certaines
- * méthodes HTTP :
- * - GET /badges
- * - POST /badges
- * - GET /badges/{id}
- * - PUT /badges/{id}
- * - DELETE /badges/{id}
+ * Classe resprésentant une ressource REST Badge et l'action pour certaines méthodes
+ * HTTP : - GET /badges - POST /badges - GET /badges/{id} - PUT /badges/{id} - DELETE
+ * /badges/{id}
+ *
  * @author jermoret
  */
 @Stateless
 @Path("/badges")
 public class BadgesResource {
 
-    @EJB
-    BadgeDAOLocal badgeDAO;
+   @EJB
+   BadgeDAOLocal badgeDAO;
 
-    @EJB
-    ApplicationDAOLocal applicationDAO;
+   @EJB
+   ApplicationDAOLocal applicationDAO;
 
-    @EJB
-    ApiKeyDAOLocal apiKeyDAO;
+   @EJB
+   ApiKeyDAOLocal apiKeyDAO;
 
-    /**
-     * Récupère la liste de tous les badges
-     *
-     * @param apiKey clé de l'application
-     * @return réponse JAX-RS
-     */
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getBadges(@QueryParam("apiKey") String apiKey) {
+   /**
+    * Récupère la liste de tous les badges
+    *
+    * @param apiKey clé de l'application
+    * @return réponse JAX-RS
+    */
+   @GET
+   @Produces(MediaType.APPLICATION_JSON)
+   public Response getBadges(@QueryParam("apiKey") String apiKey) {
+      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
 
-        // Vérification de la présence d'une clé d'application
-        if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
-            return SendApiKey.errorApiKeyNotProvided();
-        }
+      List<Badge> badges = badgeDAO.getBadgesByApiKey(key);
+      List<BadgeDTO> badgesDTO = new ArrayList<>();
 
-        ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+      // Transfert entité JPA vers DTO
+      for (Badge badge : badges) {
+         badgesDTO.add(new BadgeDTO(badge.getId(), badge.getName(), badge.getCategory(), badge.getDescription(), badge.getImage()));
+      }
 
-        // Vérification de la validité de la clé d'application
-        if (key == null) {
-            return SendApiKey.errorApiKeyInvalid();
-        }
+      // Réponse
+      return SendBadge.send200OK(badgesDTO);
+   }
 
-        List<Badge> badges = badgeDAO.getBadgesByApiKey(key);
-        List<BadgeDTO> badgesDTO = new ArrayList<>();
+   /**
+    * Créer un badge
+    *
+    * @param b Payload JSON de l'utilisateur
+    * @param apiKey clé de l'application
+    * @return Réponse JAX-RS
+    */
+   @POST
+   @Consumes(MediaType.APPLICATION_JSON)
+   @Produces(MediaType.APPLICATION_JSON)
+   public Response createBadge(Badge b, @QueryParam("apiKey") String apiKey) {
+      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
 
-        // Transfert entité JPA vers DTO
-        for (Badge badge : badges) {
-            badgesDTO.add(new BadgeDTO(badge.getId(), badge.getName(), badge.getCategory(), badge.getDescription(), badge.getImage()));
-        }
+      b.setApplication(applicationDAO.getApplicationByApiKey(key));
 
-        // Réponse
-        return SendBadge.send200OK(badgesDTO);
-    }
+      badgeDAO.create(b); // Insert
 
-    /**
-     * Créer un badge
-     *
-     * @param b Payload JSON de l'utilisateur
-     * @param apiKey clé de l'application
-     * @return Réponse JAX-RS
-     */
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response createBadge(Badge b, @QueryParam("apiKey") String apiKey) {
+      return SendBadge.send201Created(new BadgeDTO(
+              b.getId(),
+              b.getName(),
+              b.getCategory(),
+              b.getDescription(),
+              b.getImage()
+      ));
+   }
 
-        if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
-            return SendApiKey.errorApiKeyNotProvided();
-        }
+   /**
+    * Récupère un certain badge selon un id
+    *
+    * @param id id badge
+    * @param apiKey clé de l'application
+    * @return réponse Jax-RS
+    */
+   @GET
+   @Path("/{id}")
+   @Produces(MediaType.APPLICATION_JSON)
+   public Response getBadge(@PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
 
-        ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+      Badge b = badgeDAO.getBadgeByIdAndByApiKey(id, key);
 
-        if (key == null) {
-            return SendApiKey.errorApiKeyInvalid();
-        }
+      if (b == null) {
+         return SendBadge.errorBadgeInvalid();
+      }
 
-        b.setApplication(applicationDAO.getApplicationByApiKey(key));
+      return SendBadge.send200OK(new BadgeDTO(
+              b.getId(),
+              b.getName(),
+              b.getCategory(),
+              b.getDescription(),
+              b.getImage()
+      ));
+   }
 
-        badgeDAO.create(b); // Insert
+   /**
+    * Modifie un certain badge
+    *
+    * @param b Payload JSON de l'utilisateur
+    * @param id id du badge
+    * @param apiKey clé de l'application
+    * @return réponse JAX-RS
+    */
+   @PUT
+   @Path("/{id}")
+   @Consumes(MediaType.APPLICATION_JSON)
+   @Produces(MediaType.APPLICATION_JSON)
+   public Response updateBadge(Badge b, @PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
 
-        return SendBadge.send201Created(new BadgeDTO(
-                b.getId(),
-                b.getName(),
-                b.getCategory(),
-                b.getDescription(),
-                b.getImage()
-        ));
-    }
+      Badge tmp = badgeDAO.getBadgeByIdAndByApiKey(id, key);
 
-    /**
-     * Récupère un certain badge selon un id
-     *
-     * @param id id badge
-     * @param apiKey clé de l'application
-     * @return réponse Jax-RS
-     */
-    @GET
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getBadge(@PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+      if (tmp == null) {
+         return SendBadge.errorBadgeInvalid();
+      }
 
-        if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
-            return SendApiKey.errorApiKeyNotProvided();
-        }
+      Badge badge = badgeDAO.createAndReturnManagedEntity(tmp);
+      badge.setName(b.getName());
+      badge.setCategory(b.getCategory());
+      badge.setDescription(b.getDescription());
+      badge.setImage(b.getImage());
 
-        ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+      return SendBadge.send200OK(new BadgeDTO(
+              b.getId(),
+              b.getName(),
+              b.getCategory(),
+              b.getDescription(),
+              b.getImage()
+      ));
+   }
 
-        if (key == null) {
-            return SendApiKey.errorApiKeyInvalid();
-        }
+   /**
+    * Supprime un certain badge
+    *
+    * @param id id du badge
+    * @param apiKey clé de l'application
+    * @return réponse JAX-RS
+    */
+   @DELETE
+   @Path("/{id}")
+   @Produces(MediaType.APPLICATION_JSON)
+   public Response deleteBadge(@PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
 
-        Badge b = badgeDAO.getBadgeByIdAndByApiKey(id, key);
+      Badge badge = badgeDAO.getBadgeByIdAndByApiKey(id, key);
 
-        if (b == null) {
-            return SendBadge.errorBadgeInvalid();
-        }
+      if (badge == null) {
+         return SendBadge.errorBadgeInvalid();
+      }
 
-        return SendBadge.send200OK(new BadgeDTO(
-                b.getId(),
-                b.getName(),
-                b.getCategory(),
-                b.getDescription(),
-                b.getImage()
-        ));
-    }
+      badgeDAO.delete(badge);
 
-    /**
-     * Modifie un certain badge
-     *
-     * @param b Payload JSON de l'utilisateur
-     * @param id id du badge
-     * @param apiKey clé de l'application
-     * @return réponse JAX-RS
-     */
-    @PUT
-    @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response updateBadge(Badge b, @PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
-
-        if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
-            return SendApiKey.errorApiKeyNotProvided();
-        }
-
-        ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
-
-        if (key == null) {
-            return SendApiKey.errorApiKeyInvalid();
-        }
-
-        Badge tmp = badgeDAO.getBadgeByIdAndByApiKey(id, key);
-
-        if (tmp == null) {
-            return SendBadge.errorBadgeInvalid();
-        }
-
-        Badge badge = badgeDAO.createAndReturnManagedEntity(tmp);
-        badge.setName(b.getName());
-        badge.setCategory(b.getCategory());
-        badge.setDescription(b.getDescription());
-        badge.setImage(b.getImage());
-
-        return SendBadge.send200OK(new BadgeDTO(
-                b.getId(),
-                b.getName(),
-                b.getCategory(),
-                b.getDescription(),
-                b.getImage()
-        ));
-    }
-
-    /**
-     * Supprime un certain badge
-     *
-     * @param id id du badge
-     * @param apiKey clé de l'application
-     * @return réponse JAX-RS
-     */
-    @DELETE
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteBadge(@PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
-
-        if (apiKey == null || apiKey.length() != EncryptionManager.getAPIKey().length()) {
-            return SendApiKey.errorApiKeyNotProvided();
-        }
-
-        ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
-
-        if (key == null) {
-            return SendApiKey.errorApiKeyInvalid();
-        }
-
-        Badge badge = badgeDAO.getBadgeByIdAndByApiKey(id, key);
-
-        if (badge == null) {
-            return SendBadge.errorBadgeInvalid();
-        }
-
-        badgeDAO.delete(badge);
-
-        return SendBadge.send200OK(new InfoObject("Badge successfully deleted"));
-    }
+      return SendBadge.send200OK(new InfoObject("Badge successfully deleted"));
+   }
 
 }
