@@ -85,7 +85,7 @@ public class UsersResource {
       List<EndUserDTO> endUsersDTO = new ArrayList<>();
 
       for (EndUser endUser : endUsers) {
-         endUsersDTO.add(new EndUserDTO(endUser.getId(), endUser.getFirstName(), endUser.getLastName(), endUser.getScore()));
+         endUsersDTO.add(userDetails(endUser));
       }
 
       return SendUser.send200OK(endUsersDTO);
@@ -116,7 +116,7 @@ public class UsersResource {
 
       endUsersDAO.create(newEndUser);
 
-      return userDetails(newEndUser);
+      return SendUser.send200OK(userDetails(newEndUser));
    }
 
    /**
@@ -138,7 +138,7 @@ public class UsersResource {
          return SendUser.errorUserInvalid();
       }
 
-      return userDetails(endUser);
+      return SendUser.send200OK(userDetails(endUser));
    }
 
    /**
@@ -175,7 +175,7 @@ public class UsersResource {
          endUserToUpdate.setScore(endUserDTO.getScore());
       }
 
-      return userDetails(endUserToUpdate);
+      return SendUser.send200OK(userDetails(endUserToUpdate));
    }
 
    /**
@@ -253,7 +253,7 @@ public class UsersResource {
 
       endUser.addBadge(badge);
 
-      return userDetails(endUser);
+      return SendUser.send200OK(userDetails(endUser));
    }
 
    /**
@@ -284,7 +284,7 @@ public class UsersResource {
 
       endUser.removeBadge(badge);
 
-      return userDetails(endUser);
+      return SendUser.send200OK(userDetails(endUser));
    }
 
    /**
@@ -338,7 +338,7 @@ public class UsersResource {
 
       endUser.addReward(reward);
 
-      return userDetails(endUser);
+      return SendUser.send200OK(userDetails(endUser));
    }
 
    /**
@@ -369,7 +369,7 @@ public class UsersResource {
 
       endUser.removeReward(reward);
 
-      return userDetails(endUser);
+      return SendUser.send200OK(userDetails(endUser));
    }
 
    /**
@@ -397,7 +397,7 @@ public class UsersResource {
 
    /**
     * Récupère une liste des prix de l'utilisateur final
-    * 
+    *
     * @param endUser L'utilisateur final
     * @return Une liste des prix de l'utilisateur final
     */
@@ -420,15 +420,15 @@ public class UsersResource {
 
    /**
     * Récupère les détails d'un utilisateur
-    * 
+    *
     * @param endUser L'utilisateur final
     * @return Réponse JAX-RS
     */
-   private Response userDetails(EndUser endUser) {
+   private EndUserDTO userDetails(EndUser endUser) {
       List<BadgeDTO> badgesDTO = getBadgesDTO(endUser);
       List<RewardDTO> rewardsDTO = getRewardsDTO(endUser);
 
-      return SendUser.send200OK(new EndUserDTO(
+      return new EndUserDTO(
               endUser.getId(),
               endUser.getFirstName(),
               endUser.getLastName(),
@@ -437,7 +437,7 @@ public class UsersResource {
               badgesDTO,
               rewardsDTO,
               endUser.getRegistrationDate()
-      ));
+      );
    }
 
 }
