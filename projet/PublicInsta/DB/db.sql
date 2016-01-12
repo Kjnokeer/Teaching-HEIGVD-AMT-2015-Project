@@ -45,8 +45,8 @@ CREATE TABLE comment
 CREATE TABLE opinion
 (
    id INT NOT NULL AUTO_INCREMENT,
-   positiv INT DEFAULT 0,
-   negativ INT DEFAULT 0,
+   positive INT DEFAULT 0,
+   negative INT DEFAULT 0,
    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
    user_id INT NOT NULL,
