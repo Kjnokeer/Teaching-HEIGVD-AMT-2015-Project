@@ -12,7 +12,10 @@ CREATE TABLE user
    username VARCHAR(64) NOT NULL,
    profile_photo VARCHAR(64),
    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   session_id CHAR(32) NULL,
+   ip CHAR(32) NULL,
    UNIQUE(email),
+   UNIQUE(username),
    PRIMARY KEY(id)
 );
 
