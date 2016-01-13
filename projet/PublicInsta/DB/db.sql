@@ -1,4 +1,4 @@
-DROP SCHEMA IF EXISTS easygoing;
+DROP SCHEMA IF EXISTS publicInsta;
 CREATE SCHEMA publicInsta;
 
 /* Creation of tables */
