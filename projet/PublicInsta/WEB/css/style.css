@@ -1,34 +1,96 @@
-body {
-	font-family: 'Pacifico', cursive !important;
+body {font-family: 'Indie Flower', cursive;
 	background: #fafafa;
 }
 
 .content {
-	margin-top: 80px;
+	margin-top: 40px;
+	margin-bottom: 20px;
 }
 
 .picture_post {
-	width: 50%;
+	margin-top: 20px;
+	width: 70%;
 	margin-left: auto;
-  margin-right: auto;
-	padding: 3px;
+	margin-right: auto;
 	background-color: white;
-    border: 1px solid #edeeee;
-    border-radius: 3px;
-}
-.avatar {
-	padding-left: 20px;
-	top:48%;
-	width:90%;
+	border: 1px solid #edeeee;
+	border-radius: 3px;
 }
 
 .post_header {
-	height:40px;
+	height:60px;
+}
+
+.picture_post_header {
+	height: 100%;
+	width: 60px;
+	display: inline-block;
+}
+
+.picture_post_content img{
+	width: 100%;
+	border-top: 1px solid #edeeee;
+	border-bottom: 1px solid #edeeee;
+}
+
+.username_post_header a {
+  vertical-align:middle;
+	line-height:normal;
 }
 
 .username_post_header {
-	top:48%;
+	font-size: 1.5em;
+	height: 100%;
+	display: inline-block;
 }
-.picture_post_header {
-	top:48%;
+
+.comments_post_caption {
+	margin: 5px 10px 20px 10px;
+	font-size: 1em;
+}
+
+hr {
+	margin: 8px 0px;
+}
+
+.avatar {
+	padding: 8px;
+	height: 100%;
+}
+
+.comments_post_edit {
+	margin-top:1px;
+}
+
+input, button {
+	border-radius: 0px !important;
+}
+
+@media screen and (max-width: 900px) {
+	.picture_post {
+		width: 100%;
+		margin-left: auto;
+		margin-right: auto;
+		background-color: white;
+		border: 0px;
+		border-radius: 0px;
+		padding-bottom: 20px;
+		border-bottom: 2px solid #edeeee;
+	}
+
+	body {
+		background: white;
+	}
+
+	.username_post_header {
+		font-size: 1.2em;
+	}
+
+	.comments_post_caption {
+		font-size: 0.85em;
+	}
+
+	.picture_post {
+		margin-top: 10px;
+	}
 }
