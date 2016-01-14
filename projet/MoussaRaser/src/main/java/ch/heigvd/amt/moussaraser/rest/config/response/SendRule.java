@@ -4,13 +4,14 @@ import ch.heigvd.amt.moussaraser.rest.config.response.message.ErrorObject;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-public class SendUser extends SendResponse {
+public class SendRule extends SendResponse {
 
-   public static Response errorUserInvalid() {
+   public static Response errorRuleInvalid() {
       return Response.status(Response.Status.UNAUTHORIZED)
-              .entity(new ErrorObject("The user ID you requested was invalid"))
+              .type(MediaType.APPLICATION_JSON)
+              .entity(new ErrorObject("The rule's payload is incorrect"))
               .type(MediaType.APPLICATION_JSON)
               .build();
    }
-   
+
 }
