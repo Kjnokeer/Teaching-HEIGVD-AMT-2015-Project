@@ -2,13 +2,16 @@ package ch.heigvd.amt.moussaraser.rest.resources;
 
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
 import ch.heigvd.amt.moussaraser.model.entities.Application;
+import ch.heigvd.amt.moussaraser.model.entities.EndUser;
 import ch.heigvd.amt.moussaraser.model.entities.Rule;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendEvent;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendUser;
 import ch.heigvd.amt.moussaraser.rest.dto.EventDTO;
 import ch.heigvd.amt.moussaraser.services.dao.ApiKeyDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;
+import ch.heigvd.amt.moussaraser.services.dao.BadgeDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.EndUserDAOLocal;
+import ch.heigvd.amt.moussaraser.services.dao.RewardDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.RuleDAOLocal;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +41,12 @@ public class EventsRessource {
    @EJB
    ApiKeyDAOLocal apiKeyDAO;
    
+   @EJB
+   BadgeDAOLocal badgeDAO;
+   
+   @EJB
+   RewardDAOLocal rewardDAO;
+   
    /*@GET
    public Response getAllEvents() {
       
@@ -48,21 +57,26 @@ public class EventsRessource {
    public Response notifyEvent(@QueryParam("apiKey") String apiKey, EventDTO eventDTO) {
       ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
 
-      if (eventDTO == null || eventDTO.getId() == null || eventDTO.getType() == null) {
+      if (eventDTO == null || eventDTO.getToUserId()== null || eventDTO.getEventType()== null) {
          return SendEvent.errorEventInvalid();
       }
       
       Application application = applicationDAO.getApplicationByApiKey(key);
       List<Rule> rulesList = ruleDAO.getAllRulesByApplication(application);
-      List<Rule> rulesToApply = new ArrayList<>();
+      EndUser endUser = endUsersDAO.findById(eventDTO.getToUserId());
       
       for(Rule rule : rulesList) {
-       
+         if(rule.getEventType().equals(eventDTO.getEventType())) {
+            if(rule.getPointsToAdd() != null)
+               endUser.setScore(endUser.getScore() + rule.getPointsToAdd());
+            if(rule.getBadgeToAdd() != null)
+               endUser.addBadge(badgeDAO.findById(rule.getBadgeToAdd()));
+            if(rule.getRewardToAdd() != null) 
+               endUser.addReward(rewardDAO.findById(rule.getRewardToAdd()));
+         }
       }
-      /*if(!(ruleDAO.getAllRulesByApplication(application)) {
-         return SendEvent.errorEventTypeInvalid();
-      } */ 
-      return null;
+
+      return SendEvent.send200OK(null);
    }
    
 }

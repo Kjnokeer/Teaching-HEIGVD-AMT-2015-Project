@@ -58,11 +58,11 @@ public class RuleDTO {
       this.eventType = eventType;
    }
 
-   public Long getAddPoint() {
+   public Long getPointsToAdd() {
       return pointsToAdd;
    }
 
-   public void setAddPoint(Long pointsToAdd) {
+   public void setPointsToAdd(Long pointsToAdd) {
       this.pointsToAdd = pointsToAdd;
    }
 
