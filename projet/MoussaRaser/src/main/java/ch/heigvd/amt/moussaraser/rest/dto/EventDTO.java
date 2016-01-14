@@ -2,15 +2,23 @@ package ch.heigvd.amt.moussaraser.rest.dto;
 
 public class EventDTO {
    
+   private Long id;
    private String type;
-   private Long userId;
 
    public EventDTO() {
    }
 
-   public EventDTO(String type, Long userId) {
+   public EventDTO(Long id, String type) {
+      this.id = id;
       this.type = type;
-      this.userId = userId;
+   }
+
+   public Long getId() {
+      return id;
+   }
+
+   public void setId(Long id) {
+      this.id = id;
    }
 
    public String getType() {
@@ -19,14 +27,6 @@ public class EventDTO {
 
    public void setType(String type) {
       this.type = type;
-   }
-
-   public Long getUserId() {
-      return userId;
-   }
-
-   public void setUserId(Long userId) {
-      this.userId = userId;
    }
    
 }
