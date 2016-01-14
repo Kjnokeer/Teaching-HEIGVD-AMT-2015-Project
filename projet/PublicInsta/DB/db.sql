@@ -26,8 +26,11 @@ CREATE TABLE image
    path VARCHAR(64) NOT NULL,
    text VARCHAR(256),
    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-   PRIMARY KEY(id)
+   
+   user_id INT NOT NULL,
+   
+   PRIMARY KEY(id),
+   FOREIGN KEY(user_id) REFERENCES user(id) ON DELETE CASCADE
 );
 
 CREATE TABLE comment
