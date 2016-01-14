@@ -6,7 +6,6 @@ package ch.heigvd.amt.moussaraser.rest.dto;
 
 import ch.heigvd.amt.moussaraser.model.entities.Badge;
 import ch.heigvd.amt.moussaraser.model.entities.Reward;
-import ch.heigvd.amt.moussaraser.rest.config.EventsEnumeration;
 import java.util.List;
 
 /**
@@ -18,7 +17,7 @@ public class RuleDTO {
 
    private Long id;
    private String name;
-   private EventsEnumeration eventType;
+   private String eventType;
    private Long pointsToAdd;
    private Long badgeIdToAdd;
    private Long rewardIdToAdd;
@@ -26,7 +25,7 @@ public class RuleDTO {
    public RuleDTO() {
    }
 
-   public RuleDTO(Long id, String name, EventsEnumeration eventType, Long pointsToAdd, Long badgeIdToAdd, Long rewardIdToAdd) {
+   public RuleDTO(Long id, String name, String eventType, Long pointsToAdd, Long badgeIdToAdd, Long rewardIdToAdd) {
       this.id = id;
       this.name = name;
       this.eventType = eventType;
@@ -51,11 +50,11 @@ public class RuleDTO {
       this.name = name;
    }
 
-   public EventsEnumeration getEventType() {
+   public String getEventType() {
       return eventType;
    }
 
-   public void setEventType(EventsEnumeration eventType) {
+   public void setEventType(String eventType) {
       this.eventType = eventType;
    }
 

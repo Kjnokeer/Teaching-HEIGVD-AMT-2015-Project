@@ -1,7 +1,6 @@
 package ch.heigvd.amt.moussaraser.rest.resources;
 
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
-import ch.heigvd.amt.moussaraser.rest.config.EventsEnumeration;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendEvent;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendUser;
 import ch.heigvd.amt.moussaraser.rest.dto.EventDTO;
@@ -26,19 +25,6 @@ public class EventsRessource {
 
    @EJB
    ApiKeyDAOLocal apiKeyDAO;
-   
-   @GET
-   public Response getAllEvents(@QueryParam("apiKey") String apiKey) {
-      ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
-      
-      List<EventDTO> events = new ArrayList<>();
-      
-      for(EventsEnumeration e : EventsEnumeration.values()) {
-         events.add(new EventDTO((long)e.ordinal(), e.name()));
-      }
-      
-      return SendEvent.send200OK(events);
-   }
    
    /*@POST
    @Produces(MediaType.APPLICATION_JSON)
