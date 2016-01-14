@@ -44,8 +44,10 @@ public class ApplicationConfig extends Application {
         resources.add(ch.heigvd.amt.moussaraser.rest.config.CORSFilter.class);
         resources.add(ch.heigvd.amt.moussaraser.rest.config.MyObjectMapperProvider.class);
         resources.add(ch.heigvd.amt.moussaraser.rest.resources.BadgesResource.class);
+        resources.add(ch.heigvd.amt.moussaraser.rest.resources.EventsRessource.class);
         resources.add(ch.heigvd.amt.moussaraser.rest.resources.LeaderBoardRessource.class);
-        resources.add(ch.heigvd.amt.moussaraser.rest.resources.RewardsRessource.class);
+      resources.add(ch.heigvd.amt.moussaraser.rest.resources.RewardsRessource.class);
+      resources.add(ch.heigvd.amt.moussaraser.rest.resources.RulesRessource.class);
       resources.add(ch.heigvd.amt.moussaraser.rest.resources.UsersResource.class);
     }
 

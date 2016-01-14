@@ -111,7 +111,7 @@ public class UsersResource {
       EndUser newEndUser = new EndUser();
       newEndUser.setFirstName(endUserDTO.getFirstName());
       newEndUser.setLastName(endUserDTO.getLastName());
-      newEndUser.setScore(endUserDTO.getScore());
+      newEndUser.setScore(endUserDTO.getScore() == null ? 0 : endUserDTO.getScore());
       newEndUser.setApplication(applicationDAO.getApplicationByApiKey(key));
 
       endUsersDAO.create(newEndUser);
