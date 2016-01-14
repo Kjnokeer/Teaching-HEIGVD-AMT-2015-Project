@@ -73,7 +73,7 @@ loadImages();
 
 flag = true;
 $(window).scroll(function() {
-  if($(window).scrollTop() + $(window).height() == $(document).height()){
+  if($(window).scrollTop() + $(window).height() >= $(document).height() - 1){
 
     no_data = true;
     if(flag && no_data){

@@ -6,12 +6,12 @@ if( isset( $_POST['start'] ) && isset( $_POST['limit'] ) && !empty( $_POST['star
    $start = $_POST['start'];
    $limit = $_POST['limit'];
    if($start == 1) {
-      $query = "SELECT username, profile_photo, path, text FROM image INNER JOIN user ON user.id = image.user_id ORDER BY user.id LIMIT 0, $limit";
+      $query = "SELECT username, profile_photo, path, text FROM image INNER JOIN user ON user.id = image.user_id ORDER BY image.id DESC LIMIT 0, $limit";
    }
    else {
-      $query = "SELECT username, profile_photo, path, text FROM image INNER JOIN user ON user.id = image.user_id ORDER BY user.id LIMIT $start, $limit";
+      $query = "SELECT username, profile_photo, path, text FROM image INNER JOIN user ON user.id = image.user_id ORDER BY image.id DESC LIMIT $start, $limit";
    }
-   
+
 
    $sqlp = $GLOBALS["pdo"]->query($query);
    $data['count'] = $sqlp->rowCount();
