@@ -4,6 +4,9 @@ require_once 'php/pdo.php';
 if(loggedIn() == false) {
   header("Location:index.php");
 }
+
+define('FIRST', 1);
+define('LIMIT', 4);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,7 +57,7 @@ if(loggedIn() == false) {
     </div>
   </nav>
 
-  <div class="container content">
+  <div class="container content" id="content">
 
     <div class="picture_post">
       <div class="post_header">
@@ -78,57 +81,8 @@ if(loggedIn() == false) {
       </div>
     </div>
 
-    <?php
-    $sql = 'SELECT username, profile_photo, path, text
-    FROM image
-    INNER JOIN user
-    ON user.id = image.user_id;';
-    $sqlp = $GLOBALS["pdo"]->query($sql);
-    $post_images = $sqlp->fetchAll();
-    foreach($post_images as $post_image){
-      ?>
-
-      <div class="picture_post">
-        <div class="post_header">
-          <div class="picture_post_header">
-            <img class="avatar img-circle" src="<?php echo $post_image['profile_photo']; ?>" />
-          </div>
-          <div class="username_post_header">
-            <a><?php echo $post_image['username']; ?></a>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12 picture_post_content">
-            <img class="img-responsive" src="<?php echo $post_image['path']; ?>" />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12 comments_post">
-            <div class="comments_post_caption">
-              <p><?php echo $post_image['text']; ?></p>
-            </div>
-            <div class="comments_post_opinion">
-              <div class="input-group">
-                <span class="input-group-btn">
-                  <button class="btn btn-success glyphicon glyphicon-thumbs-up" type="button"></button>
-                  <button class="btn btn-danger glyphicon glyphicon-thumbs-down" type="button"></button>
-                </span>
-                <input type="text" class="comments_post_edit form-control" placeholder="Add a comment...">
-                <span class="input-group-btn">
-                  <button class="btn btn-default glyphicon glyphicon-send" type="button"></button>
-                  <button class="btn btn-primary glyphicon glyphicon-comment" type="button"></button>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <?php
-    }
-
-    ?>
+    <input type="hidden" id="first" value="<?php echo FIRST; ?>" />
+    <input type="hidden" id="limit" value="<?php echo LIMIT; ?>" >
   </div><!-- /.container -->
 
 
@@ -141,5 +95,7 @@ if(loggedIn() == false) {
   This must be loaded before fileinput.min.js -->
   <script src="js/plugins/canvas-to-blob.min.js" type="text/javascript"></script>
   <script src="js/fileinput.min.js"></script>
+
+  <script src="js/content.js"></script>
 </body>
 </html>
