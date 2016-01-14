@@ -3,7 +3,6 @@ package ch.heigvd.amt.moussaraser.rest.resources;
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
 import ch.heigvd.amt.moussaraser.model.entities.Application;
 import ch.heigvd.amt.moussaraser.model.entities.Rule;
-import ch.heigvd.amt.moussaraser.rest.config.EventsEnumeration;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendEvent;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendUser;
 import ch.heigvd.amt.moussaraser.rest.dto.EventDTO;
@@ -26,7 +25,7 @@ import javax.ws.rs.core.Response;
 @Stateless
 @Path("/events")
 public class EventsRessource {
-   
+
    @EJB
    EndUserDAOLocal endUsersDAO;
    
@@ -49,7 +48,7 @@ public class EventsRessource {
    public Response notifyEvent(@QueryParam("apiKey") String apiKey, EventDTO eventDTO) {
       ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
 
-      if (eventDTO == null || eventDTO.getUserId() == null || eventDTO.getType() == null) {
+      if (eventDTO == null || eventDTO.getId() == null || eventDTO.getType() == null) {
          return SendEvent.errorEventInvalid();
       }
       
