@@ -19,6 +19,7 @@ body {font-family: 'Indie Flower', cursive;
 
 .post_header {
 	height:60px;
+	border-bottom: 1px solid #edeeee;
 }
 
 .picture_post_header {
@@ -27,9 +28,12 @@ body {font-family: 'Indie Flower', cursive;
 	display: inline-block;
 }
 
+#photo_caption {
+	margin-top: 5px;
+}
+
 .picture_post_content img{
 	width: 100%;
-	border-top: 1px solid #edeeee;
 	border-bottom: 1px solid #edeeee;
 }
 
@@ -62,9 +66,15 @@ hr {
 	margin-top:1px;
 }
 
-input, button {
+.file-preview {
+	border-radius: 3px;
+}
+
+input, button, .btn-file, .file-caption {
 	border-radius: 0px !important;
 }
+
+
 
 @media screen and (max-width: 900px) {
 	.picture_post {
