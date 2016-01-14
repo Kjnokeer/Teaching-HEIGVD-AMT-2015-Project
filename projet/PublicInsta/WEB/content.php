@@ -52,79 +52,58 @@ if(loggedIn() == false) {
   </nav>
 
   <div class="container content">
-    <div class="picture_post">
-      <div class="post_header">
-        <div class="picture_post_header">
-          <img class="avatar img-circle" src="img/users/UnsafeDriving/avatar.ico" />
-        </div>
-        <div class="username_post_header">
-          <a>UnsafeDriving</a>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12 picture_post_content">
-          <img class="img-responsive" src="img/users/UnsafeDriving/image.jpg" />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12 comments_post">
-          <div class="comments_post_caption">
-            <p>Beautiful!</p>
+
+    <?php
+    $sql = 'SELECT username, profile_photo, path, text
+    FROM image
+    INNER JOIN user
+    ON user.id = image.user_id;';
+    $sqlp = $GLOBALS["pdo"]->query($sql);
+    $post_images = $sqlp->fetchAll();
+    foreach($post_images as $post_image){
+      ?>
+
+      <div class="picture_post">
+        <div class="post_header">
+          <div class="picture_post_header">
+            <img class="avatar img-circle" src="<?php echo $post_image['profile_photo']; ?>" />
           </div>
-          <div class="comments_post_opinion">
-            <div class="input-group">
-              <span class="input-group-btn">
-                <button class="btn btn-success glyphicon glyphicon-thumbs-up" type="button"></button>
-                <button class="btn btn-danger glyphicon glyphicon-thumbs-down" type="button"></button>
-              </span>
-              <input type="text" class="comments_post_edit form-control" placeholder="Add a comment...">
-              <span class="input-group-btn">
-                <button class="btn btn-default glyphicon glyphicon-send" type="button"></button>
-                <button class="btn btn-primary glyphicon glyphicon-comment" type="button"></button>
-              </span>
+          <div class="username_post_header">
+            <a><?php echo $post_image['username']; ?></a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 picture_post_content">
+            <img class="img-responsive" src="<?php echo $post_image['path']; ?>" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 comments_post">
+            <div class="comments_post_caption">
+              <p><?php echo $post_image['text']; ?></p>
+            </div>
+            <div class="comments_post_opinion">
+              <div class="input-group">
+                <span class="input-group-btn">
+                  <button class="btn btn-success glyphicon glyphicon-thumbs-up" type="button"></button>
+                  <button class="btn btn-danger glyphicon glyphicon-thumbs-down" type="button"></button>
+                </span>
+                <input type="text" class="comments_post_edit form-control" placeholder="Add a comment...">
+                <span class="input-group-btn">
+                  <button class="btn btn-default glyphicon glyphicon-send" type="button"></button>
+                  <button class="btn btn-primary glyphicon glyphicon-comment" type="button"></button>
+                </span>
+              </div>
             </div>
           </div>
         </div>
+
       </div>
 
-    </div>
+      <?php
+    }
 
-    <div class="picture_post">
-      <div class="post_header">
-        <div class="picture_post_header">
-          <img class="avatar img-circle" src="img/users/Manamiz/avatar.png" />
-        </div>
-        <div class="username_post_header">
-          <a>Manamiz</a>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12 picture_post_content">
-          <img class="img-responsive" src="img/users/Manamiz/rose.jpg" />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12 comments_post">
-          <div class="comments_post_caption">
-            <p>Mario Smash Bros Lucina</p>
-          </div>
-          <div class="comments_post_opinion">
-            <div class="input-group">
-              <span class="input-group-btn">
-                <button class="btn btn-success glyphicon glyphicon-thumbs-up" type="button"></button>
-                <button class="btn btn-danger glyphicon glyphicon-thumbs-down" type="button"></button>
-              </span>
-              <input type="text" class="comments_post_edit form-control" placeholder="Add a comment...">
-              <span class="input-group-btn">
-                <button class="btn btn-default glyphicon glyphicon-send" type="button"></button>
-                <button class="btn btn-primary glyphicon glyphicon-comment" type="button"></button>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    ?>
   </div><!-- /.container -->
 
 

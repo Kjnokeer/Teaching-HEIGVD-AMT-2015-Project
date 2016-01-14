@@ -5,19 +5,24 @@ require_once 'php/pdo.php';
 if(loggedIn() == true) {
   header("refresh:0;url=content.php");
 }
-$error = -1;
+$errorLogin = -1;
+$errorRegister = -1;
 
 // Connecter utilisateur
-if(isset($_POST['email'])) {
+if(isset($_POST['login-submit'])) {
   $userid = checkUser($_POST['email'], $_POST['password']);
   if($userid == false) {
-    $error = 1;
+    $errorLogin = 1;
   }else if($userid) {
     setLogged($_POST['email']);
-    $error = 0;
+    $errorLogin = 0;
   }else {
-    $error = 2;
+    $errorLogin = 2;
   }
+}
+
+if(isset($_POST['register-submit'])) {
+  $errorRegister = registerUser($_POST['email'], $_POST['password'], $_POST['username'], 'http://findicons.com/files/icons/1072/face_avatars/300/a02.png');
 }
 ?>
 <!DOCTYPE html>
@@ -80,14 +85,14 @@ if(isset($_POST['email'])) {
                     <div class="row">
                       <div class="col-md-12">
                         <?php
-                        if($error == 0) {
+                        if($errorLogin == 0) {
                           ?>
                           <div class="alert alert-success">
                             Connecting ...
                           </div>
                           <?php
-                          header("refresh:2;url=content.php");
-                        }else if($error != -1){
+                          header("refresh:1;url=content.php");
+                        }else if($errorLogin != -1){
                           ?>
                           <div class="alert alert-danger">
                             Your username or password was incorrect.
@@ -103,7 +108,7 @@ if(isset($_POST['email'])) {
                       </div>
                     </div>
                   </div>
-                  <div class="form-group">
+                  <!--<div class="form-group">
                     <div class="row">
                       <div class="col-lg-12">
                         <div class="text-center">
@@ -111,20 +116,38 @@ if(isset($_POST['email'])) {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div>-->
                 </form>
-                <form id="register-form" action="http://phpoll.com/register/process" method="post" role="form" style="display: none;">
+                <form id="register-form" action="#" method="post" role="form" style="display: none;">
                   <div class="form-group">
                     <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
                   </div>
                   <div class="form-group">
-                    <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
+                    <input type="email" name="email" id="email" tabindex="2" class="form-control" placeholder="Email Address" value="">
                   </div>
                   <div class="form-group">
-                    <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+                    <input type="password" name="password" id="password" tabindex="3" class="form-control" placeholder="Password">
                   </div>
                   <div class="form-group">
-                    <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <?php
+                        if($errorRegister == true && $errorRegister != -1) {
+                          ?>
+                          <div class="alert alert-success">
+                            The user is created!
+                          </div>
+                          <?php
+                        }else if($errorRegister == false){
+                          ?>
+                          <div class="alert alert-danger">
+                            The user isn't created!
+                          </div>
+                          <?php
+                        }
+                        ?>
+                      </div>
+                    </div>
                   </div>
                   <div class="form-group">
                     <div class="row">

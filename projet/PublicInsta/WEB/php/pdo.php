@@ -99,6 +99,34 @@ function setLogged($email) {
   }
 }
 
+function registerUser($email, $pass, $username, $profile_photo) {
+  if(empty($email)) {
+    $email = NULL;
+  }
+
+  $crypass = NULL;
+
+  if(!empty($pass)) {
+    $crypass = hash ("sha256", $pass, false);
+  }
+
+  if(empty($username)) {
+    $username = NULL;
+  }
+  $sql = 'INSERT INTO user (email, password, username, profile_photo)
+    VALUES (?, ?, ?, ?);';
+  $sqlp = $GLOBALS["pdo"]->prepare($sql);
+  $fields = array($email, $crypass, $username, $profile_photo);
+  $sqlp->execute($fields);
+
+  if($sqlp->rowCount() == 1) {
+    mkdir("img/users/".$username, 0777);
+    return true;
+  }else {
+    return false;
+  }
+}
+
 
 /*==========================================================================*/
 /*	Function check connected
