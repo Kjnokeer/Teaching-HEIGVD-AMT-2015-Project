@@ -123,6 +123,7 @@ function registerUser($email, $pass, $username, $profile_photo) {
 
   if($sqlp->rowCount() == 1) {
     mkdir("img/users/".$username, 0777);
+    callApi('POST', 'http://localhost:8080/MoussaRaser/api/users', array('firstname' => $username, 'lastname' => $username));
     return true;
   }else {
     return false;

@@ -60,8 +60,7 @@ if(loggedIn() == false) {
     <table class="table table-striped table-responsive">
       <thead>
         <th>#</th>
-        <th>Firstname</th>
-        <th>Lastname</th>
+        <th>Username</th>
         <th>Score</th>
       </thead>
       <tbody>
@@ -82,7 +81,6 @@ if(loggedIn() == false) {
 
           </td>
           <td><?php echo $user->firstName; ?></td>
-          <td><?php echo $user->lastName; ?></td>
           <td><?php echo $user->score; ?></td>
         </tr>
         <?php $i++; ?>
