@@ -115,6 +115,7 @@ define('LIMIT', 4);
   <script src="js/fileinput.min.js"></script>
 
   <script src="js/content.js"></script>
+  <script src="js/back_to_top.js"></script>
 
   <script type="text/javascript">
 

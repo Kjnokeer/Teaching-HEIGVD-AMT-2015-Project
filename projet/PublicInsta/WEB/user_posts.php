@@ -65,6 +65,12 @@ define('LIMIT', 4);
   </nav>
 
   <div class="container content" id="content">
+    <div class="scroll-top-wrapper ">
+      <span class="scroll-top-inner">
+        <i class="fa fa-2x fa-arrow-circle-up"></i>
+      </span>
+    </div>
+
     <input type="hidden" id="first" value="<?php echo FIRST; ?>" />
     <input type="hidden" id="limit" value="<?php echo LIMIT; ?>" >
   </div><!-- /.container -->
@@ -81,5 +87,6 @@ define('LIMIT', 4);
   <script src="js/fileinput.min.js"></script>
 
   <script src="js/content_user.js"></script>
+  <script src="js/back_to_top.js"></script>
 </body>
 </html>
