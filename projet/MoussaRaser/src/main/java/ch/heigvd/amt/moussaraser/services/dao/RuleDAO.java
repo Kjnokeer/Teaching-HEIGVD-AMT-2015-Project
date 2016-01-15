@@ -21,4 +21,9 @@ public class RuleDAO extends GenericDAO<Rule, Long> implements RuleDAOLocal {
       return em.createNamedQuery("Rule.getAllByApplication").setParameter("app", app).getResultList();
    }
 
+   @Override
+   public Rule getRuleByIdAndApiKey(Long ruleId, Application app) {
+      return (Rule) em.createNamedQuery("Rule.getRuleByIdAndApplication").setParameter("id", ruleId).setParameter("app", app).getSingleResult();
+   }
+
 }

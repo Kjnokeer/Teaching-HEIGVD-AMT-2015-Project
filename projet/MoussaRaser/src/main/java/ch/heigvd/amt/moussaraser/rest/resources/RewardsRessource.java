@@ -79,26 +79,35 @@ public class RewardsRessource {
    /**
     * Créer un prix
     *
-    * @param b Payload JSON de l'utilisateur
     * @param apiKey clé de l'application
+    * @param reward Payload JSON du reward
     * @return Réponse JAX-RS
     */
    @POST
    @Consumes(MediaType.APPLICATION_JSON)
    @Produces(MediaType.APPLICATION_JSON)
-   public Response createReward(Reward reward, @QueryParam("apiKey") String apiKey) {
+   public Response createReward(@QueryParam("apiKey") String apiKey, RewardDTO reward) {
       ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+      
+      if(reward == null || reward.getName() == null || reward.getCategory() == null) {
+         SendReward.errorRewardInvalid();
+      }
 
-      reward.setApplication(applicationDAO.getApplicationByApiKey(key));
+      Reward newReward = new Reward();
+      newReward.setName(reward.getName());
+      newReward.setCategory(reward.getCategory());
+      newReward.setDescription(reward.getDescription());
+      newReward.setImage(reward.getImage());
+      newReward.setApplication(applicationDAO.getApplicationByApiKey(key));
 
-      rewardDAO.create(reward);
+      newReward.setId(rewardDAO.create(newReward)); // Insert
 
       return SendReward.send201Created(new RewardDTO(
-              reward.getId(),
-              reward.getName(),
-              reward.getCategory(),
-              reward.getDescription(),
-              reward.getImage()
+              newReward.getId(),
+              newReward.getName(),
+              newReward.getCategory(),
+              newReward.getDescription(),
+              newReward.getImage()
       ));
    }
 
@@ -133,16 +142,16 @@ public class RewardsRessource {
    /**
     * Modifie un certain prix
     *
-    * @param b Payload JSON de l'utilisateur
     * @param id id du badge
     * @param apiKey clé de l'application
+    * @param reward Payload JSON du reward
     * @return réponse JAX-RS
     */
    @PUT
    @Path("/{id}")
    @Consumes(MediaType.APPLICATION_JSON)
    @Produces(MediaType.APPLICATION_JSON)
-   public Response updateBadge(Reward reward, @PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+   public Response updateBadge(@PathParam("id") long id, @QueryParam("apiKey") String apiKey, RewardDTO reward) {
       ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
 
       Reward tmp = rewardDAO.getRewardByIdAndByApiKey(id, key);

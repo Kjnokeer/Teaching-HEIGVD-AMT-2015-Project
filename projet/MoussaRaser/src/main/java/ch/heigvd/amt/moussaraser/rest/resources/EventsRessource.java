@@ -49,11 +49,6 @@ public class EventsRessource {
    @EJB
    RewardDAOLocal rewardDAO;
    
-   /*@GET
-   public Response getAllEvents() {
-      
-   }*/
-   
    @POST
    @Produces(MediaType.APPLICATION_JSON)
    public Response notifyEvent(@QueryParam("apiKey") String apiKey, EventDTO eventDTO) {

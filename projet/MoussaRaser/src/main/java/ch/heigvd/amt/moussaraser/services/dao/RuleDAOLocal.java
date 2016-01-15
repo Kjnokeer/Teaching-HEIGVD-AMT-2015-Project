@@ -14,5 +14,7 @@ import javax.ejb.Local;
 public interface RuleDAOLocal extends IGenericDAO<Rule, Long> {
 
    public List<Rule> getAllRulesByApplication(Application app);
+   
+   public Rule getRuleByIdAndApiKey(Long ruleId, Application app);
 
 }
