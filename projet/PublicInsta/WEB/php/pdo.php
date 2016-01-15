@@ -235,38 +235,37 @@ function isEmailValidDomain($email) {
 }
 
 
-function CallAPI($method, $url, $data = false)
+// POUR L'instant QUE LES POST ET GET
+// Exemple de post : callApi('POST', 'http://localhost:8080/MoussaRaser/api/users', array('firstname' => 'dsadsad', 'lastname' => 'dsadadsd'));
+// Exemple de get : $endUsers = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users'))
+function callApi($method, $url, $data = false)
 {
-    $curl = curl_init();
+    $url .= '?apiKey=1d62fc14560843b1b519b8da0df28f2e';
 
-    switch ($method)
-    {
+    $ch = curl_init($url);
+
+    switch($method) {
         case "POST":
-            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+                'Content-Type: application/json',                                                                                
+                'Content-Length: ' . strlen(json_encode($data)))                                                                       
+            );
+            break;
 
-            if ($data)
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-            break;
         case "PUT":
-            curl_setopt($curl, CURLOPT_PUT, 1);
             break;
-        default:
-            if ($data)
-                $url = sprintf("%s?%s", $url, http_build_query($data));
     }
 
-    // Optional Authentication:
-    curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-    curl_setopt($curl, CURLOPT_USERPWD, "username:password");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    $result = curl_exec($ch);
 
-    $result = curl_exec($curl);
-
-    curl_close($curl);
+    curl_close($ch);
 
     return $result;
+
 }
 
 ?>

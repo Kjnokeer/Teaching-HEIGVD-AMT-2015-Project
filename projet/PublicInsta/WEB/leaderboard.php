@@ -38,6 +38,15 @@ if(loggedIn() == false) {
   
   <?php include('partials/navbar.php'); ?>
 
+
+  <br><br><br><br>
+  <?php
+    //callApi('POST', 'http://localhost:8080/MoussaRaser/api/users', array('firstname' => 'dsadsad', 'lastname' => 'dsadadsd'));
+    //var_dump(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users'));
+
+    
+  ?>
+
   <div class="container content" id="content">
 
     <div class="scroll-top-wrapper ">
@@ -47,6 +56,7 @@ if(loggedIn() == false) {
     </div>
 
     <h1>Leaderboard</h1>
+
     <table class="table table-striped table-responsive">
       <thead>
         <th>#</th>
@@ -55,13 +65,28 @@ if(loggedIn() == false) {
         <th>Score</th>
       </thead>
       <tbody>
+          <?php 
+            $leaderboard = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/leaderboard'));
+
+            $i = 1;
+            foreach($leaderboard as $user):
+          ?>
         <tr>
-          <!-- Faire une condition ici - img(src="http://www.flashlet.com/uploads/2/0/6/9/20695664/7228077_orig.png" width="50px" style="padding-left: 20px") -->
-          <td>1<img src="https://cdn0.iconfinder.com/data/icons/gamification-flat-awards-and-badges/500/crown1-512.png" width="50px" style="padding-left: 20px"/></td>
-          <td>endUser</td>
-          <td>endUser.lastname</td>
-          <td>endUser.score</td>
+          <td><?php echo $i; ?>
+
+          <?php if($i == 1): ?>
+            <img src="https://cdn0.iconfinder.com/data/icons/gamification-flat-awards-and-badges/500/crown1-512.png" width="50px" style="padding-left: 20px"/>
+          <?php elseif($i == count($leaderboard)): ?>
+            <img src="http://www.flashlet.com/uploads/2/0/6/9/20695664/7228077_orig.png" width="50px" style="padding-left: 20px"/>
+          <?php endif; ?>
+
+          </td>
+          <td><?php echo $user->firstName; ?></td>
+          <td><?php echo $user->lastName; ?></td>
+          <td><?php echo $user->score; ?></td>
         </tr>
+        <?php $i++; ?>
+      <?php endforeach; ?>
       </tbody>
     </table>
     
