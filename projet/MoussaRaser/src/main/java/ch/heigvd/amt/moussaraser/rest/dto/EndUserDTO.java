@@ -1,12 +1,10 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date :
- * 29.11.2015 Fichier : EndUserDTO.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 29.11.2015
+ * Fichier : EndUserDTO.java
  */
 package ch.heigvd.amt.moussaraser.rest.dto;
 
-import ch.heigvd.amt.moussaraser.model.entities.Application;
-import ch.heigvd.amt.moussaraser.model.entities.Badge;
-import ch.heigvd.amt.moussaraser.model.entities.Reward;
 import java.util.Date;
 import java.util.List;
 

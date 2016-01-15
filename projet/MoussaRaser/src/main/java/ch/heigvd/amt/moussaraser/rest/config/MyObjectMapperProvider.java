@@ -1,3 +1,8 @@
+/**
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 15.01.2016
+ * Fichier : MyObjectMapperProvider.java
+ */
 package ch.heigvd.amt.moussaraser.rest.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;

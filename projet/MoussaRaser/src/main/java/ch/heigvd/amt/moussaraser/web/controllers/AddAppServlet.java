@@ -1,6 +1,7 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date
- * : 30.10.2015 Fichier : AddAppServlet.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 30.10.2015
+ * Fichier : AddAppServlet.java
  */
 package ch.heigvd.amt.moussaraser.web.controllers;
 

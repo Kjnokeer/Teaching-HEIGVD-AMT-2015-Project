@@ -1,12 +1,9 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date :
- * 29.11.2015 Fichier : RewardDTO.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 15.01.2016
+ * Fichier : RuleDTO.java
  */
 package ch.heigvd.amt.moussaraser.rest.dto;
-
-import ch.heigvd.amt.moussaraser.model.entities.Badge;
-import ch.heigvd.amt.moussaraser.model.entities.Reward;
-import java.util.List;
 
 /**
  * Classe représentant un DTO de l'entité Reward

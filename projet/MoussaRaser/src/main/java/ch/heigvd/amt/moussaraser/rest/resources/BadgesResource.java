@@ -1,6 +1,7 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date :
- * 29.11.2015 Fichier : BadgesRessource.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 29.11.2015
+ * Fichier : BadgesRessource.java
  */
 package ch.heigvd.amt.moussaraser.rest.resources;
 
@@ -12,7 +13,6 @@ import ch.heigvd.amt.moussaraser.rest.dto.BadgeDTO;
 import ch.heigvd.amt.moussaraser.services.dao.ApiKeyDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.BadgeDAOLocal;
-
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;

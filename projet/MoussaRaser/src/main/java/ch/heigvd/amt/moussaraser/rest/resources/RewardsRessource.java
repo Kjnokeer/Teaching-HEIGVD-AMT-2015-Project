@@ -1,6 +1,7 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date :
- * 29.11.2015 Fichier : RewardsRessource.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 29.11.2015
+ * Fichier : RewardsRessource.java
  */
 package ch.heigvd.amt.moussaraser.rest.resources;
 

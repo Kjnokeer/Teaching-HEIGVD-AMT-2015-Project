@@ -1,15 +1,16 @@
+/**
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 15.01.2016
+ * Fichier : RulesRessource.java
+ */
 package ch.heigvd.amt.moussaraser.rest.resources;
 
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
 import ch.heigvd.amt.moussaraser.model.entities.Application;
-import ch.heigvd.amt.moussaraser.model.entities.Badge;
-import ch.heigvd.amt.moussaraser.model.entities.Reward;
 import ch.heigvd.amt.moussaraser.model.entities.Rule;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendBadge;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendReward;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendRule;
-import ch.heigvd.amt.moussaraser.rest.dto.BadgeDTO;
-import ch.heigvd.amt.moussaraser.rest.dto.EndUserDTO;
 import ch.heigvd.amt.moussaraser.rest.dto.RuleDTO;
 import ch.heigvd.amt.moussaraser.services.dao.ApiKeyDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;

@@ -1,6 +1,7 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date
- * : 30.10.2015 Fichier : AccountServler.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 30.10.2015
+ * Fichier : AccountServler.java
  */
 package ch.heigvd.amt.moussaraser.web.controllers;
 
@@ -34,7 +35,7 @@ public class AccountServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        User u = (User) usersDAO.getManagedUserFromId((long) request.getSession().getAttribute("userId"));
+        User u = usersDAO.getManagedUserFromId((long) request.getSession().getAttribute("userId"));
 
         String action = request.getParameter("action");
 
