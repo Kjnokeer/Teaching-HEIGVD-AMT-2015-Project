@@ -1,6 +1,5 @@
 package ch.heigvd.amt.moussaraser.model.entities;
 
-import ch.heigvd.amt.moussaraser.rest.config.EventsEnumeration;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -22,7 +21,7 @@ public class Rule extends AbstractDomainModelEntity<Long> {
    private String name;
 
    @NotNull
-   private EventsEnumeration eventType;
+   private String eventType;
 
    private Long pointsToAdd;
    private Long badgeToAdd;
@@ -34,7 +33,7 @@ public class Rule extends AbstractDomainModelEntity<Long> {
    public Rule() {
    }
 
-   public Rule(String name, EventsEnumeration eventType, Long pointsToAdd, Long badgeToAdd, Long rewardToAdd, Application application) {
+   public Rule(String name, String eventType, Long pointsToAdd, Long badgeToAdd, Long rewardToAdd, Application application) {
       this.name = name;
       this.eventType = eventType;
       this.pointsToAdd = pointsToAdd;
@@ -51,11 +50,11 @@ public class Rule extends AbstractDomainModelEntity<Long> {
       this.name = name;
    }
 
-   public EventsEnumeration getEventType() {
+   public String getEventType() {
       return eventType;
    }
 
-   public void setEventType(EventsEnumeration eventType) {
+   public void setEventType(String eventType) {
       this.eventType = eventType;
    }
 

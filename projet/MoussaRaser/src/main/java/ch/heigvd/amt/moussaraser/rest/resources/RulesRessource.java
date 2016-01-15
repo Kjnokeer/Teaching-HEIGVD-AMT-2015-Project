@@ -5,7 +5,6 @@ import ch.heigvd.amt.moussaraser.model.entities.Application;
 import ch.heigvd.amt.moussaraser.model.entities.Badge;
 import ch.heigvd.amt.moussaraser.model.entities.Reward;
 import ch.heigvd.amt.moussaraser.model.entities.Rule;
-import ch.heigvd.amt.moussaraser.rest.config.EventsEnumeration;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendBadge;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendReward;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendRule;
@@ -81,26 +80,27 @@ public class RulesRessource {
          return SendRule.errorRuleInvalid();
       }
 
-      if (ruleDTO.getAddPoint() != null && badgeDAO.getBadgeByIdAndByApiKey(ruleDTO.getBadgeIdToAdd(), key) == null) {
+      if (ruleDTO.getBadgeIdToAdd() != null && badgeDAO.getBadgeByIdAndByApiKey(ruleDTO.getBadgeIdToAdd(), key) == null) {
          return SendBadge.errorBadgeInvalid();
       }
 
-      if (ruleDTO.getAddPoint() != null && rewardDAO.getRewardByIdAndByApiKey(ruleDTO.getRewardIdToAdd(), key) == null) {
+      if (ruleDTO.getRewardIdToAdd() != null && rewardDAO.getRewardByIdAndByApiKey(ruleDTO.getRewardIdToAdd(), key) == null) {
          return SendReward.errorRewardInvalid();
       }
 
       Rule newRule = new Rule(
               ruleDTO.getName(),
               ruleDTO.getEventType(),
-              ruleDTO.getAddPoint(),
+              ruleDTO.getPointsToAdd(),
               ruleDTO.getBadgeIdToAdd(),
               ruleDTO.getRewardIdToAdd(),
               applicationDAO.getApplicationByApiKey(key)
       );
 
-      ruleDAO.create(newRule);
-
-      return SendRule.send200OK(ruleDTO);
+      
+      ruleDTO.setId(ruleDAO.create(newRule));
+      
+      return SendRule.send201Created(ruleDTO);
    }
 
 }

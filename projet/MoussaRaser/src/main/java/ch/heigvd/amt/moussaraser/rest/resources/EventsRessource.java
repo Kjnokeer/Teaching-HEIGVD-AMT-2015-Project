@@ -1,13 +1,20 @@
 package ch.heigvd.amt.moussaraser.rest.resources;
 
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
-import ch.heigvd.amt.moussaraser.rest.config.EventsEnumeration;
+import ch.heigvd.amt.moussaraser.model.entities.Application;
+import ch.heigvd.amt.moussaraser.model.entities.EndUser;
+import ch.heigvd.amt.moussaraser.model.entities.Rule;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendEvent;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendUser;
 import ch.heigvd.amt.moussaraser.rest.dto.EventDTO;
 import ch.heigvd.amt.moussaraser.services.dao.ApiKeyDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;
+import ch.heigvd.amt.moussaraser.services.dao.BadgeDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.EndUserDAOLocal;
+import ch.heigvd.amt.moussaraser.services.dao.RewardDAOLocal;
+import ch.heigvd.amt.moussaraser.services.dao.RuleDAOLocal;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.GET;
@@ -21,9 +28,12 @@ import javax.ws.rs.core.Response;
 @Stateless
 @Path("/events")
 public class EventsRessource {
-   
+
    @EJB
    EndUserDAOLocal endUsersDAO;
+   
+   @EJB
+   RuleDAOLocal ruleDAO;
 
    @EJB
    ApplicationDAOLocal applicationDAO;
@@ -31,26 +41,42 @@ public class EventsRessource {
    @EJB
    ApiKeyDAOLocal apiKeyDAO;
    
+   @EJB
+   BadgeDAOLocal badgeDAO;
+   
+   @EJB
+   RewardDAOLocal rewardDAO;
+   
    /*@GET
    public Response getAllEvents() {
       
    }*/
    
-   /*@POST
+   @POST
    @Produces(MediaType.APPLICATION_JSON)
    public Response notifyEvent(@QueryParam("apiKey") String apiKey, EventDTO eventDTO) {
       ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
 
-      if (eventDTO == null || eventDTO.getUserId() == null || eventDTO.getType() == null) {
+      if (eventDTO == null || eventDTO.getToUserId()== null || eventDTO.getEventType()== null) {
          return SendEvent.errorEventInvalid();
       }
       
-      if(!EventsEnumeration.contains(eventDTO.getType())) {
-         return SendEvent.errorEventTypeInvalid();
+      Application application = applicationDAO.getApplicationByApiKey(key);
+      List<Rule> rulesList = ruleDAO.getAllRulesByApplication(application);
+      EndUser endUser = endUsersDAO.findById(eventDTO.getToUserId());
+      
+      for(Rule rule : rulesList) {
+         if(rule.getEventType().equals(eventDTO.getEventType())) {
+            if(rule.getPointsToAdd() != null)
+               endUser.setScore(endUser.getScore() + rule.getPointsToAdd());
+            if(rule.getBadgeToAdd() != null)
+               endUser.addBadge(badgeDAO.findById(rule.getBadgeToAdd()));
+            if(rule.getRewardToAdd() != null) 
+               endUser.addReward(rewardDAO.findById(rule.getRewardToAdd()));
+         }
       }
-      
-      
-      
-   }*/
+
+      return SendEvent.send200OK(null);
+   }
    
 }
