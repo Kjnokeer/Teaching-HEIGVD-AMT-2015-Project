@@ -5,8 +5,6 @@ if(loggedIn() == false) {
   header("Location:index.php");
 }
 
-define('FIRST', 1);
-define('LIMIT', 4);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +17,7 @@ define('LIMIT', 4);
 
   <title>PublicInsta</title>
 
-  link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
   <link href="css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 
   <!-- Latest compiled and minified CSS -->
@@ -37,18 +35,36 @@ define('LIMIT', 4);
   <![endif]-->
 </head>
 <body>
-
+  
   <?php include('partials/navbar.php'); ?>
 
   <div class="container content" id="content">
+
     <div class="scroll-top-wrapper ">
       <span class="scroll-top-inner">
         <i class="fa fa-2x fa-arrow-circle-up"></i>
       </span>
     </div>
 
-    <input type="hidden" id="first" value="<?php echo FIRST; ?>" />
-    <input type="hidden" id="limit" value="<?php echo LIMIT; ?>" >
+    <h1>Leaderboard</h1>
+    <table class="table table-striped table-responsive">
+      <thead>
+        <th>#</th>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Score</th>
+      </thead>
+      <tbody>
+        <tr>
+          <!-- Faire une condition ici - img(src="http://www.flashlet.com/uploads/2/0/6/9/20695664/7228077_orig.png" width="50px" style="padding-left: 20px") -->
+          <td>1<img src="https://cdn0.iconfinder.com/data/icons/gamification-flat-awards-and-badges/500/crown1-512.png" width="50px" style="padding-left: 20px"/></td>
+          <td>endUser</td>
+          <td>endUser.lastname</td>
+          <td>endUser.score</td>
+        </tr>
+      </tbody>
+    </table>
+    
   </div><!-- /.container -->
 
 
@@ -56,13 +72,6 @@ define('LIMIT', 4);
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-
-  <!-- canvas-to-blob.min.js is only needed if you wish to resize images before upload.
-  This must be loaded before fileinput.min.js -->
-  <script src="js/plugins/canvas-to-blob.min.js" type="text/javascript"></script>
-  <script src="js/fileinput.min.js"></script>
-
-  <script src="js/content_user.js"></script>
   <script src="js/back_to_top.js"></script>
 </body>
 </html>

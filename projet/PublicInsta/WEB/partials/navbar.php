@@ -21,6 +21,7 @@
             <li><a href="logout.php">Logout</a></li>
           </ul>
         </li>
+        <li><a href="leaderboard.php">Leaderboard</a></li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>
