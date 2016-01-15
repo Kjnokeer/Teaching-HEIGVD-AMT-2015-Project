@@ -19,13 +19,14 @@ define('LIMIT', 4);
 
   <title>PublicInsta</title>
 
-  link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
   <link href="css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <!--<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Pacifico' type='text/css'>-->
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Indie+Flower' type='text/css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/style.css" type='text/css'>
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -65,6 +66,12 @@ define('LIMIT', 4);
   </nav>
 
   <div class="container content" id="content">
+
+    <div class="scroll-top-wrapper ">
+      <span class="scroll-top-inner">
+        <i class="fa fa-2x fa-arrow-circle-up"></i>
+      </span>
+    </div>
 
     <div class="picture_post" id="add_new_post">
       <div class="post_header">
