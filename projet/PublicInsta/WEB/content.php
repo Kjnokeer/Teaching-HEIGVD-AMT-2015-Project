@@ -15,6 +15,8 @@ define('LIMIT', 4);
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <link rel="icon" href="img/ui/favicon.ico" />
+
   <title>PublicInsta</title>
 
   link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
@@ -25,8 +27,6 @@ define('LIMIT', 4);
   <!--<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Pacifico' type='text/css'>-->
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Indie+Flower' type='text/css'>
   <link rel="stylesheet" href="css/style.css" type='text/css'>
-
-  <link rel="icon" href="img/ui/favicon.ico" />
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -45,13 +45,20 @@ define('LIMIT', 4);
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">PublicInsta</a>
+        <a class="navbar-brand" href="content.php">PublicInsta</a>
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#news">News</a></li>
-          <li><a href="#user">User</a></li>
-          <li><a href="#awards">Awards</a></li>
+          <li class="active"><a href="content.php">News</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="user_posts.php">Posts</a></li>
+              <li><a href="awards.php">Awards</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="logout.php">Logout</a></li>
+            </ul>
+          </li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>
@@ -59,7 +66,7 @@ define('LIMIT', 4);
 
   <div class="container content" id="content">
 
-    <div class="picture_post">
+    <div class="picture_post" id="add_new_post">
       <div class="post_header">
         <div class="picture_post_header">
           <img class="avatar img-circle" src="<?php echo $_SESSION['profile_photo']; ?>" />
@@ -70,13 +77,17 @@ define('LIMIT', 4);
       </div>
       <div class="row">
         <div class="post_content col-md-12">
-          <div class="form-group">
-            <input type="text" name="photo_caption" id="photo_caption" tabindex="1" class="form-control" placeholder="Message...">
-          </div>
-          <div class="form-group">
-            <input id="photo_upload" type="file" tabindex="2" class="file file-loading" accept="image/*" >
-          </div>
-
+          <form id="upload_photo_form" action="php/upload.php" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+              <input type="text" name="photo_caption" id="photo_caption" tabindex="1" class="form-control" placeholder="Message...">
+            </div>
+            <div class="form-group">
+              <input id="photo_upload" name="photo_upload" type="file" tabindex="2" class="file file-loading" accept="image/*" >
+            </div>
+            <div class="form-group">
+              <input type="submit" value="Upload Image" name="submit">
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -97,5 +108,77 @@ define('LIMIT', 4);
   <script src="js/fileinput.min.js"></script>
 
   <script src="js/content.js"></script>
+
+  <script type="text/javascript">
+
+
+  $(document).ready(function() {
+    // Lorsque je soumets le formulaire
+    $('#upload_photo_form').on('submit', function(e) {
+      e.preventDefault(); // J'empêche le comportement par défaut du navigateur, c-à-d de soumettre le formulaire
+
+      var $form = $(this);
+      var formdata = (window.FormData) ? new FormData($form[0]) : null;
+      var data = (formdata !== null) ? formdata : $form.serialize();
+
+      // Je vérifie une première fois pour ne pas lancer la requête HTTP
+      // si je sais que mon PHP renverra une erreur
+      // Envoi de la requête HTTP en mode asynchrone
+      $.ajax({
+        url: $form.attr('action'),
+        type: $form.attr('method'),
+        contentType: false, // obligatoire pour de l'upload
+        processData: false, // obligatoire pour de l'upload
+        dataType: 'json', // selon le retour attendu
+        data: data,
+        success: function (res) {
+          if(res.reponse == 'ok') {
+            var content = '<div class="picture_post">';
+            content += '<div class="post_header">';
+            content += '<div class="picture_post_header">';
+            content += '<img class="avatar img-circle" src="' + res.profile_photo + '" />';
+            content += '</div>';
+            content += '<div class="username_post_header">';
+            content += '<a>' + res.username + '</a>';
+            content += '</div>';
+            content += '</div>';
+            content += '<div class="row">';
+            content += '<div class="col-md-12 picture_post_content">';
+            content += '<img class="img-responsive" src="' + res.path + '" />';
+            content += '</div>';
+            content += '</div>';
+            content += '<div class="row">';
+            content += '<div class="col-md-12 comments_post">';
+            content += '<div class="comments_post_caption">';
+            content += '<p>' + res.text + '</p>';
+            content += '</div>';
+            content += '<div class="comments_post_opinion">';
+            content += '<div class="input-group">';
+            content += '<span class="input-group-btn">';
+            content += '<button class="btn btn-success glyphicon glyphicon-thumbs-up" type="button"></button>';
+            content += '<button class="btn btn-danger glyphicon glyphicon-thumbs-down" type="button"></button>';
+            content += '</span>';
+            content += '<input type="text" class="comments_post_edit form-control" placeholder="Add a comment...">';
+            content += '<span class="input-group-btn">';
+            content += '<button class="btn btn-default glyphicon glyphicon-send" type="button"></button>';
+            content += '<button class="btn btn-primary glyphicon glyphicon-comment" type="button"></button>';
+            content += '</span>';
+            content += '</div>';
+            content += '</div>';
+            content += '</div>';
+            content += '</div>';
+            content += '</div>';
+            $('#photo_caption').val('');
+            $('#photo_uploadn').val('');
+            $('#add_new_post').after(content);
+          }else {
+            alert("ERROR");
+          }
+
+        }
+      });
+    });
+  });
+  </script>
 </body>
 </html>

@@ -3,7 +3,7 @@ function loadImages() {
   limit = $('#limit').val();
 
   $.ajax({
-    url : 'infiniteScroll.php',
+    url : 'get_news.php',
     dataType: "json",
     method: 'post',
     data: {

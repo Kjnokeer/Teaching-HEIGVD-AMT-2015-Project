@@ -3,6 +3,7 @@ session_start();
 
 if(!isset($_SESSION['username'])) {
   $_SESSION['username'] = "guest";
+  $_SESSION['user_id'] = "";
   $_SESSION['email'] = "";
   $_SESSION['profile_photo'] = "";
   $_SESSION['creation_date'] = "";
@@ -81,7 +82,7 @@ function setLogged($email) {
   $fields = array($GLOBALS['crysession'],$GLOBALS['cryip'],$email);
   $sqlp->execute($fields);
 
-  $sql = 'SELECT email, username, profile_photo, creation_date
+  $sql = 'SELECT id, email, username, profile_photo, creation_date
     FROM user
     WHERE email = ?';
 
@@ -92,6 +93,7 @@ function setLogged($email) {
   if($sqlp->rowCount() == 1) {
     $userTmp = $sqlp->fetch();
     $_SESSION['username'] = $userTmp['username'];
+    $_SESSION['user_id'] = $userTmp['id'];
     $_SESSION['email'] = $userTmp['email'];
     $_SESSION['profile_photo'] = $userTmp['profile_photo'];
     $datetime = new DateTime($userTmp['creation_date']);
@@ -121,6 +123,31 @@ function registerUser($email, $pass, $username, $profile_photo) {
 
   if($sqlp->rowCount() == 1) {
     mkdir("img/users/".$username, 0777);
+    return true;
+  }else {
+    return false;
+  }
+}
+
+function insertImage($user_id, $path, $text) {
+  if(empty($user_id)) {
+    $user_id = NULL;
+  }
+
+  if(empty($path)) {
+    $path = NULL;
+  }
+
+  if(empty($text)) {
+    $text = NULL;
+  }
+  $sql = 'INSERT INTO image (path, text, user_id)
+    VALUES (?, ?, ?);';
+  $sqlp = $GLOBALS["pdo"]->prepare($sql);
+  $fields = array($path, $text, $user_id,);
+  $sqlp->execute($fields);
+
+  if($sqlp->rowCount() == 1) {
     return true;
   }else {
     return false;
