@@ -3,9 +3,16 @@ require_once 'pdo.php';
 
 $time = (int)microtime(true);
 
-$reponse = 'error';
+$reponse = 'ok';
 
-$target_dir = "..\img\users\\".$_SESSION['username'].'\\';
+if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+  $target_dir = "..\img\users\\".$_SESSION['username'].'\\';
+}
+else {
+  $target_dir = "../img/users/".$_SESSION['username'].'/';
+}
+
+
 $target_dir_db = "img/users/".$_SESSION['username'].'/';
 $target_file = $target_dir.basename($time.$_FILES["photo_upload"]["name"]);
 $target_file_db = $target_dir_db.basename($time.$_FILES["photo_upload"]["name"]);

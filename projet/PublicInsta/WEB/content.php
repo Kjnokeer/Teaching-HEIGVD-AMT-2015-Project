@@ -154,8 +154,9 @@ define('LIMIT', 4);
             $('#photo_caption').val('');
             $('#photo_uploadn').val('');
             $('#add_new_post').after(content);
-          }else {
-            alert("ERROR");
+          }
+          else {
+            alert(res.reponse);
           }
 
         }
