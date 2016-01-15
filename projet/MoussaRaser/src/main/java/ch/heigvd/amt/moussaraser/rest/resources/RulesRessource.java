@@ -95,6 +95,10 @@ public class RulesRessource {
       if (rule.getRewardIdToAdd() != null && rewardDAO.getRewardByIdAndByApiKey(rule.getRewardIdToAdd(), key) == null) {
          return SendReward.errorRewardInvalid();
       }
+      
+      if(rule.getPointsToAdd() == null && rule.getBadgeIdToAdd() == null && rule.getRewardIdToAdd() == null) {
+         return SendRule.missingDataInPayload();
+      }
 
       Rule newRule = new Rule(
               rule.getName(),
