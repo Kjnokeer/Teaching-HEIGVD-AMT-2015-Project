@@ -1,6 +1,7 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date :
- * 29.11.2015 Fichier : LeaderBoardRessource.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 29.11.2015
+ * Fichier : LeaderBoardRessource.java
  */
 package ch.heigvd.amt.moussaraser.rest.resources;
 

@@ -1,6 +1,7 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date
- * : 09.10.2015 Fichier : AuthentificationServlet.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 09.10.2015
+ * Fichier : AuthentificationServlet.java
  */
 package ch.heigvd.amt.moussaraser.web.controllers;
 

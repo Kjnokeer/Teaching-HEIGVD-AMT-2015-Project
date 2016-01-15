@@ -1,3 +1,8 @@
+/**
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 15.01.2016
+ * Fichier : SendEvent.java
+ */
 package ch.heigvd.amt.moussaraser.rest.config.response;
 
 import ch.heigvd.amt.moussaraser.rest.config.response.message.ErrorObject;

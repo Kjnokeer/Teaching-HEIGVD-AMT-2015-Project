@@ -1,3 +1,8 @@
+/**
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 15.01.2016
+ * Fichier : BusinessDomainEntityNotFoundException.java
+ */
 package ch.heigvd.amt.moussaraser.services.dao;
 
 /**

@@ -1,6 +1,7 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date
- * : 30.10.2015 Fichier : ListUserServlet.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 30.10.2015
+ * Fichier : ListUserServlet.java
  */
 package ch.heigvd.amt.moussaraser.web.controllers;
 

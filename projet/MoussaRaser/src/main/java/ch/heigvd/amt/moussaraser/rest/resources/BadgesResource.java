@@ -1,6 +1,7 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date :
- * 29.11.2015 Fichier : BadgesRessource.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 29.11.2015
+ * Fichier : BadgesRessource.java
  */
 package ch.heigvd.amt.moussaraser.rest.resources;
 
@@ -12,7 +13,6 @@ import ch.heigvd.amt.moussaraser.rest.dto.BadgeDTO;
 import ch.heigvd.amt.moussaraser.services.dao.ApiKeyDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.BadgeDAOLocal;
-
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -75,26 +75,35 @@ public class BadgesResource {
    /**
     * Créer un badge
     *
-    * @param b Payload JSON de l'utilisateur
     * @param apiKey clé de l'application
+    * @param badge Payload JSON du badge
     * @return Réponse JAX-RS
     */
    @POST
    @Consumes(MediaType.APPLICATION_JSON)
    @Produces(MediaType.APPLICATION_JSON)
-   public Response createBadge(Badge b, @QueryParam("apiKey") String apiKey) {
+   public Response createBadge(@QueryParam("apiKey") String apiKey, BadgeDTO badge) {
       ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
+      
+      if(badge == null || badge.getName() == null || badge.getCategory() == null) {
+         SendBadge.errorBadgeInvalid();
+      }
+      
+      Badge newBadge = new Badge();
+      newBadge.setName(badge.getName());
+      newBadge.setCategory(badge.getCategory());
+      newBadge.setDescription(badge.getDescription());
+      newBadge.setImage(badge.getImage());
+      newBadge.setApplication(applicationDAO.getApplicationByApiKey(key));
 
-      b.setApplication(applicationDAO.getApplicationByApiKey(key));
-
-      badgeDAO.create(b); // Insert
+      newBadge.setId(badgeDAO.create(newBadge)); // Insert
 
       return SendBadge.send201Created(new BadgeDTO(
-              b.getId(),
-              b.getName(),
-              b.getCategory(),
-              b.getDescription(),
-              b.getImage()
+              newBadge.getId(),
+              newBadge.getName(),
+              newBadge.getCategory(),
+              newBadge.getDescription(),
+              newBadge.getImage()
       ));
    }
 
@@ -129,16 +138,16 @@ public class BadgesResource {
    /**
     * Modifie un certain badge
     *
-    * @param b Payload JSON de l'utilisateur
     * @param id id du badge
     * @param apiKey clé de l'application
+    * @param badge Payload JSON du badge
     * @return réponse JAX-RS
     */
    @PUT
    @Path("/{id}")
    @Consumes(MediaType.APPLICATION_JSON)
    @Produces(MediaType.APPLICATION_JSON)
-   public Response updateBadge(Badge b, @PathParam("id") long id, @QueryParam("apiKey") String apiKey) {
+   public Response updateBadge(@PathParam("id") long id, @QueryParam("apiKey") String apiKey,BadgeDTO badge) {
       ApiKey key = apiKeyDAO.findByApiKeyString(apiKey);
 
       Badge tmp = badgeDAO.getBadgeByIdAndByApiKey(id, key);
@@ -147,18 +156,18 @@ public class BadgesResource {
          return SendBadge.errorBadgeInvalid();
       }
 
-      Badge badge = badgeDAO.createAndReturnManagedEntity(tmp);
-      badge.setName(b.getName());
-      badge.setCategory(b.getCategory());
-      badge.setDescription(b.getDescription());
-      badge.setImage(b.getImage());
+      Badge updateBadge = badgeDAO.createAndReturnManagedEntity(tmp);
+      updateBadge.setName(badge.getName());
+      updateBadge.setCategory(badge.getCategory());
+      updateBadge.setDescription(badge.getDescription());
+      updateBadge.setImage(badge.getImage());
 
       return SendBadge.send200OK(new BadgeDTO(
-              b.getId(),
-              b.getName(),
-              b.getCategory(),
-              b.getDescription(),
-              b.getImage()
+              updateBadge.getId(),
+              updateBadge.getName(),
+              updateBadge.getCategory(),
+              updateBadge.getDescription(),
+              updateBadge.getImage()
       ));
    }
 

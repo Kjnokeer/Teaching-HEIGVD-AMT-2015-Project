@@ -1,6 +1,7 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date
- * : 16.10.2015 Fichier : UsersDAOLocal.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 16.10.2015
+ * Fichier : UsersDAOLocal.java
  */
 package ch.heigvd.amt.moussaraser.services.dao;
 

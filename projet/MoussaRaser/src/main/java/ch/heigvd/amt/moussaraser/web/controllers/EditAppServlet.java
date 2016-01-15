@@ -1,6 +1,7 @@
 /**
- * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira Date
- * : 30.10.2015 Fichier : EditAppServlet.java
+ * Auteurs : Jérôme Moret & Mathias Dolt & Thibaud Duchoud & Mario Ferreira
+ * Date : 30.10.2015
+ * Fichier : EditAppServlet.java
  */
 package ch.heigvd.amt.moussaraser.web.controllers;
 
@@ -46,7 +47,7 @@ public class EditAppServlet extends HttpServlet {
 
         if (action != null && action.equals("changeState")) {
             String apiKey = request.getParameter("apiKey");
-            Application application = (Application) applicationsDAO.getManagedApplicationByApiKey(apiKeyDAO.findByApiKeyString(apiKey));
+            Application application = applicationsDAO.getManagedApplicationByApiKey(apiKeyDAO.findByApiKeyString(apiKey));
             application.setEnabled(!application.isEnabled());
             applicationsDAO.update(application);
         } else {
@@ -59,8 +60,8 @@ public class EditAppServlet extends HttpServlet {
                 if (name != null && description != null) {
                     Application application = (Application) request.getSession().getAttribute("application");
 
-                    application.setName((String) request.getParameter("name"));
-                    application.setDescription((String) request.getParameter("description"));
+                    application.setName(request.getParameter("name"));
+                    application.setDescription(request.getParameter("description"));
 
                     String state = request.getParameter("state");
 
