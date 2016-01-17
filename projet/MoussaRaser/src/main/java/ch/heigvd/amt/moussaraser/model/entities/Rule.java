@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -29,8 +30,12 @@ public class Rule extends AbstractDomainModelEntity<Long> {
    private String eventType;
 
    private Long pointsToAdd;
-   private Long badgeToAdd;
-   private Long rewardToAdd;
+   
+   @ManyToOne
+   private Badge badgeToAdd;
+   
+   @ManyToOne
+   private Reward rewardToAdd;
 
    @ManyToOne
    private Application application;
@@ -38,7 +43,7 @@ public class Rule extends AbstractDomainModelEntity<Long> {
    public Rule() {
    }
 
-   public Rule(String name, String eventType, Long pointsToAdd, Long badgeToAdd, Long rewardToAdd, Application application) {
+   public Rule(String name, String eventType, Long pointsToAdd, Badge badgeToAdd, Reward rewardToAdd, Application application) {
       this.name = name;
       this.eventType = eventType;
       this.pointsToAdd = pointsToAdd;
@@ -71,19 +76,19 @@ public class Rule extends AbstractDomainModelEntity<Long> {
       this.pointsToAdd = pointsToAdd;
    }
 
-   public Long getBadgeToAdd() {
+   public Badge getBadgeToAdd() {
       return badgeToAdd;
    }
 
-   public void setBadgeToAdd(Long badgeToAdd) {
+   public void setBadgeToAdd(Badge badgeToAdd) {
       this.badgeToAdd = badgeToAdd;
    }
 
-   public Long getRewardToAdd() {
+   public Reward getRewardToAdd() {
       return rewardToAdd;
    }
 
-   public void setRewardToAdd(Long rewardToAdd) {
+   public void setRewardToAdd(Reward rewardToAdd) {
       this.rewardToAdd = rewardToAdd;
    }
 

@@ -7,6 +7,8 @@ package ch.heigvd.amt.moussaraser.rest.resources;
 
 import ch.heigvd.amt.moussaraser.model.entities.ApiKey;
 import ch.heigvd.amt.moussaraser.model.entities.Application;
+import ch.heigvd.amt.moussaraser.model.entities.Badge;
+import ch.heigvd.amt.moussaraser.model.entities.Reward;
 import ch.heigvd.amt.moussaraser.model.entities.Rule;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendBadge;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendReward;
@@ -70,8 +72,8 @@ public class RulesRessource {
                  rule.getName(),
                  rule.getEventType(),
                  rule.getPointsToAdd(),
-                 rule.getBadgeToAdd(),
-                 rule.getRewardToAdd()
+                 rule.getBadgeToAdd().getId(),
+                 rule.getRewardToAdd().getId()
          ));
       }
 
@@ -99,13 +101,16 @@ public class RulesRessource {
       if(rule.getPointsToAdd() == null && rule.getBadgeIdToAdd() == null && rule.getRewardIdToAdd() == null) {
          return SendRule.missingDataInPayload();
       }
+      
+      Badge badgeToAdd = badgeDAO.getBadgeByIdAndByApiKey(rule.getBadgeIdToAdd(), key);
+      Reward rewardToAdd = rewardDAO.getRewardByIdAndByApiKey(rule.getRewardIdToAdd(), key);
 
       Rule newRule = new Rule(
               rule.getName(),
               rule.getEventType(),
               rule.getPointsToAdd(),
-              rule.getBadgeIdToAdd(),
-              rule.getRewardIdToAdd(),
+              badgeToAdd,
+              rewardToAdd,
               applicationDAO.getApplicationByApiKey(key)
       );
 
@@ -132,8 +137,8 @@ public class RulesRessource {
               rule.getName(),
               rule.getEventType(),
               rule.getPointsToAdd(),
-              rule.getBadgeToAdd(),
-              rule.getRewardToAdd()
+              rule.getBadgeToAdd().getId(),
+              rule.getRewardToAdd().getId()
       ));
    }
    
@@ -149,21 +154,24 @@ public class RulesRessource {
       if (tmp == null) {
          return SendRule.errorRuleInvalid();
       }
+      
+      Badge badgeToAdd = badgeDAO.getBadgeByIdAndByApiKey(rule.getBadgeIdToAdd(), key);
+      Reward rewardToAdd = rewardDAO.getRewardByIdAndByApiKey(rule.getRewardIdToAdd(), key);
 
       Rule updateRule = ruleDAO.createAndReturnManagedEntity(tmp);
       updateRule.setName(rule.getName());
       updateRule.setEventType(rule.getEventType());
       updateRule.setPointsToAdd(rule.getPointsToAdd());
-      updateRule.setBadgeToAdd(rule.getBadgeIdToAdd());
-      updateRule.setRewardToAdd(rule.getRewardIdToAdd());
+      updateRule.setBadgeToAdd(badgeToAdd);
+      updateRule.setRewardToAdd(rewardToAdd);
 
       return SendRule.send200OK(new RuleDTO(
               updateRule.getId(),
               updateRule.getName(),
               updateRule.getEventType(),
               updateRule.getPointsToAdd(),
-              updateRule.getBadgeToAdd(),
-              updateRule.getRewardToAdd()
+              updateRule.getBadgeToAdd().getId(),
+              updateRule.getRewardToAdd().getId()
       ));
    }
    

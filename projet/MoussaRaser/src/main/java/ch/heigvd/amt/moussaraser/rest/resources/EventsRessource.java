@@ -68,10 +68,10 @@ public class EventsRessource {
                endUser.setScore(endUser.getScore() + rule.getPointsToAdd());
             }
             if(rule.getBadgeToAdd() != null) {
-               endUser.addBadge(badgeDAO.findById(rule.getBadgeToAdd()));
+               endUser.addBadge(badgeDAO.findById(rule.getBadgeToAdd().getId()));
             }
             if(rule.getRewardToAdd() != null) {
-               endUser.addReward(rewardDAO.findById(rule.getRewardToAdd()));
+               endUser.addReward(rewardDAO.findById(rule.getRewardToAdd().getId()));
             }
          }
       }
