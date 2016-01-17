@@ -261,7 +261,7 @@ function isEmailValidDomain($email) {
 // Exemple de get : $endUsers = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users'))
 function callApi($method, $url, $data = false)
 {
-  $url .= '?apiKey=1d62fc14560843b1b519b8da0df28f2e';
+  $url .= '?apiKey=cb2e9ea50f414922906e0f264b47e23d';
 
   $ch = curl_init($url);
 
