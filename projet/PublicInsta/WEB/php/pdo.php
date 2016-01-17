@@ -100,15 +100,23 @@ function setLogged($email) {
     $_SESSION['creation_date'] = $datetime->getTimestamp();
 
 
+    $endUsers = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users'));
+    foreach($endUsers as $endUser) {
+      if($endUser->firstName == $_SESSION['username']) {
+        $_SESSION['gamification_user_id'] = $endUser->id;
+        break;
+      }
+    }
+
+    
+
     if($userTmp['firstLogin'] == 1) {
       $sql = 'UPDATE user SET firstLogin = ? WHERE email = ?';
       $sqlp = $GLOBALS["pdo"]->prepare($sql);
       $fields = array(0, $email);
       $sqlp->execute($fields);
 
-      echo $_SESSION['user_id'];
-
-      callApi('POST', 'http://localhost:8080/MoussaRaser/api/events', array('eventType' => 'firstlogin', 'toUserId' => $_SESSION['user_id']));
+      callApi('POST', 'http://localhost:8080/MoussaRaser/api/events', array('eventType' => 'firstlogin', 'toUserId' => $_SESSION['gamification_user_id']));
     }
   }
 }
