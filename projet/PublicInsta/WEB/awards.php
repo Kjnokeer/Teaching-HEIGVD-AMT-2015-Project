@@ -42,30 +42,55 @@ define('LIMIT', 4);
 
   <div class="container content" id="content">
 
-    <div class="picture_post">
-      <div class="post_header">
-        <div class="picture_post_header">
-          <img class="avatar img-circle" src="<?php echo $_SESSION['profile_photo']; ?>" />
-        </div>
-        <div class="username_post_header">
-          <a><?php echo $_SESSION['username']; ?></a>
-        </div>
-      </div>
-      <div class="row">
-        <div class="post_content col-md-12">
-          <div class="form-group">
-            <input type="text" name="photo_caption" id="photo_caption" tabindex="1" class="form-control" placeholder="Message...">
-          </div>
-          <div class="form-group">
-            <input id="photo_upload" type="file" tabindex="2" class="file file-loading" accept="image/*" >
-          </div>
+    <table class="table table-striped table-responsive">
+      <thead>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Badge</th>
+      </thead>
+      <tbody>
+        <?php
+        $badges = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users/'.$_SESSION['user_id'].'/badges'));
 
-        </div>
-      </div>
-    </div>
+        foreach($badges as $badge):
+          ?>
+          <tr>
+            <td><?php echo $badge->name; ?></td>
+            <td><?php echo $badge->category; ?></td>
+            <td><?php echo $badge->description; ?></td>
+            <td>
+              <img src="<?php echo $badge->image; ?>" width="50px" style="padding-left: 20px"/>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
 
-    <input type="hidden" id="first" value="<?php echo FIRST; ?>" />
-    <input type="hidden" id="limit" value="<?php echo LIMIT; ?>" >
+    <table class="table table-striped table-responsive">
+      <thead>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Rewards</th>
+      </thead>
+      <tbody>
+        <?php
+        $badges = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users/'.$_SESSION['user_id'].'/rewards'));
+
+        foreach($badges as $badge):
+          ?>
+          <tr>
+            <td><?php echo $badge->name; ?></td>
+            <td><?php echo $badge->category; ?></td>
+            <td><?php echo $badge->description; ?></td>
+            <td>
+              <img src="<?php echo $badge->image; ?>" width="50px" style="padding-left: 20px"/>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
   </div><!-- /.container -->
 
 
@@ -78,7 +103,5 @@ define('LIMIT', 4);
   This must be loaded before fileinput.min.js -->
   <script src="js/plugins/canvas-to-blob.min.js" type="text/javascript"></script>
   <script src="js/fileinput.min.js"></script>
-
-  <script src="js/content.js"></script>
 </body>
 </html>
