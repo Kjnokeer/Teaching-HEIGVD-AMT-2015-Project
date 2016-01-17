@@ -51,7 +51,7 @@ define('LIMIT', 4);
       </thead>
       <tbody>
         <?php
-        $badges = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users/'.$_SESSION['user_id'].'/badges'));
+        $badges = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users/'.$_SESSION['gamification_user_id'].'/badges'));
 
         foreach($badges as $badge):
           ?>
@@ -76,7 +76,7 @@ define('LIMIT', 4);
       </thead>
       <tbody>
         <?php
-        $badges = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users/'.$_SESSION['user_id'].'/rewards'));
+        $badges = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users/'.$_SESSION['gamification_user_id'].'/rewards'));
 
         foreach($badges as $badge):
           ?>
