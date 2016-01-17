@@ -28,6 +28,13 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+/**
+ * Classe resprésentant une ressource REST Events et l'action pour certaines
+ * méthodes HTTP :
+ * - POST /events
+ *
+ * @author jermoret
+ */
 @Stateless
 @Path("/events")
 public class EventsRessource {
@@ -49,7 +56,13 @@ public class EventsRessource {
    
    @EJB
    RewardDAOLocal rewardDAO;
-   
+
+   /**
+    * Crée une nouvelle règle
+    * @param apiKey
+    * @param eventDTO
+    * @return
+    */
    @POST
    @Produces(MediaType.APPLICATION_JSON)
    public Response notifyEvent(@QueryParam("apiKey") String apiKey, EventDTO eventDTO) {
