@@ -44,8 +44,8 @@ function loadOwnImages() {
           content += '<div class="comments_post_opinion">';
           content += '<div class="input-group">';
           content += '<span class="input-group-btn">';
-          content += '<button class="btn btn-success glyphicon glyphicon-thumbs-up" type="button"></button>';
-          content += '<button class="btn btn-danger glyphicon glyphicon-thumbs-down" type="button"></button>';
+          content += '<button class="btn btn-success glyphicon glyphicon-thumbs-up" data-toggle="tooltip" data-original-title="' + value.nbPositive + '" type="button"></button>';
+          content += '<button class="btn btn-danger glyphicon glyphicon-thumbs-down" data-toggle="tooltip" data-original-title="' + value.nbNegative + '" type="button"></button>';
           content += '</span>';
           content += '<input type="text" class="comments_post_edit form-control" placeholder="Add a comment...">';
           content += '<span class="input-group-btn">';
@@ -60,6 +60,8 @@ function loadOwnImages() {
 
           $('#content').append(content);
         });
+
+        $('[data-toggle="tooltip"]').tooltip(); 
       }
     },
     error: function( data ){
