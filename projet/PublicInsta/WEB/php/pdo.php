@@ -55,8 +55,8 @@ function checkUser($email, $pass) {
   $crypass = hash ("sha256", $pass, false);
 
   $sql = 'SELECT username
-    FROM user
-    WHERE email = ? AND password = ?';
+  FROM user
+  WHERE email = ? AND password = ?';
   $sqlp = $GLOBALS["pdo"]->prepare($sql);
   $fields = array($email,$crypass);
   $sqlp->execute($fields);
@@ -83,8 +83,8 @@ function setLogged($email) {
   $sqlp->execute($fields);
 
   $sql = 'SELECT id, email, username, profile_photo, creation_date, firstLogin
-    FROM user
-    WHERE email = ?';
+  FROM user
+  WHERE email = ?';
 
   $sqlp = $GLOBALS["pdo"]->prepare($sql);
   $fields = array($email);
@@ -100,185 +100,191 @@ function setLogged($email) {
     $_SESSION['creation_date'] = $datetime->getTimestamp();
 
 
+    $endUsers = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users'));
+    foreach($endUsers as $endUser) {
+      if($endUser->firstName == $_SESSION['username']) {
+        $_SESSION['gamification_user_id'] = $endUser->id;
+        break;
+      }
+    }
+
+
+
     if($userTmp['firstLogin'] == 1) {
       $sql = 'UPDATE user SET firstLogin = ? WHERE email = ?';
       $sqlp = $GLOBALS["pdo"]->prepare($sql);
       $fields = array(0, $email);
       $sqlp->execute($fields);
 
-      echo $_SESSION['user_id'];
-
-      callApi('POST', 'http://localhost:8080/MoussaRaser/api/events', array('eventType' => 'firstlogin', 'toUserId' => $_SESSION['user_id']));
+      callApi('POST', 'http://localhost:8080/MoussaRaser/api/events', array('eventType' => 'firstlogin', 'toUserId' => $_SESSION['gamification_user_id']));
     }
-  }
-}
 
-function registerUser($email, $pass, $username, $profile_photo) {
-  if(empty($email)) {
-    $email = NULL;
-  }
+    function registerUser($email, $pass, $username, $profile_photo) {
+      if(empty($email)) {
+        $email = NULL;
+      }
 
-  $crypass = NULL;
+      $crypass = NULL;
 
-  if(!empty($pass)) {
-    $crypass = hash ("sha256", $pass, false);
-  }
+      if(!empty($pass)) {
+        $crypass = hash ("sha256", $pass, false);
+      }
 
-  if(empty($username)) {
-    $username = NULL;
-  }
-  $sql = 'INSERT INTO user (email, password, username, profile_photo)
-    VALUES (?, ?, ?, ?);';
-  $sqlp = $GLOBALS["pdo"]->prepare($sql);
-  $fields = array($email, $crypass, $username, $profile_photo);
-  $sqlp->execute($fields);
+      if(empty($username)) {
+        $username = NULL;
+      }
+      $sql = 'INSERT INTO user (email, password, username, profile_photo)
+      VALUES (?, ?, ?, ?);';
+      $sqlp = $GLOBALS["pdo"]->prepare($sql);
+      $fields = array($email, $crypass, $username, $profile_photo);
+      $sqlp->execute($fields);
 
-  if($sqlp->rowCount() == 1) {
-    mkdir("img/users/".$username, 0777);
-    callApi('POST', 'http://localhost:8080/MoussaRaser/api/users', array('firstname' => $username, 'lastname' => $username));
-    return true;
-  }else {
-    return false;
-  }
-}
+      if($sqlp->rowCount() == 1) {
+        mkdir("img/users/".$username, 0777);
+        callApi('POST', 'http://localhost:8080/MoussaRaser/api/users', array('firstname' => $username, 'lastname' => $username));
+        return true;
+      }else {
+        return false;
+      }
+    }
 
-function insertImage($user_id, $path, $text) {
-  if(empty($user_id)) {
-    $user_id = NULL;
-  }
+    function insertImage($user_id, $path, $text) {
+      if(empty($user_id)) {
+        $user_id = NULL;
+      }
 
-  if(empty($path)) {
-    $path = NULL;
-  }
+      if(empty($path)) {
+        $path = NULL;
+      }
 
-  if(empty($text)) {
-    $text = NULL;
-  }
-  $sql = 'INSERT INTO image (path, text, user_id)
-    VALUES (?, ?, ?);';
-  $sqlp = $GLOBALS["pdo"]->prepare($sql);
-  $fields = array($path, $text, $user_id,);
-  $sqlp->execute($fields);
+      if(empty($text)) {
+        $text = NULL;
+      }
+      $sql = 'INSERT INTO image (path, text, user_id)
+      VALUES (?, ?, ?);';
+      $sqlp = $GLOBALS["pdo"]->prepare($sql);
+      $fields = array($path, $text, $user_id,);
+      $sqlp->execute($fields);
 
-  if($sqlp->rowCount() == 1) {
-    return true;
-  }else {
-    return false;
-  }
-}
+      if($sqlp->rowCount() == 1) {
+        return true;
+      }else {
+        return false;
+      }
+    }
 
 
-/*==========================================================================*/
-/*	Function check connected
-/*		- Author(s) : Mario Ferreira & Thibaud Duchoud
-/*		- Input
-/*		- Output
-/*			- return true if connected
-/*			- else return false
-/*==========================================================================*/
-function loggedIn() {
-  $sql = 'SELECT username FROM user WHERE session_id = ? AND ip = ?';
-  $sqlp = $GLOBALS["pdo"]->prepare($sql);
-  $fields = array($GLOBALS['crysession'],$GLOBALS['cryip']);
-  $sqlp->execute($fields);
+    /*==========================================================================*/
+    /*	Function check connected
+    /*		- Author(s) : Mario Ferreira & Thibaud Duchoud
+    /*		- Input
+    /*		- Output
+    /*			- return true if connected
+    /*			- else return false
+    /*==========================================================================*/
+    function loggedIn() {
+      $sql = 'SELECT username FROM user WHERE session_id = ? AND ip = ?';
+      $sqlp = $GLOBALS["pdo"]->prepare($sql);
+      $fields = array($GLOBALS['crysession'],$GLOBALS['cryip']);
+      $sqlp->execute($fields);
 
-  if($sqlp->rowCount() == 1) {
-    return true;
-  }else {
-    return false;
-  }
-}
+      if($sqlp->rowCount() == 1) {
+        return true;
+      }else {
+        return false;
+      }
+    }
 
-/*==========================================================================*/
-/*	Function logout
-/*		- Author(s) : Mario Ferreira & Thibaud Duchoud
-/*		- Input
-/*		- Output
-/*==========================================================================*/
-function logout () {
-  $sql = 'UPDATE user SET session_id = NULL, ip = NULL WHERE session_id = ? AND ip = ?';
-  $sqlp = $GLOBALS["pdo"]->prepare($sql);
-  $fields = array($GLOBALS['crysession'],$GLOBALS['cryip']);
-  $sqlp->execute($fields);
+    /*==========================================================================*/
+    /*	Function logout
+    /*		- Author(s) : Mario Ferreira & Thibaud Duchoud
+    /*		- Input
+    /*		- Output
+    /*==========================================================================*/
+    function logout () {
+      $sql = 'UPDATE user SET session_id = NULL, ip = NULL WHERE session_id = ? AND ip = ?';
+      $sqlp = $GLOBALS["pdo"]->prepare($sql);
+      $fields = array($GLOBALS['crysession'],$GLOBALS['cryip']);
+      $sqlp->execute($fields);
 
-  session_unset();
+      session_unset();
 
-  session_destroy();
+      session_destroy();
 
-  return true;
-}
+      return true;
+    }
 
-/*==========================================================================*/
-/*	Function contrôle syntaxe e-mail
-/*		- Author(s) : Mario Ferreira & Thibaud Duchoud
-/*		- Input
-/*		- Output
-/*==========================================================================*/
-function isEmailValidRegex($email) {
-  if(preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) {
-    return true;
-  }else {
-    return false;
-  }
-}
+    /*==========================================================================*/
+    /*	Function contrôle syntaxe e-mail
+    /*		- Author(s) : Mario Ferreira & Thibaud Duchoud
+    /*		- Input
+    /*		- Output
+    /*==========================================================================*/
+    function isEmailValidRegex($email) {
+      if(preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) {
+        return true;
+      }else {
+        return false;
+      }
+    }
 
-/*==========================================================================*/
-/*	Function contrôle filtre e-mail php
-/*		- Author(s) : Mario Ferreira & Thibaud Duchoud
-/*		- Input
-/*		- Output
-/*==========================================================================*/
-function isEmailValidFilter($email) {
-  if(filter_var($email, FILTER_VALIDATE_EMAIL) === FALSE) {
-    return false;
-  }else {
-    return true;
-  }
-}
+    /*==========================================================================*/
+    /*	Function contrôle filtre e-mail php
+    /*		- Author(s) : Mario Ferreira & Thibaud Duchoud
+    /*		- Input
+    /*		- Output
+    /*==========================================================================*/
+    function isEmailValidFilter($email) {
+      if(filter_var($email, FILTER_VALIDATE_EMAIL) === FALSE) {
+        return false;
+      }else {
+        return true;
+      }
+    }
 
-/*==========================================================================*/
-/*	Function contrôle dns domaine e-mail
-/*		- Author(s) : Mario Ferreira & Thibaud Duchoud
-/*		- Input
-/*		- Output
-/*==========================================================================*/
-function isEmailValidDomain($email) {
-  list($user,$domain) = split('@',$email);
-  return checkdnsrr($domain,'MX');
-}
+    /*==========================================================================*/
+    /*	Function contrôle dns domaine e-mail
+    /*		- Author(s) : Mario Ferreira & Thibaud Duchoud
+    /*		- Input
+    /*		- Output
+    /*==========================================================================*/
+    function isEmailValidDomain($email) {
+      list($user,$domain) = split('@',$email);
+      return checkdnsrr($domain,'MX');
+    }
 
 
-// POUR L'instant QUE LES POST ET GET
-// Exemple de post : callApi('POST', 'http://localhost:8080/MoussaRaser/api/users', array('firstname' => 'dsadsad', 'lastname' => 'dsadadsd'));
-// Exemple de get : $endUsers = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users'))
-function callApi($method, $url, $data = false)
-{
-    $url .= '?apiKey=cb2e9ea50f414922906e0f264b47e23d';
+    // POUR L'instant QUE LES POST ET GET
+    // Exemple de post : callApi('POST', 'http://localhost:8080/MoussaRaser/api/users', array('firstname' => 'dsadsad', 'lastname' => 'dsadadsd'));
+    // Exemple de get : $endUsers = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users'))
+    function callApi($method, $url, $data = false)
+    {
+      $url .= '?apiKey=cb2e9ea50f414922906e0f264b47e23d';
 
-    $ch = curl_init($url);
+      $ch = curl_init($url);
 
-    switch($method) {
+      switch($method) {
         case "POST":
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/json',
-                'Content-Length: ' . strlen(json_encode($data)))
-            );
-            break;
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+          'Content-Type: application/json',
+          'Content-Length: ' . strlen(json_encode($data)))
+        );
+        break;
 
         case "PUT":
-            break;
+        break;
+      }
+
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+      $result = curl_exec($ch);
+
+      curl_close($ch);
+
+      return $result;
+
     }
 
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-    $result = curl_exec($ch);
-
-    curl_close($ch);
-
-    return $result;
-
-}
-
-?>
+    ?>
