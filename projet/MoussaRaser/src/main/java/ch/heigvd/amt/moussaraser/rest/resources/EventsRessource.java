@@ -10,6 +10,7 @@ import ch.heigvd.amt.moussaraser.model.entities.Application;
 import ch.heigvd.amt.moussaraser.model.entities.EndUser;
 import ch.heigvd.amt.moussaraser.model.entities.Rule;
 import ch.heigvd.amt.moussaraser.rest.config.response.SendEvent;
+import ch.heigvd.amt.moussaraser.rest.config.response.message.InfoObject;
 import ch.heigvd.amt.moussaraser.rest.dto.EventDTO;
 import ch.heigvd.amt.moussaraser.services.dao.ApiKeyDAOLocal;
 import ch.heigvd.amt.moussaraser.services.dao.ApplicationDAOLocal;
@@ -76,7 +77,7 @@ public class EventsRessource {
          }
       }
 
-      return SendEvent.send200OK(null);
+      return SendEvent.send200OK(new InfoObject("Success"));
    }
    
 }

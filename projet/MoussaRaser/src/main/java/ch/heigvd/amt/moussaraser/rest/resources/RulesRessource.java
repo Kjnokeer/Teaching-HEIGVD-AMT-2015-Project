@@ -72,8 +72,8 @@ public class RulesRessource {
                  rule.getName(),
                  rule.getEventType(),
                  rule.getPointsToAdd(),
-                 rule.getBadgeToAdd().getId(),
-                 rule.getRewardToAdd().getId()
+                 rule.getBadgeToAdd() == null ? null : rule.getBadgeToAdd().getId(),
+                 rule.getRewardToAdd() == null ? null : rule.getRewardToAdd().getId()
          ));
       }
 
@@ -137,8 +137,8 @@ public class RulesRessource {
               rule.getName(),
               rule.getEventType(),
               rule.getPointsToAdd(),
-              rule.getBadgeToAdd().getId(),
-              rule.getRewardToAdd().getId()
+              rule.getBadgeToAdd() == null ? null : rule.getBadgeToAdd().getId(),
+              rule.getRewardToAdd() == null ? null : rule.getRewardToAdd().getId()
       ));
    }
    
@@ -170,8 +170,8 @@ public class RulesRessource {
               updateRule.getName(),
               updateRule.getEventType(),
               updateRule.getPointsToAdd(),
-              updateRule.getBadgeToAdd().getId(),
-              updateRule.getRewardToAdd().getId()
+              updateRule.getBadgeToAdd() == null ? null : updateRule.getBadgeToAdd().getId(),
+              updateRule.getRewardToAdd() == null ? null : updateRule.getRewardToAdd().getId()
       ));
    }
    
