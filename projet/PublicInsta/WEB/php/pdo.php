@@ -108,7 +108,11 @@ function setLogged($email) {
       }
     }
 
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> f4288e974573d2344a089cd16e580f317acb6df2
 
     if($userTmp['firstLogin'] == 1) {
       $sql = 'UPDATE user SET firstLogin = ? WHERE email = ?';
