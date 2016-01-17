@@ -82,7 +82,7 @@ function setLogged($email) {
   $fields = array($GLOBALS['crysession'],$GLOBALS['cryip'],$email);
   $sqlp->execute($fields);
 
-  $sql = 'SELECT id, email, username, profile_photo, creation_date
+  $sql = 'SELECT id, email, username, profile_photo, creation_date, firstLogin
     FROM user
     WHERE email = ?';
 
@@ -98,6 +98,18 @@ function setLogged($email) {
     $_SESSION['profile_photo'] = $userTmp['profile_photo'];
     $datetime = new DateTime($userTmp['creation_date']);
     $_SESSION['creation_date'] = $datetime->getTimestamp();
+
+
+    if($userTmp['firstLogin'] == 1) {
+      $sql = 'UPDATE user SET firstLogin = ? WHERE email = ?';
+      $sqlp = $GLOBALS["pdo"]->prepare($sql);
+      $fields = array(0, $email);
+      $sqlp->execute($fields);
+
+      echo $_SESSION['user_id'];
+
+      callApi('POST', 'http://localhost:8080/MoussaRaser/api/events', array('eventType' => 'firstlogin', 'toUserId' => $_SESSION['user_id']));
+    }
   }
 }
 
@@ -241,7 +253,7 @@ function isEmailValidDomain($email) {
 // Exemple de get : $endUsers = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users'))
 function callApi($method, $url, $data = false)
 {
-    $url .= '?apiKey=1d62fc14560843b1b519b8da0df28f2e';
+    $url .= '?apiKey=cb2e9ea50f414922906e0f264b47e23d';
 
     $ch = curl_init($url);
 
@@ -249,9 +261,9 @@ function callApi($method, $url, $data = false)
         case "POST":
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-                'Content-Type: application/json',                                                                                
-                'Content-Length: ' . strlen(json_encode($data)))                                                                       
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen(json_encode($data)))
             );
             break;
 

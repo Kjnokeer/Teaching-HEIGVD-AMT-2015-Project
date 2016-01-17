@@ -48,7 +48,8 @@ function loadImages() {
           content += '</span>';
           content += '<input type="text" class="comments_post_edit form-control" placeholder="Add a comment...">';
           content += '<span class="input-group-btn">';
-          content += '<button class="btn btn-default glyphicon glyphicon-send" type="button"></button>';
+          content += '<div style="display:none;" id="image-id">' + value.imageid + '</div>';
+          content += '<button id="send-comment" class="btn btn-default glyphicon glyphicon-send" type="button"></button>';
           content += '<button class="btn btn-primary glyphicon glyphicon-comment" type="button"></button>';
           content += '</span>';
           content += '</div>';
@@ -85,6 +86,3 @@ $(window).scroll(function() {
 
   }
 });
-
-
-

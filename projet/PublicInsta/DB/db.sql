@@ -14,6 +14,7 @@ CREATE TABLE user
    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    session_id CHAR(32) NULL,
    ip CHAR(32) NULL,
+   firstLogin BOOLEAN DEFAULT 1,
    UNIQUE(email),
    UNIQUE(username),
    PRIMARY KEY(id)

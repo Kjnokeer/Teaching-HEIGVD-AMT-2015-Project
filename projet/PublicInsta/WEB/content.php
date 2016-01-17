@@ -37,7 +37,7 @@ define('LIMIT', 4);
   <![endif]-->
 </head>
 <body>
-  
+
   <?php include('partials/navbar.php'); ?>
 
   <div class="container content" id="content">
@@ -143,7 +143,7 @@ define('LIMIT', 4);
             content += '</span>';
             content += '<input type="text" class="comments_post_edit form-control" placeholder="Add a comment...">';
             content += '<span class="input-group-btn">';
-            content += '<button class="btn btn-default glyphicon glyphicon-send" type="button"></button>';
+            content += '<button id="send-comment" class="btn btn-default glyphicon glyphicon-send" type="button"></button>';
             content += '<button class="btn btn-primary glyphicon glyphicon-comment" type="button"></button>';
             content += '</span>';
             content += '</div>';
@@ -152,7 +152,7 @@ define('LIMIT', 4);
             content += '</div>';
             content += '</div>';
             $('#photo_caption').val('');
-            $('#photo_uploadn').val('');
+            $('#photo_upload').val('');
             $('#add_new_post').after(content);
           }
           else {
