@@ -26,6 +26,22 @@ if( isset( $_POST['start'] ) && isset( $_POST['limit'] ) && !empty( $_POST['star
    $post_images = $sqlp->fetchAll();
 
    foreach($post_images as $post_image) {
+      
+
+      $sql = 'SELECT * FROM opinion WHERE image_id = ? AND user_id = ? AND positive = 1';
+      $sqlp = $GLOBALS["pdo"]->prepare($sql);
+      $fields = array($post_image['imageid'], $_SESSION['user_id']);
+      $sqlp->execute($fields);
+
+      $post_image['nbPositive'] = $sqlp->rowCount();
+
+      $sql = 'SELECT * FROM opinion WHERE image_id = ? AND user_id = ? AND negative = 1';
+      $sqlp = $GLOBALS["pdo"]->prepare($sql);
+      $fields = array($post_image['imageid'], $_SESSION['user_id']);
+      $sqlp->execute($fields);
+
+      $post_image['nbNegative'] = $sqlp->rowCount();
+
       $data['content'][] = $post_image;
    }
 

@@ -19,7 +19,7 @@ define('LIMIT', 4);
 
   <title>PublicInsta</title>
 
-  link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
   <link href="css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 
   <!-- Latest compiled and minified CSS -->

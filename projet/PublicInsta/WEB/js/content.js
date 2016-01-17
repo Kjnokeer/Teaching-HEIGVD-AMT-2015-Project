@@ -21,6 +21,9 @@ function loadImages() {
         $('#first').val( first + limit );
 
         $.each(data.content, function(key, value ) {
+
+          console.log(value);
+
           var content = '<div class="picture_post">';
           content += '<div class="post_header">';
           content += '<div class="picture_post_header">';
@@ -43,8 +46,8 @@ function loadImages() {
           content += '<div class="comments_post_opinion">';
           content += '<div class="input-group">';
           content += '<span class="input-group-btn">';
-          content += '<button class="btn btn-success glyphicon glyphicon-thumbs-up" type="button"></button>';
-          content += '<button class="btn btn-danger glyphicon glyphicon-thumbs-down" type="button"></button>';
+          content += '<button class="btn btn-success glyphicon glyphicon-thumbs-up positive" onclick="addOpinion(this, 1, ' + value.imageid + ')" data-toggle="tooltip" data-original-title="' + value.nbPositive + '" type="button"></button>';
+          content += '<button class="btn btn-danger glyphicon glyphicon-thumbs-down negative" onclick="addOpinion(this, 0, ' + value.imageid + ')" data-toggle="tooltip" data-original-title="' + value.nbNegative + '" type="button"></button>';
           content += '</span>';
           content += '<input type="text" class="comments_post_edit form-control" placeholder="Add a comment...">';
           content += '<span class="input-group-btn">';
@@ -60,6 +63,9 @@ function loadImages() {
 
           $('#content').append(content);
         });
+
+        $('[data-toggle="tooltip"]').tooltip(); 
+
       }
     },
     error: function( data ){
@@ -69,8 +75,6 @@ function loadImages() {
     }
   });
 }
-
-loadImages();
 
 flag = true;
 $(window).scroll(function() {
@@ -85,4 +89,35 @@ $(window).scroll(function() {
 
 
   }
+});
+
+function addOpinion(item, isPositive, imageId) {
+
+  $.post('add_opinion.php', {
+    isPositive: isPositive,
+    imageId: imageId
+  }).done(function(data) {
+    data = jQuery.parseJSON(data);
+
+    if(data.ok === 1) {
+
+      var number = parseInt($(item).attr('data-original-title'));
+
+      number++;
+
+      $(item)
+          .attr('data-original-title', number)
+          .tooltip('show');
+    }
+    else {
+      alert('One opinion per image')
+    }
+  });
+}
+
+
+$(document).ready(function(){
+
+  loadImages();
+  
 });
