@@ -63,6 +63,10 @@ public class EventsRessource {
       List<Rule> rulesList = ruleDAO.getAllRulesByApplication(application);
       EndUser endUser = endUsersDAO.findById(eventDTO.getToUserId());
       
+      if(endUser == null) {
+         return SendEvent.errorUserIdInvalid();
+      }
+      
       for(Rule rule : rulesList) {
          if(rule.getEventType().equals(eventDTO.getEventType())) {
             if(rule.getPointsToAdd() != null) {

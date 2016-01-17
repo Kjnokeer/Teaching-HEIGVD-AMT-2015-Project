@@ -26,4 +26,11 @@ public class SendEvent extends SendResponse {
               .build();
    }
    
+   public static Response errorUserIdInvalid() {
+      return Response.status(Response.Status.UNAUTHORIZED)
+              .entity(new ErrorObject("The user ID you requested was invalid"))
+              .type(MediaType.APPLICATION_JSON)
+              .build();
+   }
+   
 }
