@@ -166,17 +166,20 @@ function insertImage($user_id, $path, $text) {
   if(empty($text)) {
     $text = NULL;
   }
+
+  $sql = 'SELECT * FROM image WHERE user_id = ?';
+  $sqlp = $GLOBALS["pdo"]->prepare($sql);
+  $fields = array($user_id,);
+  $sqlp->execute($fields);
+  $isFirstPost = !$sqlp->rowCount();
+
   $sql = 'INSERT INTO image (path, text, user_id)
   VALUES (?, ?, ?);';
   $sqlp = $GLOBALS["pdo"]->prepare($sql);
   $fields = array($path, $text, $user_id,);
   $sqlp->execute($fields);
 
-  if($sqlp->rowCount() == 1) {
-    return true;
-  }else {
-    return false;
-  }
+  return $isFirstPost;
 }
 
 

@@ -26,9 +26,36 @@ if( isset( $_POST['isPositive'] ) && isset( $_POST['imageId'] ) && !empty( $_POS
     $fields = array($positive, $negative, $_SESSION['user_id'], $_POST['imageId']);
     $sqlp->execute($fields);
 
-    echo json_encode(array('ok' => 1));
 
-    
+    $sql = 'SELECT * FROM image WHERE image.id = ?';
+    $sqlp = $GLOBALS["pdo"]->prepare($sql);
+    $fields = array($_POST['imageId']);
+    $sqlp->execute($fields);
+    $image = $sqlp->fetch();
+
+    $sql = 'SELECT * FROM opinion INNER JOIN image ON image.id = opinion.id AND image.user_id = ? AND opinion.positive = 1';
+    $sqlp = $GLOBALS["pdo"]->prepare($sql);
+    $fields = array($image['user_id']);
+    $sqlp->execute($fields);
+
+    if($sqlp->rowCount() == 10) {
+      $sql = 'SELECT * FROM user WHERE id = ?';
+      $sqlp = $GLOBALS["pdo"]->prepare($sql);
+      $fields = array($image['user_id']);
+      $sqlp->execute($fields);
+      $user = $sqlp->fetch();
+
+      $endUsers = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users'));
+      foreach($endUsers as $endUser) {
+        if($endUser->firstName == $user['username']) {
+          callApi('POST', 'http://localhost:8080/MoussaRaser/api/events', array('eventType' => 'tenratings', 'toUserId' => $endUser->id));
+          
+          break;
+        }
+      }
+    }
+
+    echo json_encode(array('ok' => 1));
   }
   else {
     echo json_encode(array('ok' => 0));

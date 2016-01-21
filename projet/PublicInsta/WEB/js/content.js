@@ -10,7 +10,7 @@ function loadImages() {
       start : first,
       limit : limit
     },
-    success: function( data ) {
+    success: function(data) {
       flag = true;
       $('#loader').hide();
       if(data.count > 0 ) {

@@ -98,14 +98,14 @@ define('LIMIT', 4);
         <?php
         
 
-        foreach($badges as $badge):
+        foreach($rewards as $reward):
           ?>
           <tr>
-            <td><?php echo $badge->name; ?></td>
-            <td><?php echo $badge->category; ?></td>
-            <td><?php echo $badge->description; ?></td>
+            <td><?php echo $reward->name; ?></td>
+            <td><?php echo $reward->category; ?></td>
+            <td><?php echo $reward->description; ?></td>
             <td>
-              <img src="<?php echo $badge->image; ?>" width="50px" style="padding-left: 20px"/>
+              <img src="<?php echo $reward->image; ?>" width="50px" style="padding-left: 20px"/>
             </td>
           </tr>
         <?php endforeach; ?>

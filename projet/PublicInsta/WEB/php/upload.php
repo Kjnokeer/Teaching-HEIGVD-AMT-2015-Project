@@ -45,17 +45,22 @@ if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg
   $reponse =  "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
   $uploadOk = 0;
 }
+$isFirstPost = false;
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
   $reponse = "Sorry, your file was not uploaded.";
   // if everything is ok, try to upload file
 } else {
   if (move_uploaded_file($_FILES["photo_upload"]["tmp_name"], $target_file)) {
-    insertImage($_SESSION['user_id'], $target_file_db, $_POST['photo_caption']);
+    $isFirstPost = insertImage($_SESSION['user_id'], $target_file_db, $_POST['photo_caption']);
   } else {
     $reponse = "Sorry, there was an error uploading your file.";
   }
 }
 
-echo json_encode(['reponse' => $reponse, 'path' => $target_file_db, 'text' => $_POST['photo_caption'], 'profile_photo' => $_SESSION['profile_photo'], 'username' => $_SESSION['username']]);
+if($isFirstPost) {
+  callApi('POST', 'http://localhost:8080/MoussaRaser/api/events', array('eventType' => 'firstpost', 'toUserId' => $_SESSION['gamification_user_id']));
+}
+
+echo json_encode(['isFirstPost' =>  $isFirstPost, 'reponse' => $reponse, 'path' => $target_file_db, 'text' => $_POST['photo_caption'], 'profile_photo' => $_SESSION['profile_photo'], 'username' => $_SESSION['username']]);
 ?>

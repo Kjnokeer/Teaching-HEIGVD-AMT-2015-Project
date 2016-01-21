@@ -94,13 +94,14 @@ define('LIMIT', 4);
   <script src="js/back_to_top.js"></script>
   <?php
     if($_SESSION['firstConnection']) {
-      echo "<script type='text/javascript'>$.toaster({ priority : 'info', title : '<img src=http://www.justjon.net/wp-content/uploads/2010/05/Newbie-badge-foursquare2.png width=30>', message : '  First connection !'});</script>";
+      echo "<script type='text/javascript'>$.toaster({ priority : 'info', title : '<img src=https://community.uservoice.com/wp-content/uploads/jetsetterbadge.png width=30>', message : '  First connection !'});</script>";
 
       $_SESSION['firstConnection'] = false;
     }
   ?>
 
   <script type="text/javascript">
+
   $(document).ready(function() {
     // Lorsque je soumets le formulaire
     $('#upload_photo_form').on('submit', function(e) {
@@ -121,7 +122,13 @@ define('LIMIT', 4);
         dataType: 'json', // selon le retour attendu
         data: data,
         success: function (res) {
+
           if(res.reponse == 'ok') {
+
+            if(res.isFirstPost) {
+              $.toaster({ priority : 'info', title : '<img src=http://yukaichou.com/wp-content/uploads/2013/09/Points-Badges-and-Leaderboard.png width=30>', message : '  First post !'});
+            }
+
             var content = '<div class="picture_post">';
             content += '<div class="post_header">';
             content += '<div class="picture_post_header">';
