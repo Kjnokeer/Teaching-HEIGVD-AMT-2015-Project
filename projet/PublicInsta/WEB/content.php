@@ -88,13 +88,19 @@ define('LIMIT', 4);
   This must be loaded before fileinput.min.js -->
   <script src="js/plugins/canvas-to-blob.min.js" type="text/javascript"></script>
   <script src="js/fileinput.min.js"></script>
+  <script src="js/plugins/jquery.toaster.js"></script>
 
   <script src="js/content.js"></script>
   <script src="js/back_to_top.js"></script>
+  <?php
+    if($_SESSION['firstConnection']) {
+      echo "<script type='text/javascript'>$.toaster({ priority : 'info', title : '<img src=http://www.justjon.net/wp-content/uploads/2010/05/Newbie-badge-foursquare2.png width=30>', message : '  First connection !'});</script>";
+
+      $_SESSION['firstConnection'] = false;
+    }
+  ?>
 
   <script type="text/javascript">
-
-
   $(document).ready(function() {
     // Lorsque je soumets le formulaire
     $('#upload_photo_form').on('submit', function(e) {

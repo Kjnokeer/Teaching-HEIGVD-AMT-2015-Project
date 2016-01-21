@@ -40,8 +40,18 @@ define('LIMIT', 4);
 
   <?php include('partials/navbar.php'); ?>
 
+  <br><br>
   <div class="container content" id="content">
 
+    <?php 
+      $badges = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users/'.$_SESSION['gamification_user_id'].'/badges'));
+
+      if(empty($badges)) {
+        echo '<h1>No badge</h1>';
+      }
+      else {
+
+    ?>
     <table class="table table-striped table-responsive">
       <thead>
         <th>Name</th>
@@ -51,7 +61,7 @@ define('LIMIT', 4);
       </thead>
       <tbody>
         <?php
-        $badges = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users/'.$_SESSION['gamification_user_id'].'/badges'));
+        
 
         foreach($badges as $badge):
           ?>
@@ -66,17 +76,27 @@ define('LIMIT', 4);
         <?php endforeach; ?>
       </tbody>
     </table>
+    <?php } 
+
+      $rewards = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users/'.$_SESSION['gamification_user_id'].'/rewards'));
+
+      if(empty($rewards)) {
+        echo '<h1>No reward</h1>';
+      }
+      else {
+
+    ?>
 
     <table class="table table-striped table-responsive">
       <thead>
         <th>Name</th>
         <th>Category</th>
         <th>Description</th>
-        <th>Rewards</th>
+        <th>Reward</th>
       </thead>
       <tbody>
         <?php
-        $badges = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users/'.$_SESSION['gamification_user_id'].'/rewards'));
+        
 
         foreach($badges as $badge):
           ?>
@@ -91,6 +111,7 @@ define('LIMIT', 4);
         <?php endforeach; ?>
       </tbody>
     </table>
+    <?php } ?>
   </div><!-- /.container -->
 
 

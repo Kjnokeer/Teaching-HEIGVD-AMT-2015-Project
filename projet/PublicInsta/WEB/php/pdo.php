@@ -98,6 +98,7 @@ function setLogged($email) {
     $_SESSION['profile_photo'] = $userTmp['profile_photo'];
     $datetime = new DateTime($userTmp['creation_date']);
     $_SESSION['creation_date'] = $datetime->getTimestamp();
+    $_SESSION['firstConnection'] = false;
 
 
     $endUsers = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users'));
@@ -111,6 +112,9 @@ function setLogged($email) {
 
 
     if($userTmp['firstLogin'] == 1) {
+
+      $_SESSION['firstConnection'] = true;
+
       $sql = 'UPDATE user SET firstLogin = ? WHERE email = ?';
       $sqlp = $GLOBALS["pdo"]->prepare($sql);
       $fields = array(0, $email);
@@ -261,7 +265,7 @@ function isEmailValidDomain($email) {
 // Exemple de get : $endUsers = json_decode(callApi('GET', 'http://localhost:8080/MoussaRaser/api/users'))
 function callApi($method, $url, $data = false)
 {
-  $url .= '?apiKey=1d62fc14560843b1b519b8da0df28f2e';
+  $url .= '?apiKey=d9e25b3780b14873afba127c148e485d';
 
   $ch = curl_init($url);
 
