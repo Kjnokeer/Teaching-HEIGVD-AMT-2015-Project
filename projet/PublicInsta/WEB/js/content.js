@@ -49,11 +49,11 @@ function loadImages() {
           content += '<button class="btn btn-success glyphicon glyphicon-thumbs-up positive" onclick="addOpinion(this, 1, ' + value.imageid + ')" data-toggle="tooltip" data-original-title="' + value.nbPositive + '" type="button"></button>';
           content += '<button class="btn btn-danger glyphicon glyphicon-thumbs-down negative" onclick="addOpinion(this, 0, ' + value.imageid + ')" data-toggle="tooltip" data-original-title="' + value.nbNegative + '" type="button"></button>';
           content += '</span>';
-          content += '<input type="text" class="comments_post_edit form-control" placeholder="Add a comment...">';
+          content += '<input type="text" id="comment-content-send-' + value.imageid + '" class="comments_post_edit form-control" placeholder="Add a comment...">';
           content += '<span class="input-group-btn">';
           content += '<div style="display:none;" id="image-id">' + value.imageid + '</div>';
-          content += '<button id="send-comment" class="btn btn-default glyphicon glyphicon-send" type="button"></button>';
-          content += '<button class="btn btn-primary glyphicon glyphicon-comment" type="button"></button>';
+          content += '<button id="send-comment" onclick="addComment(' + value.imageid + ')" class="btn btn-default glyphicon glyphicon-send" type="button"></button>';
+          content += '<button onclick="openComments(' + value.imageid + ')" class="btn btn-primary glyphicon glyphicon-comment" type="button"></button>';
           content += '</span>';
           content += '</div>';
           content += '</div>';
@@ -64,7 +64,7 @@ function loadImages() {
           $('#content').append(content);
         });
 
-        $('[data-toggle="tooltip"]').tooltip(); 
+        $('[data-toggle="tooltip"]').tooltip();
 
       }
     },
@@ -115,9 +115,27 @@ function addOpinion(item, isPositive, imageId) {
   });
 }
 
+function addComment(imageId) {
+  var textcontent = $('#comment-content-send-' + imageId).val();
+
+  $.post('add_comment.php', {
+    textcontent: textcontent,
+    imageId: imageId
+  }).done(function(data) {
+    data = jQuery.parseJSON(data);
+
+    if(data.ok === 1) {
+      $.toaster({ priority : 'success', title : 'Success : ', message : '  Comment added correctly!'});
+      $('#comment-content-send-' + imageId).val('');
+    }
+    else {
+      $.toaster({ priority : 'danger', title : 'Error : ', message : '  Problem when adding the comment!'});
+    }
+  });
+}
 
 $(document).ready(function(){
 
   loadImages();
-  
+
 });
