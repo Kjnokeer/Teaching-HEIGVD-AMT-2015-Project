@@ -28,6 +28,8 @@ define('LIMIT', 4);
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Indie+Flower' type='text/css'>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/style.css" type='text/css'>
+  <link href="https://code.jquery.com/ui/1.11.4/themes/dark-hive/jquery-ui.css" rel="stylesheet">
+
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -74,8 +76,11 @@ define('LIMIT', 4);
       </div>
     </div>
 
+    <div id="dialog"></div>
+
     <input type="hidden" id="first" value="<?php echo FIRST; ?>" />
     <input type="hidden" id="limit" value="<?php echo LIMIT; ?>" >
+
   </div><!-- /.container -->
 
 
@@ -88,81 +93,135 @@ define('LIMIT', 4);
   This must be loaded before fileinput.min.js -->
   <script src="js/plugins/canvas-to-blob.min.js" type="text/javascript"></script>
   <script src="js/fileinput.min.js"></script>
+  <script src="js/plugins/jquery.toaster.js"></script>
+  <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 
-  <script src="js/content.js"></script>
-  <script src="js/back_to_top.js"></script>
-
-  <script type="text/javascript">
-
-
-  $(document).ready(function() {
-    // Lorsque je soumets le formulaire
-    $('#upload_photo_form').on('submit', function(e) {
-      e.preventDefault(); // J'empêche le comportement par défaut du navigateur, c-à-d de soumettre le formulaire
-
-      var $form = $(this);
-      var formdata = (window.FormData) ? new FormData($form[0]) : null;
-      var data = (formdata !== null) ? formdata : $form.serialize();
-
-      // Je vérifie une première fois pour ne pas lancer la requête HTTP
-      // si je sais que mon PHP renverra une erreur
-      // Envoi de la requête HTTP en mode asynchrone
-      $.ajax({
-        url: $form.attr('action'),
-        type: $form.attr('method'),
-        contentType: false, // obligatoire pour de l'upload
-        processData: false, // obligatoire pour de l'upload
-        dataType: 'json', // selon le retour attendu
-        data: data,
-        success: function (res) {
-          if(res.reponse == 'ok') {
-            var content = '<div class="picture_post">';
-            content += '<div class="post_header">';
-            content += '<div class="picture_post_header">';
-            content += '<img class="avatar img-circle" src="' + res.profile_photo + '" />';
-            content += '</div>';
-            content += '<div class="username_post_header">';
-            content += '<a>' + res.username + '</a>';
-            content += '</div>';
-            content += '</div>';
-            content += '<div class="row">';
-            content += '<div class="col-md-12 picture_post_content">';
-            content += '<img class="img-responsive" src="' + res.path + '" />';
-            content += '</div>';
-            content += '</div>';
-            content += '<div class="row">';
-            content += '<div class="col-md-12 comments_post">';
-            content += '<div class="comments_post_caption">';
-            content += '<p>' + res.text + '</p>';
-            content += '</div>';
-            content += '<div class="comments_post_opinion">';
-            content += '<div class="input-group">';
-            content += '<span class="input-group-btn">';
-            content += '<button class="btn btn-success glyphicon glyphicon-thumbs-up" type="button"></button>';
-            content += '<button class="btn btn-danger glyphicon glyphicon-thumbs-down" type="button"></button>';
-            content += '</span>';
-            content += '<input type="text" class="comments_post_edit form-control" placeholder="Add a comment...">';
-            content += '<span class="input-group-btn">';
-            content += '<button id="send-comment" class="btn btn-default glyphicon glyphicon-send" type="button"></button>';
-            content += '<button class="btn btn-primary glyphicon glyphicon-comment" type="button"></button>';
-            content += '</span>';
-            content += '</div>';
-            content += '</div>';
-            content += '</div>';
-            content += '</div>';
-            content += '</div>';
-            $('#photo_caption').val('');
-            $('#photo_upload').val('');
-            $('#add_new_post').after(content);
-          }
-          else {
-            alert(res.reponse);
-          }
-
+  <script>
+  $(function() {
+    $("#dialog").dialog({
+      autoOpen: false,
+      modal: true,
+      width: 800,
+      height: 500,
+      buttons: {
+        "Ok": function() {
+          $(this).dialog("close");
         }
-      });
+      }
     });
   });
-  </script>
+  function openComments(imageId) {
+    $("#dialog").html("");
+    $("#dialog").dialog("option", "title", "Loading...").dialog("open");
+    $.post('comment_content.php', {
+      imageId: imageId
+    }).done(function(data) {
+      data = jQuery.parseJSON(data);
+
+      if(data.ok === 1) {
+        for(var comment in data.content) {
+          $("#dialog").dialog("option", "title", "Comments");
+          $("#dialog").append(
+            "<div class='row comment_list'><b>" + data.content[comment][1] + "</b> : " + data.content[comment][0] + "</div>"
+          );
+        }
+      }
+      else {
+        $("#dialog").dialog("option", "title", "Comments");
+        $("#dialog").append(
+          "<div class='row comment_list'><b>No comments!</b></div>"
+        );
+      }
+    });
+}
+</script>
+
+<script src="js/content.js"></script>
+<script src="js/back_to_top.js"></script>
+<?php
+if($_SESSION['firstConnection']) {
+  echo "<script type='text/javascript'>$.toaster({ priority : 'info', title : '<img src=https://community.uservoice.com/wp-content/uploads/jetsetterbadge.png width=30>', message : '  First connection !'});</script>";
+
+  $_SESSION['firstConnection'] = false;
+}
+?>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+  // Lorsque je soumets le formulaire
+  $('#upload_photo_form').on('submit', function(e) {
+    e.preventDefault(); // J'empêche le comportement par défaut du navigateur, c-à-d de soumettre le formulaire
+
+    var $form = $(this);
+    var formdata = (window.FormData) ? new FormData($form[0]) : null;
+    var data = (formdata !== null) ? formdata : $form.serialize();
+
+    // Je vérifie une première fois pour ne pas lancer la requête HTTP
+    // si je sais que mon PHP renverra une erreur
+    // Envoi de la requête HTTP en mode asynchrone
+    $.ajax({
+      url: $form.attr('action'),
+      type: $form.attr('method'),
+      contentType: false, // obligatoire pour de l'upload
+      processData: false, // obligatoire pour de l'upload
+      dataType: 'json', // selon le retour attendu
+      data: data,
+      success: function (res) {
+
+        if(res.reponse == 'ok') {
+
+          if(res.isFirstPost) {
+            $.toaster({ priority : 'info', title : '<img src=http://yukaichou.com/wp-content/uploads/2013/09/Points-Badges-and-Leaderboard.png width=30>', message : '  First post !'});
+          }
+
+          var content = '<div class="picture_post">';
+          content += '<div class="post_header">';
+          content += '<div class="picture_post_header">';
+          content += '<img class="avatar img-circle" src="' + res.profile_photo + '" />';
+          content += '</div>';
+          content += '<div class="username_post_header">';
+          content += '<a>' + res.username + '</a>';
+          content += '</div>';
+          content += '</div>';
+          content += '<div class="row">';
+          content += '<div class="col-md-12 picture_post_content">';
+          content += '<img class="img-responsive" src="' + res.path + '" />';
+          content += '</div>';
+          content += '</div>';
+          content += '<div class="row">';
+          content += '<div class="col-md-12 comments_post">';
+          content += '<div class="comments_post_caption">';
+          content += '<p>' + res.text + '</p>';
+          content += '</div>';
+          content += '<div class="comments_post_opinion">';
+          content += '<div class="input-group">';
+          content += '<span class="input-group-btn">';
+          content += '<button class="btn btn-success glyphicon glyphicon-thumbs-up" type="button"></button>';
+          content += '<button class="btn btn-danger glyphicon glyphicon-thumbs-down" type="button"></button>';
+          content += '</span>';
+          content += '<input type="text" class="comments_post_edit form-control" placeholder="Add a comment...">';
+          content += '<span class="input-group-btn">';
+          content += '<button id="send-comment" class="btn btn-default glyphicon glyphicon-send" type="button"></button>';
+          content += '<button class="btn btn-primary glyphicon glyphicon-comment" type="button"></button>';
+          content += '</span>';
+          content += '</div>';
+          content += '</div>';
+          content += '</div>';
+          content += '</div>';
+          content += '</div>';
+          $('#photo_caption').val('');
+          $('#photo_upload').val('');
+          $('#add_new_post').after(content);
+        }
+        else {
+          alert(res.reponse);
+        }
+
+      }
+    });
+  });
+});
+</script>
 </body>
 </html>

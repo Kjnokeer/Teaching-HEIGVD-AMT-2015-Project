@@ -17,6 +17,15 @@ body {font-family: 'Indie Flower', cursive;
 	border-radius: 3px;
 }
 
+.comment_list {
+	color:black;
+	background-color: #edeeee;
+	border: 1px solid #aaa;
+	border-radius: 3px;
+	padding: 15px 8px;
+	margin: 10px -5px;
+}
+
 .post_header {
 	height:60px;
 	border-bottom: 1px solid #edeeee;
